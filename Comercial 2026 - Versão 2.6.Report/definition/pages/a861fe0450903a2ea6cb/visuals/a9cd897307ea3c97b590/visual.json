@@ -1,0 +1,665 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "a9cd897307ea3c97b590",
+  "position": {
+    "x": 10,
+    "y": 1039,
+    "z": 13000,
+    "height": 425,
+    "width": 1467,
+    "tabOrder": 14000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dCalendario"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "dCalendario.Date",
+              "nativeQueryRef": "Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "Canal"
+                }
+              },
+              "queryRef": "Base.Canal",
+              "nativeQueryRef": "Canal1"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "Pedido MKT Final"
+                }
+              },
+              "queryRef": "Base.Pedido MKT Final",
+              "nativeQueryRef": "Pedido MKT Final"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "id_nota_saida"
+                }
+              },
+              "queryRef": "Sum(Base.id_nota_saida)",
+              "nativeQueryRef": "Id nota saída",
+              "displayName": "Id nota saída"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "id_produto"
+                }
+              },
+              "queryRef": "Base.id_produto",
+              "nativeQueryRef": "id_produto"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "Repasse Rateado"
+                }
+              },
+              "queryRef": "Sum(Base.Repasse Rateado 2)",
+              "nativeQueryRef": "Repasse",
+              "displayName": "Repasse"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Base"
+                        }
+                      },
+                      "Property": "valor_total_liquido"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Base.valor_total_liquido)",
+              "nativeQueryRef": "valor_total_liquido",
+              "displayName": "valor_total_liquido"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Margem R$"
+                }
+              },
+              "queryRef": "Medidas.Margem R$",
+              "nativeQueryRef": "Margem R$"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Margem %"
+                }
+              },
+              "queryRef": "Medidas.Margem %",
+              "nativeQueryRef": "Margem %1"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "qtde"
+                }
+              },
+              "queryRef": "Sum(Base.qtde)",
+              "nativeQueryRef": "Qtde Vend",
+              "displayName": "Qtde Vend"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "custo_formacao"
+                }
+              },
+              "queryRef": "Sum(Base.custo_formacao)",
+              "nativeQueryRef": "Custo Form",
+              "displayName": "Custo Form"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Custo Formação Total"
+                }
+              },
+              "queryRef": "Medidas.Custo Formação Total",
+              "nativeQueryRef": "Custo Form Total",
+              "displayName": "Custo Form Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Frete Maxi"
+                }
+              },
+              "queryRef": "Medidas.Frete Maxi",
+              "nativeQueryRef": "Frete Maxi"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Base"
+                    }
+                  },
+                  "Property": "entrega_uf"
+                }
+              },
+              "queryRef": "Base.entrega_uf",
+              "nativeQueryRef": "UF",
+              "displayName": "UF"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Faturamento sem frete"
+                }
+              },
+              "queryRef": "Medidas.Faturamento sem frete",
+              "nativeQueryRef": "VR Produtos",
+              "displayName": "VR Produtos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Imposto Geral"
+                }
+              },
+              "queryRef": "Medidas.Imposto Geral",
+              "nativeQueryRef": "Imposto Geral"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "R$ IPI"
+                }
+              },
+              "queryRef": "Medidas.R$ IPI",
+              "nativeQueryRef": "R$ IPI"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Shopee | Afiliados"
+                    }
+                  },
+                  "Property": "Gasto Afiliado"
+                }
+              },
+              "queryRef": "Shopee | Afiliados.Gasto Afiliado",
+              "nativeQueryRef": "Gasto Afiliado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Faturamento"
+                }
+              },
+              "queryRef": "Medidas.Faturamento",
+              "nativeQueryRef": "Faturamento"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Transportadoras"
+                    }
+                  },
+                  "Property": "fantasia"
+                }
+              },
+              "queryRef": "Transportadoras.fantasia",
+              "nativeQueryRef": "fantasia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Ads Rateado MKT"
+                }
+              },
+              "queryRef": "Medidas.Ads Rateado MKT",
+              "nativeQueryRef": "Ads MKT",
+              "displayName": "Ads MKT"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "% Ads Rateado MKT"
+                }
+              },
+              "queryRef": "Medidas.% Ads Rateado MKT",
+              "nativeQueryRef": "% Ads MKT",
+              "displayName": "% Ads MKT"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Ads Rateado Loja"
+                }
+              },
+              "queryRef": "Medidas.Ads Rateado Loja",
+              "nativeQueryRef": "Ads Loja",
+              "displayName": "Ads Loja"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "% Ads Loja"
+                }
+              },
+              "queryRef": "Medidas.% Ads Loja",
+              "nativeQueryRef": "% Ads Loja"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Shopify Variável"
+                }
+              },
+              "queryRef": "Medidas.Custo Shopify Variável",
+              "nativeQueryRef": "Shopify Variável"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Aquisição Shopify e Televendas"
+                }
+              },
+              "queryRef": "Medidas.Aquisição Shopify",
+              "nativeQueryRef": "Aquisição Shopify e Televendas"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "nome_produto"
+                }
+              },
+              "queryRef": "produto.nome_produto",
+              "nativeQueryRef": "nome_produto"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "Marca"
+                }
+              },
+              "queryRef": "produto.Marca",
+              "nativeQueryRef": "Marca"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "Carteira Definitiva"
+                }
+              },
+              "queryRef": "produto.Carteira Definitiva",
+              "nativeQueryRef": "Carteira Definitiva"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Medidas"
+                  }
+                },
+                "Property": "Margem %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "Sum(Base.Repasse Rateado 2)"
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "metadata": "Sum(Base.custo_formacao)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95.17241560746663D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(Base.id_nota_saida)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "200D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Base.Canal"
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontColorPrimary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A29A3'"
+                    }
+                  }
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D1EAF2'"
+                    }
+                  }
+                }
+              }
+            },
+            "fontColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0A29A3'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#4361ee'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#4CC9F0'"
+                    }
+                  }
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#4CC9F0'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'AlternatingRowsNew'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": -0.25
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

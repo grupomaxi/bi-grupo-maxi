@@ -1,0 +1,78 @@
+table Transportadoras
+	lineageTag: 728d613d-8894-4a10-8beb-cb638d6dece3
+
+	column id_cliente
+		dataType: int64
+		formatString: 0
+		lineageTag: 858e33c3-d41d-4dae-9da9-14700db7ff2f
+		summarizeBy: none
+		sourceColumn: id_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column razsocial
+		dataType: string
+		lineageTag: bb048bac-20a3-47c7-97b6-a52a1db9a100
+		summarizeBy: none
+		sourceColumn: razsocial
+
+		annotation SummarizationSetBy = Automatic
+
+	column fantasia
+		dataType: string
+		lineageTag: 8f0c68df-7255-4b7f-9dd3-87cfb291f557
+		summarizeBy: none
+		sourceColumn: fantasia
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: 77f08483-8daa-4cc9-9859-556359663b19
+		summarizeBy: none
+		sourceColumn: id_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Logistica'
+		dataType: string
+		lineageTag: c69648bc-f906-48b2-a8a7-a0177a3ec5ec
+		summarizeBy: none
+		sourceColumn: Tipo Logistica
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Transportadoras = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				            "
+				SELECT
+				    cli.id_cliente,
+				    cli.razsocial,
+				    cli.fantasia,
+				    cli.id_empresa,
+				
+				    CASE
+				        WHEN cli.id_cliente IN (6789,1413,9489,310689,0,209106)
+				            THEN 'Logistica_2'
+				        ELSE 'Logistica_1'
+				    END AS ""Tipo Logistica""
+				
+				FROM sysemp.cliente cli
+				
+				WHERE cli.transportadora = 'T'
+				"
+				        )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

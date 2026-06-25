@@ -1,0 +1,190 @@
+table dCalendario
+	lineageTag: 6a55a444-12d0-41b1-a1da-be3801087715
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: Short Date
+		lineageTag: 5d6ffb81-994a-41c3-9721-efcca4729d51
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano
+		formatString: 0
+		lineageTag: c2818b97-61bf-43ca-a87f-6f93d2352e7e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		lineageTag: 141be9b4-4db6-4be8-af75-4d6e97a487ab
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Trimestre]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mês/Ano
+		lineageTag: 96b5025e-2d5b-404b-811f-5b029a516a8c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mês/Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês | Ano'
+		lineageTag: 77271c57-0e48-41c4-a685-eb0e43b8b19d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mês | Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês | Ano Ordem'
+		formatString: 0
+		lineageTag: c3cc8581-c97c-446c-bd3e-bc3651f447bd
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Mês | Ano Ordem]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Contagem mes ano'
+		formatString: 0
+		lineageTag: fc85cbc5-4854-45e9-a747-99ecdc450eee
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Contagem mes ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero do Mês'
+		formatString: 0
+		lineageTag: 9ac7bb6e-fe57-4016-a318-5e5dc7f6e9dd
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Numero do Mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do Mês'
+		lineageTag: d82d6fa0-8803-4c30-a352-dcb680945558
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Nome do Mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ultimo dia do mês'
+		formatString: 0
+		lineageTag: f22717cc-9962-4acb-8224-275d0f7384c1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ultimo dia do mês]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dia
+		formatString: 0
+		lineageTag: c1f75126-8322-4ec5-9a10-6f5f16beb478
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Dia]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do dia'
+		lineageTag: 7023e2be-98d3-4f81-8533-c61d5e502dcd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Nome do dia]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dia da semana como numero'
+		formatString: 0
+		lineageTag: c18d5745-357a-4111-a6e7-cd6f0b2f7ae2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Dia da semana como numero]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Numero da semana do ano'
+		formatString: 0
+		lineageTag: bfccf660-312c-4f15-be86-65da4eaaa703
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Numero da semana do ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dia do ano acumulado'
+		formatString: 0
+		lineageTag: f5d16f76-48a8-402a-ab01-b6a15c9d6c4a
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Dia do ano acumulado]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Primeiro dia do mês'
+		formatString: Long Date
+		lineageTag: c84d29ad-a71c-4261-9c6f-12aee63ef8af
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Primeiro dia do mês]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Mês - Ano'
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: d56bd21c-020d-410a-b9ab-49d555d0e969
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Mês - Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition dCalendario = calculated
+		mode: import
+		source = ```
+				
+				ADDCOLUMNS(
+				    CALENDAR(DATE(2024, 01, 01), DATE(2026, 12, 31)),
+				    "Ano", YEAR([Date]),
+				    "Trimestre", QUARTER([Date]) & "° Trimestre",
+				    "Mês/Ano", UPPER(LEFT(FORMAT([Date], "mmm"), 1)) & MID(FORMAT([Date], "mmm"), 2, 2) & "/" & YEAR([Date]),
+				    "Mês | Ano", FORMAT([Date], "mmmm | yyyy"),
+				    "Mês - Ano", FORMAT([Date], "yyyy - mmmm "),
+				    "Mês | Ano Ordem", YEAR([Date]) * 100 + MONTH([Date]),
+				    "Contagem mes ano", DATEDIFF(DATE(2017, 1, 1), [Date], MONTH) + 1,
+				    "Numero do Mês", MONTH([Date]),
+				    "Nome do Mês", UPPER(LEFT(FORMAT([Date], "mmmm"), 1)) & MID(FORMAT([Date], "mmmm"), 2, LEN(FORMAT([Date], "mmmm")) - 1),
+				    "Ultimo dia do mês", DAY(EOMONTH([Date], 0)),
+				    "Primeiro dia do mês", DATE(YEAR([Date]), MONTH([Date]), 1),
+				    "Dia", DAY([Date]),
+				    "Nome do dia", UPPER(LEFT(FORMAT([Date], "dddd"), 1)) & MID(FORMAT([Date], "dddd"), 2, LEN(FORMAT([Date], "dddd")) - 1),
+				    "Dia da semana como numero", WEEKDAY([Date]),
+				    "Numero da semana do ano", WEEKNUM([Date]),
+				    "Dia do ano acumulado", DATEDIFF(DATE(YEAR([Date]), 1, 1), [Date], DAY) + 1
+				)
+				
+				
+				
+				```
+
+	annotation PBI_Id = 12fd8477389940a8b66b16bf2c8fb113
+

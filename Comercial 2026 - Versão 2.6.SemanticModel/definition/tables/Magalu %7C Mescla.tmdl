@@ -1,0 +1,51 @@
+table 'Magalu | Mescla'
+	lineageTag: 965c2841-5e7e-465f-a440-54ddf8f1b8ed
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 474ae83a-b71c-48bb-8851-e3ea9902e91d
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: c0dab58b-8a88-4316-b584-7a35c8c807b2
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 25bf17c8-15d7-4a7c-bace-c69ecf518721
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Magalu | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Magalu | Legado", #"Magalu |  Last 2 M"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(Fonte,{{"Data/Hora do Pedido", "Data Pedido"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Data Pedido", type datetime}}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Tipo Alterado",{{"Status do pedido no momento em que o relatório foi solicitado", "Statu MKT"}, {"Valor líquido estimado a receber (****)", "Repasse"}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Renomeadas1",{{"Repasse", Currency.Type}}),
+				    #"Colunas Renomeadas2" = Table.RenameColumns(#"Tipo Alterado1",{{"Número do pedido", "Pedido MKT"}, {"Statu MKT", "Status MKT"}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Colunas Renomeadas2", {"Pedido MKT", "Status MKT"}, {{"Repasse MKT", each List.Sum([Repasse]), type nullable number}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Linhas Agrupadas",{{"Repasse MKT", Currency.Type}, {"Pedido MKT", type text}, {"Status MKT", type text}}),
+				    #"Linhas em Branco Removidas" = Table.SelectRows(#"Tipo Alterado2", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null})))
+				in
+				    #"Linhas em Branco Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

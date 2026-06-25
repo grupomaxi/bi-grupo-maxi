@@ -1,0 +1,71 @@
+table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
+	lineageTag: ca7e282a-008d-490a-858d-6b6964250315
+
+	column data_pedido
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 25d0a43e-6ae2-4dc5-bebe-66797d53cf0c
+		summarizeBy: none
+		sourceColumn: data_pedido
+
+		variation Variation
+			isDefault
+			relationship: 85e92de8-f2b0-4ca3-ac3c-e7a212ba1a8f
+			defaultHierarchy: LocalDateTable_1657fd49-8b49-4e23-afab-3de57fb9cb73.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column canal_agrupado
+		dataType: string
+		lineageTag: 2eaa4fe3-f665-4085-9be2-30a54b7bf186
+		summarizeBy: none
+		sourceColumn: canal_agrupado
+
+		annotation SummarizationSetBy = Automatic
+
+	column Receita
+		dataType: double
+		lineageTag: 7dcbb93b-24cb-46af-8982-79d9996de082
+		summarizeBy: sum
+		sourceColumn: Receita
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Receita s/ Frete'
+		dataType: double
+		lineageTag: 4f6356fa-70d1-4776-ac81-a7dea25c575b
+		summarizeBy: sum
+		sourceColumn: Receita s/ Frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)' = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "#(lf)WITH base AS (#(lf)    SELECT#(lf)        id_nr_nf,#(lf)        id_empresa,#(lf)        id_cliente,#(lf)        data_emissao,#(lf)        id_produto,#(lf)        item,#(lf)        ipi_valor,#(lf)        qtde,#(lf)        valor_bruto,#(lf)        valor_liquido,#(lf)        custo_produto,#(lf)        id_nat_operacao_item,#(lf)        vr_frete,#(lf)        id_nota_saida,#(lf)        valor_total_liquido,#(lf)        id_vendedor,#(lf)        id_item_kit,#(lf)        item_original,#(lf)        custo_frete,#(lf)        sku,#(lf)        mlb,#(lf)        custo_formacao,#(lf)        codigos_kit,#(lf)        id_material,#(lf)        vr_acrescimo,#(lf)        vr_desconto_total#(lf)    FROM sysemp.nota_saida_itens#(lf)    WHERE#(lf)        data_emissao >= '2024-01-01'#(lf)        AND id_nat_operacao_item IN (#(lf)            1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)        )#(lf)        AND id_nota_saida NOT IN (1604288,1609721,1520316)#(lf)),#(lf)#(lf)rateio AS (#(lf)    SELECT#(lf)        *,#(lf)        SUM(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN valor_bruto#(lf)                ELSE 0#(lf)            END#(lf)        ) OVER (PARTITION BY id_nota_saida) AS valor_transferencia_nota,#(lf)#(lf)        SUM(#(lf)            CASE#(lf)                WHEN id_produto NOT IN (90315682,79020,90316150)#(lf)                THEN valor_bruto#(lf)                ELSE 0#(lf)            END#(lf)        ) OVER (PARTITION BY id_nota_saida) AS base_rateio#(lf)    FROM base#(lf)),#(lf)#(lf)consulta_esquerda AS (#(lf)    SELECT#(lf)        id_nr_nf,#(lf)        id_empresa,#(lf)        id_cliente,#(lf)        data_emissao,#(lf)        id_produto,#(lf)        item,#(lf)        CAST(ipi_valor AS DECIMAL(18,2)) AS ipi_valor,#(lf)        qtde,#(lf)        CAST(custo_produto AS DECIMAL(18,2)) AS custo_produto,#(lf)        id_nat_operacao_item,#(lf)        CAST(vr_frete AS DECIMAL(18,2)) AS vr_frete,#(lf)        id_nota_saida,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN valor_transferencia_nota = 0 THEN valor_total_liquido#(lf)                WHEN id_produto IN (90315682,79020,90316150) THEN 0#(lf)                ELSE valor_total_liquido +#(lf)                     (valor_total_liquido / NULLIF(base_rateio,0)) * valor_transferencia_nota#(lf)            END#(lf)        AS DECIMAL(18,2)) AS valor_total_liquido,#(lf)#(lf)        id_vendedor,#(lf)        id_item_kit,#(lf)        item_original,#(lf)        CAST(custo_frete AS DECIMAL(18,2)) AS custo_frete,#(lf)        sku,#(lf)        mlb,#(lf)        CAST(custo_formacao AS DECIMAL(18,2)) AS custo_formacao,#(lf)        codigos_kit,#(lf)        id_material,#(lf)        CAST(vr_acrescimo AS DECIMAL(18,2)) AS vr_acrescimo,#(lf)        CAST(vr_desconto_total AS DECIMAL(18,2)) AS vr_desconto_total#(lf)    FROM rateio#(lf)),#(lf)#(lf)consulta_direita AS (#(lf)    SELECT#(lf)        ns.id_nota_saida,#(lf)        ns.id_nat_operacao,#(lf)        ns.entrega_cidade,#(lf)        ns.entrega_uf,#(lf)        CAST(ns.total_nota_fiscal_liq AS DECIMAL(18,2)) AS total_nota_fiscal_liq,#(lf)        ns.id_transportadora,#(lf)        ns.data_pedido,#(lf)        ns.id_atendimento,#(lf)        ns.parceiro,#(lf)#(lf)        CASE#(lf)            WHEN ns.id_atendimento = 45#(lf)                THEN regexp_replace(ns.marketplace_pedido, '-[^-]*$', '')#(lf)            WHEN ns.id_atendimento = 5#(lf)                AND ns.data_pedido >= '2025-08-18'#(lf)                THEN regexp_replace('LU-' || ns.marketplace_pedido, '^LU-LU-', 'LU-')#(lf)            ELSE ns.marketplace_pedido#(lf)        END AS marketplace_pedido,#(lf)#(lf)        ns.fulfillment,#(lf)        ns.tipo_logistica#(lf)#(lf)    FROM sysemp.nota_saida ns#(lf)    WHERE#(lf)        ns.tipo_documento = 'NF'#(lf)        AND ns.data_pedido >= '2024-01-01'#(lf)        AND (#(lf)            (ns.id_empresa IN (1,5,7,12,13,14,15) AND ns.nfe_cstat = '100')#(lf)            OR#(lf)            (ns.id_empresa IN (7,5,13,14,15) AND (ns.nfe_cstat IS NULL OR ns.nfe_cstat = ''))#(lf)        )#(lf)        AND ns.id_nat_operacao IN (#(lf)            1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)        )#(lf)),#(lf)#(lf)devolucoes AS (#(lf)    SELECT DISTINCT ref_numero_docfiscal#(lf)    FROM sysemp.nota_saida#(lf)    WHERE data_pedido >= '2024-01-01'#(lf)      AND ref_numero_docfiscal <> 0#(lf)      AND (ref_numero_docfiscal IS NOT NULL OR id_nota_saida_fatura <> '0')#(lf)      AND id_nat_operacao IN (#(lf)        8,11,12,29,32,42,44,47,59,60,72,75,76,87,88,89,91,93,104,123#(lf)      )#(lf))#(lf)#(lf)SELECT#(lf)    L.*,#(lf)    R.id_nat_operacao,#(lf)    R.entrega_cidade,#(lf)    R.entrega_uf,#(lf)    R.total_nota_fiscal_liq,#(lf)    R.id_transportadora,#(lf)    R.data_pedido,#(lf)    R.id_atendimento,#(lf)    R.parceiro,#(lf)    R.marketplace_pedido,#(lf)    R.fulfillment,#(lf)    R.tipo_logistica#(lf)#(lf)FROM consulta_esquerda L#(lf)LEFT JOIN consulta_direita R#(lf)    ON L.id_nota_saida = R.id_nota_saida#(lf)LEFT JOIN devolucoes D#(lf)    ON L.id_nr_nf = D.ref_numero_docfiscal#(lf)WHERE D.ref_numero_docfiscal IS NULL#(lf)"),
+				
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(Fonte,{{"data_pedido", type date}}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Tipo Alterado1", {"marketplace_pedido"}, #"MKT's | 1 - Acrescentar", {"Pedido MKT Final"}, "MKT's | 1 - Acrescentar", JoinKind.Inner),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Consultas Mescladas1", "Fat Prod", each [valor_total_liquido] - [vr_desconto_total] + [vr_acrescimo] + [vr_frete] + [ipi_valor]),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Personalização Adicionada", "Fat Prod Sem Frete", each [valor_total_liquido] - [vr_desconto_total] + [vr_acrescimo] + [ipi_valor]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada1",{{"Fat Prod", Currency.Type}, {"Fat Prod Sem Frete", Currency.Type}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Tipo Alterado", {"id_atendimento"}, Atendimento, {"id_sequencia"}, "Atendimento", JoinKind.LeftOuter),
+				    #"Atendimento Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Atendimento", {"canal_agrupado"}, {"canal_agrupado"}),
+				    #"Linhas Agrupadas" = Table.Group(#"Atendimento Expandido", {"data_pedido", "canal_agrupado"}, {{"Receita", each List.Sum([Fat Prod]), type nullable number}, {"Receita s/ Frete", each List.Sum([Fat Prod Sem Frete]), type number}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Linhas Agrupadas", each ([data_pedido] <> null))
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

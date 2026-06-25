@@ -1,0 +1,57 @@
+table pag-brasil
+	lineageTag: 2a610d4d-cd71-4427-9b17-ba9f1272c08b
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 38e77464-90d2-4019-89c8-81d35b27d28a
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: ba952b9b-3e8f-43f8-b571-123568843d18
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 6ced2875-7b94-4263-97ec-0854c9adcf28
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pag-brasil = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Shopify
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Vendas%20Loja.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Cabeçalhos Promovidos",{"Product name", "End Customer name", "End Customer Tax ID", "End Customer e-mail address", "Phone", "Address", "Postal code", "City", "State", "PagShield score", "PagStream", "Product List", "Wallet", "Refunded By", "PagShield Action", "Chargeback reason", "Recurring", "Error code", "Payment URL", "CC brand", "Authorization code", "Installments", "Refund date", "Order number", "Submission date", "Payment method", "Payment date"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas",null,0,Replacer.ReplaceValue,{"Amount due to be paid in BRL by End Customer", "Amount paid in BRL by End Customer", "Processing fee in BRL", "Amount refunded in BRL to End Customer", "Refund fee (BRL)"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Valor Substituído", "Repasse MKT", each [Amount due to be paid in BRL by End Customer] - [Processing fee in BRL] - [Amount refunded in BRL to End Customer] + [#"Refund fee (BRL)"]),
+				    #"Dividir Coluna por Delimitador" = Table.SplitColumn(#"Personalização Adicionada", "Extra parameters", Splitter.SplitTextByDelimiter("&gid=", QuoteStyle.Csv), {"Extra parameters.1", "Extra parameters.2"}),
+				    #"Dividir Coluna por Delimitador1" = Table.SplitColumn(#"Dividir Coluna por Delimitador", "Extra parameters.2", Splitter.SplitTextByDelimiter("&group_id", QuoteStyle.Csv), {"Extra parameters.2.1", "Extra parameters.2.2"}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Dividir Coluna por Delimitador1", {"Extra parameters.2.1"}, #"Acrescentar - ID Transação Shopify", {"Transaction: Authorization"}, "Acrescentar - ID Transação Shopify", JoinKind.LeftOuter),
+				    #"Acrescentar - ID Transação Shopify Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Acrescentar - ID Transação Shopify", {"Number"}, {"Acrescentar - ID Transação Shopify.Number"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Acrescentar - ID Transação Shopify Expandido", each ([#"Acrescentar - ID Transação Shopify.Number"] <> null) and ([Extra parameters.2.1] <> null)),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas",{{"Repasse MKT", Currency.Type}}),
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"Tipo Alterado",{"Amount due to be paid in BRL by End Customer", "Amount paid in BRL by End Customer", "Processing fee in BRL", "Amount refunded in BRL to End Customer", "Refund fee (BRL)", "Extra parameters.1", "Extra parameters.2.1", "Extra parameters.2.2"}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Removidas1",{{"Acrescentar - ID Transação Shopify.Number", type text}, {"Order status", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado1",{{"Acrescentar - ID Transação Shopify.Number", "Pedido MKT"}, {"Order status", "Status MKT"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,1351 @@
+table Medidas
+	lineageTag: 208ace48-71fb-4c4e-9482-04efc04e140f
+
+	measure Faturamento = ```
+			
+			VAR vLiquido =
+			    SUM ( Base[valor_total_liquido] )
+			
+			VAR vDesconto =
+			    SUM ( Base[vr_desconto_total] )
+			
+			VAR vAcrescimo =
+			    SUM ( Base[vr_acrescimo] )
+			
+			VAR vFrete =
+			    SUM ( Base[vr_frete] )
+			
+			VAR vIPI =
+			    SUM ( Base[ipi_valor] )
+			
+			RETURN
+			    vLiquido
+			    - vDesconto
+			    + vAcrescimo
+			    + vFrete
+			    + vIPI
+			
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 744c3fa3-a9de-4b74-9826-46b8cf37e5b8
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CMV %' = [Custo Formação Total] / [Faturamento]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: bec8bf1e-e0eb-4c33-b0f9-fca3d4897168
+
+	measure 'Custo Formação Total' =
+			
+			SUM ( Base[custo_formacao_linha] )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: bb419c75-a06b-4578-829e-901a6a418a76
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Imposto Geral' =
+			
+			VAR Imposto_Log1 =
+			    CALCULATE (
+			        [Faturamento sem frete],
+			        FILTER (
+			            'Base',
+			            'Base'[id_transportadora] = 0
+			                || RELATED ( 'Transportadoras'[tipo logistica] ) = "Logistica_1"
+			        )
+			    )
+			
+			VAR Imposto_Log2 =
+			    CALCULATE (
+			        [Faturamento],
+			        FILTER (
+			            'Base',
+			            'Base'[id_transportadora] <> 0
+			                && RELATED ( 'Transportadoras'[tipo logistica] ) = "Logistica_2"
+			        )
+			    )
+			
+			RETURN
+			    ( Imposto_Log1 + Imposto_Log2 ) * 0.1725
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: c5621383-6662-4b5c-ac90-ebee2652c164
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Faturamento sem frete' = ```
+			
+			SUM(Base[valor_total_liquido]) 
+			- SUM(Base[vr_desconto_total]) 
+			+ SUM(Base[vr_acrescimo])
+			+ SUM(Base[ipi_valor])
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: bab2f748-dfab-4018-9138-2a90743ab05e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Imposto Total' =
+			VAR Faturamento_Log1 =
+			    CALCULATE(
+			        [Faturamento sem frete],
+			        'Transportadoras'[tipo logistica] = "Logistica_1"
+			    )
+			VAR Faturamento_Log2 =
+			    CALCULATE(
+			        [Faturamento],
+			        'Transportadoras'[tipo logistica] = "Logistica_2"
+			    )
+			VAR Imposto_Geral =
+			    (Faturamento_Log1 + Faturamento_Log2) * 0.1725
+			VAR Faturamento_Total =
+			    Faturamento_Log1 + Faturamento_Log2
+			RETURN
+			    DIVIDE(Imposto_Geral, Faturamento_Total, 0)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 15fbe1e1-445a-49dd-8fe5-8a864c6b9eb5
+
+	measure 'Ads Rateado MKT' = ```
+			
+			SUMX(
+			    CROSSJOIN(
+			        VALUES('dCalendario'[Date]),
+			        VALUES('Atendimento'[canal_agrupado])
+			    ),
+			    VAR vPercentual = CALCULATE( MAX('Ads - Planilha'[% Ads Dia]) )
+			    VAR vFaturamentoFiltrado = 
+			        CALCULATE(
+			            [Faturamento],
+			            NOT 'Atendimento'[id_sequencia] IN {43, 44, 47}
+			        )
+			    RETURN
+			    vPercentual * vFaturamentoFiltrado
+			)
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 15621479-bced-45bf-90f4-332732c54977
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Ads Rateado MKT' = [Ads Rateado MKT 2] / [Faturamento]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: dbe419ee-94f2-4842-8675-97356c814cd1
+
+	measure 'Ads Rateado Loja' = ```
+			
+			SUMX(
+			    CROSSJOIN(
+			        VALUES('dCalendario'[Date]),
+			        VALUES('Atendimento'[canal_agrupado])
+			    ),
+			    VAR vPercentual = CALCULATE( MAX('Ads - Planilha'[% Ads Dia]) )
+			    VAR vFaturamentoFiltrado = 
+			        CALCULATE(
+			            [Faturamento],
+			         'Atendimento'[id_sequencia] IN {43, 44, 47}
+			        )
+			    RETURN
+			    vPercentual * vFaturamentoFiltrado)
+			```
+		lineageTag: 6436769c-dd78-4964-a000-5b2763bcd5f6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Ads Loja' = [Ads Rateado Loja] / [Faturamento]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0a3e6aa5-65eb-4c33-aa5c-b6365da2b34c
+
+	measure Meta_carteira_diaria =
+			
+			SUM(produto[Meta Faturamento])/MAX(dCalendario[Ultimo dia do mês])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 64025490-3e86-4f3b-8966-62f84f979d05
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Investimento' =
+			
+			DIVIDE(([Ads Rateado Loja]+ [Ads Rateado MKT]), [Faturamento], 0)
+		lineageTag: 2a9d03e6-3b0c-4130-bdb3-500ffa8dc329
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Margem R$' =
+			
+			SUMX(
+			    SUMMARIZE(
+			        Base,
+			        Base[id_produto],
+			        Base[id_nota_saida],
+			        Base[id_atendimento],
+			        Base[item]
+			    ),
+			    CALCULATE(
+			        VAR FaturamentoAtual = [Faturamento]
+			        VAR CustoFormacao = [Custo Formação Total]
+			        VAR ImpostoTotal = [Imposto Geral] + [R$ IPI]
+			        VAR OverFrete = [Over Frete]
+			
+			        VAR idSequencia = MAX(Atendimento[id_sequencia])
+			        VAR DataVenda = MAX(Base[data_emissao])
+			
+			        VAR FreteOriginal = COALESCE([Frete Maxi], 0)
+			
+			        VAR Frete =
+			            IF(
+			                idSequencia = 21 || idSequencia = 37,
+			                0,
+			                FreteOriginal
+			            )
+			
+			        VAR CustoMarketing = COALESCE([Ads Rateado MKT 2], 0)
+			        VAR CustoLoja = COALESCE([Ads Rateado Loja], 0)
+			        VAR CustoShopify = COALESCE([Shopify Variável], 0)
+			        VAR AquisicaoShopify = COALESCE([Aquisição Shopify e Televendas], 0)
+			        VAR RepasseRateado = COALESCE([Repasse Rateado $], 0)
+			        VAR FaturamentoSemFrete = COALESCE([Faturamento sem frete], 0)
+			
+			        VAR Canal = MAX(Base[id_atendimento])
+			        VAR EhMeli = Canal IN { 20, 7, 32, 27, 8 }
+			        VAR EhShopee = Canal IN {948,37,21}
+			        VAR EhTelevendas = Canal IN { 41, 26, 24, 14 }
+			
+			        VAR idtransportadora = MAX(Base[id_transportadora])
+			
+			        VAR EhME1 =
+			            NOT (
+			                idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105,0}
+			            )
+			
+			        VAR EhME2 =
+			            idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105,0}
+			
+			        // Handicap Amazon - NOVA REGRA 2%
+			        VAR Bonus2Porcento =
+			            IF(
+			                idSequencia IN {1, 15, 45}
+			                    && DataVenda >= DATE(2026, 3, 1),
+			                FaturamentoAtual * 0.02,
+			                0
+			            )
+			
+			        VAR Resultado =
+			            SWITCH(
+			                TRUE(),
+			
+			                EhTelevendas,
+			                    FaturamentoAtual
+			                        - CustoFormacao
+			                        - ImpostoTotal
+			                        - Frete
+			                        - (FaturamentoAtual * 0.06),
+			
+			                RepasseRateado
+			                    - ImpostoTotal
+			                    - CustoFormacao
+			                    - IF(
+			                        EhMeli && EhME1,
+			                        IF(RepasseRateado >= FaturamentoSemFrete * 0.95, Frete, 0),
+			                        IF(EhME2, 0, Frete)
+			                    )
+			                    - CustoMarketing
+			                    - CustoLoja
+			                    - CustoShopify
+			                    - AquisicaoShopify
+			                    + IF(
+			                        EhME1,
+			                        OverFrete,
+			                        0
+			                    )
+			            )
+			
+			        RETURN
+			            Resultado + Bonus2Porcento
+			    )
+			)
+		lineageTag: a321b1c3-633a-4743-b02c-fdea1003973a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'R$ IPI' = SUM('Base'[ipi_valor])
+		lineageTag: 369ff31e-2e6b-440c-8259-97dac01d74e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Frete Maxi' =
+			
+			IF(
+			    SELECTEDVALUE('Transportadoras'[Tipo Logistica]) = "Logistica_1",
+			    SUM('Base'[vr_frete]),
+			    BLANK()
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 57b7c034-de65-411d-ab0f-64fe8dfc674e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Margem %' = DIVIDE([Margem R$], [Faturamento])
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 46d7b4ec-fa56-4620-ab86-04863a324b4d
+
+	measure Meta_visita_diaria =
+			
+			SUM(produto[Meta visitas])/MAX(dCalendario[Ultimo dia do mês])
+		formatString: 0
+		lineageTag: 04e47558-766b-4372-b62d-1be392a1599b
+
+	measure TaxaConversao = ```
+			
+			VAR Taxa =
+			    DIVIDE(
+			        COUNT('Base'[id_produto]),
+			        [Total Visitas]
+			    )
+			RETURN
+			    ROUND(Taxa, 4)
+			
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0fe28583-e43c-477b-be0f-519e956c51ca
+
+	measure 'Total Visitas' = SUM('Base - Visitas'[Visitas Rateadas 2])
+		formatString: 0
+		lineageTag: 22c0623a-074e-4926-af65-24b6a6a18aef
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure MetaTxConversão = 0.0075
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: d7f7cba1-2e71-4da0-95d8-415cb595bc37
+
+	measure 'Forecast Visitas' = ```
+			
+			    SUMX(
+			        'Base - Visitas',
+			        ([Visitas Rateadas 2] / DAY(NOW()-1)) * MAX(dCalendario[Ultimo dia do mês])
+			    )
+			```
+		lineageTag: 21d96333-ebf1-4de8-9f76-8f82e0cba9f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Estoque =
+			CALCULATE(
+			    SUM('estoque'[Estoque]),
+			    'estoque'[id_empresa] = 1
+			)
+		formatString: 0
+		lineageTag: 7b2d8908-bb2b-465c-a342-63d92a683c26
+
+	measure 'Estoque Full' =
+			CALCULATE(
+			    SUM('estoque'[Estoque]),
+			    'estoque'[id_empresa] IN {4, 5, 7}
+			)
+		formatString: 0
+		lineageTag: 338f7118-17fc-4ec0-b775-9f53ed26036b
+
+	measure GAP = ```
+			[Faturamento] - [Meta_produto] 
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: b0a78d0d-6106-4fb3-9d95-bebd30ca1d70
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Meta_produto = ```
+			
+			// ----------------------------------------------------------------------
+			// MEDIDA: Meta_produto
+			// Objetivo: calcular quanto da meta mensal de um produto já deveria
+			// ter sido atingido até o dia atual (meta proporcional).
+			//
+			// A lógica divide a meta do mês pelo número total de dias do mês e
+			// multiplica pelo número de dias já passados.
+			// ----------------------------------------------------------------------
+			
+			VAR produt =
+			    // ------------------------------------------------------------
+			    // Soma da meta definida para o produto.
+			    // Esta meta é mensal e está na tabela 'produto'.
+			    // ------------------------------------------------------------
+			    SUM ( produto[Meta Faturamento] )
+			
+			VAR dia_atual =
+			    // ------------------------------------------------------------
+			    // Número de dias decorridos no mês.
+			    // Usamos DAY(TODAY()) - 1 porque:
+			    // - DAY(TODAY()) → retorna o dia corrente
+			    // - menos 1 → computa apenas dias COMPLETOS já passados
+			    //
+			    // Exemplo:
+			    // Se hoje é dia 10 → consideramos 9 dias completos.
+			    // ------------------------------------------------------------
+			    DAY ( TODAY() ) - 1
+			
+			RETURN
+			    // ------------------------------------------------------------
+			    // Meta proporcional até o dia atual:
+			    //
+			    // (meta total * dias passados) / número total de dias do mês
+			    //
+			    // DIVIDE evita erros (ex.: divisão por zero).
+			    // MAX(dCalendario[Ultimo dia do mês]) retorna quantos dias
+			    // tem o mês filtrado (28, 30, 31).
+			    // ------------------------------------------------------------
+			    DIVIDE (
+			        produt * dia_atual,
+			        MAX ( dCalendario[Ultimo dia do mês] )
+			    )
+			
+			```
+		lineageTag: a667c805-aeca-4d66-89e5-c103b517149c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Faturamento Kits' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    NOT(ISBLANK('Base'[codigos_kit]))
+			)
+		lineageTag: 465bcaa8-5037-4e4c-b232-4bb344292fbc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Kits' = ```
+			
+			VAR FaturamentoKitFiltrado = 
+			    CALCULATE(
+			        [Faturamento],
+			        KEEPFILTERS(
+			            'Base'[codigos_kit] <> BLANK() && 
+			            'Base'[codigos_kit] <> "" && 
+			            'Base'[codigos_kit] <> "null"
+			        )
+			    )
+			RETURN
+			DIVIDE(FaturamentoKitFiltrado, [Faturamento])
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 3dac630d-4bec-488e-8a3a-be1a3a516e6a
+
+	measure 'Ticket Médio' = ```
+			
+			DIVIDE(
+			    [Faturamento sem frete], 
+			    DISTINCTCOUNT('Base'[Pedido MKT Final])
+			)
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 91b876ea-06c3-4f76-b95b-0d0ee28a03ce
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Qtde Kits' = COUNT('Formula'[item])
+		formatString: 0
+		lineageTag: 16cd4d8d-51cb-41c3-8e96-4f384cb4499b
+
+	measure Meta_carteira_total = SUM('Metas por Período'[Meta Faturamento])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: b0e31814-41ee-4bb2-b12d-811c9036be3f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Forecast =
+			
+			VAR Hoje = TODAY()
+			VAR InicioMesAtual = DATE(YEAR(Hoje), MONTH(Hoje), 1)
+			VAR UltimoDiaMesAtual = EOMONTH(Hoje, 0)
+			VAR UltimoDiaMesAnterior = EOMONTH(Hoje, -1)
+			VAR Ontem = Hoje - 1
+			
+			VAR DiasPassados = MAX(1, DAY(Ontem))
+			VAR DiasNoMes = DAY(UltimoDiaMesAtual)
+			
+			// checa se o filtro atual inclui alguma data do mês atual
+			VAR TemMesAtualNoFiltro =
+			    CALCULATE(
+			        COUNTROWS(dCalendario),
+			        KEEPFILTERS(
+			            dCalendario[Date] >= InicioMesAtual
+			                && dCalendario[Date] <= UltimoDiaMesAtual
+			        )
+			    ) > 0
+			
+			// (1) Realizado até o mês anterior, respeitando filtro do relatório
+			VAR RealizadoAteMesAnterior_NoFiltro =
+			    CALCULATE(
+			        [Faturamento],
+			        KEEPFILTERS(dCalendario[Date] <= UltimoDiaMesAnterior)
+			    )
+			
+			// (2) Faturamento do mês atual até ontem, respeitando filtro do relatório
+			VAR FaturamentoMesAtualAteOntem_NoFiltro =
+			    CALCULATE(
+			        [Faturamento],
+			        KEEPFILTERS(
+			            dCalendario[Date] >= InicioMesAtual
+			                && dCalendario[Date] <= Ontem
+			        )
+			    )
+			
+			VAR ForecastMesAtual =
+			    DIVIDE(FaturamentoMesAtualAteOntem_NoFiltro, DiasPassados) * DiasNoMes
+			
+			RETURN
+			RealizadoAteMesAnterior_NoFiltro + IF(TemMesAtualNoFiltro, ForecastMesAtual, 0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 053f6a4a-ef73-4c6f-9584-9f4def5f6d48
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta Margem%' = ```
+			
+			DIVIDE(
+			    [Meta Margem $], 
+			    [Meta_carteira_total] * 0.9, 
+			    0
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 74a3a20a-68a5-4247-a37c-1ec09ad48d1a
+
+	measure 'Meta Margem $' =
+			
+			[Meta_carteira_total] * [Meta Margem Ponderada por Período]
+		lineageTag: 7e18fed4-8c24-4c34-a325-0c0a2ef01960
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Forecast Margem' =
+			
+			VAR Hoje = TODAY()
+			VAR InicioMesAtual = DATE(YEAR(Hoje), MONTH(Hoje), 1)
+			VAR UltimoDiaMesAtual = EOMONTH(Hoje, 0)
+			VAR UltimoDiaMesAnterior = EOMONTH(Hoje, -1)
+			VAR Ontem = Hoje - 1
+			
+			VAR DiasPassados = MAX(1, DAY(Ontem))
+			VAR DiasNoMes = DAY(UltimoDiaMesAtual)
+			
+			// checa se o filtro atual inclui alguma data do mês atual
+			VAR TemMesAtualNoFiltro =
+			    CALCULATE(
+			        COUNTROWS(dCalendario),
+			        KEEPFILTERS(
+			            dCalendario[Date] >= InicioMesAtual
+			                && dCalendario[Date] <= UltimoDiaMesAtual
+			        )
+			    ) > 0
+			
+			// (1) Realizado até o mês anterior, respeitando filtro do relatório
+			VAR RealizadoAteMesAnterior_NoFiltro =
+			    CALCULATE(
+			        [Margem R$],
+			        KEEPFILTERS(dCalendario[Date] <= UltimoDiaMesAnterior)
+			    )
+			
+			// (2) Faturamento do mês atual até ontem, respeitando filtro do relatório
+			VAR FaturamentoMesAtualAteOntem_NoFiltro =
+			    CALCULATE(
+			        [Margem R$],
+			        KEEPFILTERS(
+			            dCalendario[Date] >= InicioMesAtual
+			                && dCalendario[Date] <= Ontem
+			        )
+			    )
+			
+			VAR ForecastMesAtual =
+			    DIVIDE(FaturamentoMesAtualAteOntem_NoFiltro, DiasPassados) * DiasNoMes
+			
+			RETURN
+			RealizadoAteMesAnterior_NoFiltro + IF(TemMesAtualNoFiltro, ForecastMesAtual, 0)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 27696397-5b03-47ef-94a8-50a42b796406
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta Diária' =
+			
+			VAR DiasNoMes =
+			    DAY(
+			        EOMONTH(
+			            MAX(dCalendario[Date]),
+			            0
+			        )
+			    )
+			
+			RETURN
+			DIVIDE(
+			    [Meta_carteira_total],
+			    DiasNoMes
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 3434be59-6727-4c4f-bdf8-85fc0da29e46
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Meta Batida' =
+			
+			VAR QuantidadeA =
+			    SUMX(
+			        'produto',
+			        IF(
+			            NOT ISBLANK([Meta_produto]) &&
+			            [Meta_produto] > 0 &&
+			            [GAP] >= 0,
+			            1,
+			            0
+			        )
+			    )
+			
+			VAR QuantidadeB =
+			    SUMX(
+			        'produto',
+			        IF(
+			            NOT ISBLANK([Meta_produto]) &&
+			            [Meta_produto] > 0,
+			            1,
+			            0
+			        )
+			    )
+			
+			RETURN
+			    DIVIDE(QuantidadeA, QuantidadeB, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d90459b6-67fa-4b96-b48d-93ce85ce748c
+
+	measure 'Meta Diária Ads MKT' = [Meta Diária] * 0.03
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 6fbd82e8-da92-48f7-aad6-c0046422165c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta % Ads' = 0.03
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: c092e020-6645-43a4-9ba8-80d3f531f0d6
+
+	measure 'Meta Valor Ads' = [Meta_produto] * 0.03
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: bde81d4f-09b8-4056-8c46-1af4e0f8a7d4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Forecast Valor Ads' = sum ('Ads - Planilha'[Valor Ads]) / DAY(NOW() - 1) * MAX(dCalendario[Ultimo dia do mês])
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: a9ecf9e8-c078-4333-9916-245447fa9b11
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'tipo_entrega 2' =
+			
+			VAR UltimaNota =
+			    CALCULATE(
+			        MAX('Base'[id_nota_saida]),
+			        ALLEXCEPT('Produto', 'Produto'[id_produto])
+			    )
+			
+			VAR Transportadora =
+			    CALCULATE(
+			        MAX('Base'[id_transportadora]),
+			        'Base'[id_nota_saida] = UltimaNota
+			    )
+			
+			RETURN
+			IF(
+			    Transportadora IN {6789,1413,9489,310689,0,209106},
+			    "ME2",
+			    "ME1"
+			)
+		lineageTag: facb94ee-29ad-49c3-acc9-1a8d4ea38443
+
+	measure 'Valor Líquido $' =
+			
+			SUM ( Base[valor_total_liquido] )
+		lineageTag: cf38a6f2-46b5-451b-8f85-de080f2cc00a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Repasse Rateado $' =
+			
+			SUM ( Base[Repasse Rateado] )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: aab44af4-e4ea-4b17-9a5d-ce4ab75656db
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Custo Fixo Shopify por Pedido' = 2810.5 / [Custo Fixo Variável Shopify]
+		lineageTag: 28a59593-5c37-4eae-bf3a-5ea16cd7c8ff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Shopify Variável' = ```
+			
+			
+			        CALCULATE(
+			            [Faturamento] * 0.006,
+			         'Atendimento'[id_sequencia] IN {44, 47}
+			 )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 0367e5f0-c1c9-4c05-9933-34c4bd05cbd4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Forecast Pedidos Shopify' =
+			
+			VAR Hoje = TODAY()
+			VAR InicioMesAtual = DATE(YEAR(Hoje), MONTH(Hoje), 1)
+			VAR UltimoDiaMesAtual = EOMONTH(Hoje, 0)
+			VAR UltimoDiaMesAnterior = EOMONTH(Hoje, -1)
+			VAR Ontem = Hoje - 1
+			
+			VAR DiasPassados = MAX(1, DAY(Ontem))
+			VAR DiasNoMes = DAY(UltimoDiaMesAtual)
+			
+			// existe mês atual dentro do filtro?
+			VAR TemMesAtualNoFiltro =
+			    CALCULATE(
+			        COUNTROWS(dCalendario),
+			        KEEPFILTERS(
+			            dCalendario[Date] >= InicioMesAtual
+			                && dCalendario[Date] <= UltimoDiaMesAtual
+			        )
+			    ) > 0
+			
+			// (1) Realizado até o mês anterior
+			VAR NotasAteMesAnterior_NoFiltro =
+			    CALCULATE(
+			        DISTINCTCOUNT('Base'[id_nota_saida]),
+			        'Atendimento'[id_sequencia] IN {44, 47},
+			        KEEPFILTERS(dCalendario[Date] <= UltimoDiaMesAnterior)
+			    )
+			
+			// (2) Notas do mês atual até ontem
+			VAR NotasMesAtualAteOntem_NoFiltro =
+			    CALCULATE(
+			        DISTINCTCOUNT('Base'[id_nota_saida]),
+			        'Atendimento'[id_sequencia] IN {44, 47},
+			        KEEPFILTERS(
+			            dCalendario[Date] >= InicioMesAtual
+			                && dCalendario[Date] <= Ontem
+			        )
+			    )
+			
+			VAR ForecastNotasMesAtual =
+			    DIVIDE(NotasMesAtualAteOntem_NoFiltro, DiasPassados) * DiasNoMes
+			
+			RETURN
+			NotasAteMesAnterior_NoFiltro
+			    + IF(TemMesAtualNoFiltro, ForecastNotasMesAtual, 0)
+		lineageTag: ec491fe1-96f6-4bbf-a94b-fb92b46085a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Aquisição = ```
+			
+			
+			        CALCULATE(
+			            [Faturamento] * 0.0015,
+			         'Atendimento'[id_sequencia] IN {44, 47}
+			 )
+			```
+		lineageTag: 105443ab-c7be-426a-8f46-d741fb522139
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Aquisição Shopify e Televendas' = ```
+			
+			CALCULATE(
+			    [Faturamento] * 0.015,
+			
+			    FILTER(
+			        'Base',
+			        RELATED('Atendimento'[id_sequencia]) IN {44, 47, 24, 26, 41}
+			     
+			                || 'Base'[id_vendedor] = 520854
+			            )
+			        )
+			    
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 2fec3c4e-ba02-4927-949a-92cb8dbbce73
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Custo Fixo Variável Shopify' =
+			
+			VAR Hoje = TODAY()
+			VAR InicioMesAtual = DATE(YEAR(Hoje), MONTH(Hoje), 1)
+			VAR Ontem = Hoje - 1
+			
+			VAR DiasPassados = MAX(1, DAY(Ontem))
+			VAR DiasNoMes = DAY(EOMONTH(Hoje, 0))
+			
+			VAR NotasAteOntem =
+			    CALCULATE(
+			        COUNTROWS('Base'),
+			        'Atendimento'[id_sequencia] IN {44, 47},
+			        FILTER(
+			            ALL(dCalendario[Date]),
+			            dCalendario[Date] >= InicioMesAtual &&
+			            dCalendario[Date] <= Ontem
+			        )
+			    )
+			
+			RETURN
+			DIVIDE(NotasAteOntem, DiasPassados) * DiasNoMes
+		lineageTag: d817a199-0e97-4e35-84d3-43268436377f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Meta Margem Ponderada por Período' =
+			
+			DIVIDE(
+			    SUMX(
+			        'Metas por Período',
+			        'Metas por Período'[Meta Faturamento] *
+			        'Metas por Período'[Meta Margem]
+			    ),
+			    SUM('Metas por Período'[Meta Faturamento])
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 75ce52f7-9222-49f7-9e14-1471ebce5202
+
+	measure 'Status Margem' =
+			
+			VAR Meta = MAX('Metas por Período'[Meta Margem])
+			VAR Margem = [Margem %]
+			RETURN
+			    IF(Margem >= Meta, "ON", "OFF")
+		lineageTag: daa29d45-3f67-4fc6-ba74-f197b93e07fa
+
+	measure 'Status Margem Filtro' =
+			
+			VAR Selecionado = SELECTEDVALUE('Filtro Margem - Tab Aux'[Status])
+			VAR Flag = [Status Margem Flag]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        Selecionado = "ON" && Flag = 1, 1,
+			        Selecionado = "OFF" && Flag = 0, 1,
+			        ISBLANK(Selecionado), 1,
+			        0
+			    )
+		formatString: 0
+		lineageTag: 9c9441f9-d8bf-4282-8690-5b0577cd49d5
+
+	measure 'Status Margem Flag' =
+			
+			VAR Meta = MAX('Metas por Período'[Meta Margem])
+			VAR Margem = [Margem %]
+			RETURN
+			    IF(Margem >= Meta, 1, 0)
+		formatString: 0
+		lineageTag: fb9e10b2-68b2-4225-8015-702ff9680af2
+
+	measure subtotal-produto-shopee = SUM('Shopee | Last 2 M'[Subtotal do produto])
+		formatString: 0
+		lineageTag: 02f16e96-8f32-4513-9665-692aba46c792
+
+	measure 'Sum Meta Até Ontem' = SUM('Metas por Período'[Meta Até Ontem])
+		lineageTag: f40dff71-9a09-4bad-b976-d924cf45d895
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PMA =
+			
+			VAR _Produto = SELECTEDVALUE('produto'[id_produto])
+			RETURN
+			CALCULATE(
+			    MAX('produto'[PMA]),
+			    TREATAS({_Produto}, 'produto'[id_produto])
+			)
+		lineageTag: 4611a595-2135-4734-9bb1-ea6c85886996
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ads Rateado MKT 2' = ```
+			
+			SUMX(
+			    CROSSJOIN(
+			        VALUES('dCalendario'[Date]),
+			        VALUES('Atendimento'[canal_agrupado])
+			    ),
+			    VAR vPercentual = CALCULATE( MAX('Ads - Planilha'[% Ads apenas Prod]) )
+			    VAR vFaturamentoFiltrado = 
+			        CALCULATE(
+			            [Faturamento],
+			            NOT 'Atendimento'[id_sequencia] IN {43, 44, 47}
+			        )
+			    RETURN
+			    vPercentual * vFaturamentoFiltrado
+			)
+			```
+		lineageTag: 55304d67-d4ad-446e-a480-f6fa5ce08dd0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Repasse Considerado' =
+			
+			SUMX(
+			    SUMMARIZE(
+			        Base,
+			        Base[id_produto],
+			        Base[id_nota_saida],
+			        Base[id_atendimento],
+			        Base[item]
+			    ),
+			    CALCULATE(
+			        VAR idSequencia = MAX(Base[id_atendimento])
+			        VAR DataVenda = MAX(Base[data_emissao])
+			
+			        VAR FaturamentoAtual = [Faturamento]
+			        VAR FaturamentoSemFrete = COALESCE([Faturamento sem frete], 0)
+			
+			        VAR FreteOriginal = COALESCE([Frete Maxi], 0)
+			
+			        VAR Frete = FreteOriginal
+			
+			        VAR RepasseRateado = COALESCE([Repasse Rateado $], 0)
+			
+			        VAR Canal = MAX(Base[id_atendimento])
+			        VAR EhMeli = Canal IN {20, 7, 32, 27, 8}
+			
+			        VAR idtransportadora = MAX(Base[id_transportadora])
+			
+			        VAR EhME1 =
+			            NOT (
+			                idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105,0}
+			            )
+			
+			        VAR EhME2 =
+			            idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105,0}
+			
+			        VAR Bonus2Porcento =
+			            IF(
+			                idSequencia IN {1, 15, 45}
+			                    && DataVenda >= DATE(2026, 3, 1),
+			                FaturamentoAtual * 0.02,
+			                0
+			            )
+			
+			        VAR Resultado =
+			            RepasseRateado
+			                - IF(
+			                    EhMeli && EhME1,
+			                    IF(
+			                        RepasseRateado >= FaturamentoSemFrete * 0.95,
+			                        Frete,
+			                        0
+			                    ),
+			                    IF(EhME2, 0, Frete)
+			                )
+			
+			        VAR Afiliado = [Faturamento]
+			
+			        RETURN
+			            Resultado + Bonus2Porcento
+			    )
+			)
+		lineageTag: 03f95d81-c519-4200-9be7-2b3963f71c2c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Status Repasse (1/0)' = VAR LinhasOK = SUMX( Base, VAR idtransportadora = Base[id_transportadora] VAR EhME1 = NOT ( idtransportadora IN {6789, 1413, 9489, 310689, 0, 209106} ) VAR EhME2 = idtransportadora IN {6789, 1413, 9489, 310689, 0, 209106} VAR RepasseBruto = [Repasse Rateado $] VAR RepasseLiquido = [Repasse Considerado] VAR Frete = [Frete Maxi] RETURN IF( (EhME2 && RepasseLiquido = RepasseBruto) || (EhME1 && (RepasseBruto - Frete) = RepasseLiquido), 1, 0 ) ) VAR TotalLinhas = COUNTROWS(Base) RETURN DIVIDE(LinhasOK, TotalLinhas)
+		lineageTag: e363d20a-bf79-4cc2-ae14-bcce65f4eab5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Considerou Frete?' =
+			
+			SUMX(
+			    SUMMARIZE(
+			        Base,
+			        Base[id_produto],
+			        Base[id_nota_saida],
+			        Base[id_atendimento],
+			        Base[item]
+			    ),
+			    CALCULATE(
+			        VAR idSequencia = MAX(Base[id_atendimento])
+			        VAR DataVenda = MAX(Base[data_emissao])
+			
+			        VAR FaturamentoAtual = [Faturamento]
+			        VAR FaturamentoSemFrete = COALESCE([Faturamento sem frete], 0)
+			
+			        VAR FreteOriginal = COALESCE([Frete Maxi], 0)
+			
+			        VAR Frete =
+			            IF(
+			                idSequencia IN {21, 37},
+			                0,
+			                FreteOriginal
+			            )
+			
+			        VAR RepasseRateado = COALESCE([Repasse Rateado $], 0)
+			
+			        VAR Canal = MAX(Base[id_atendimento])
+			        VAR EhMeli = Canal IN {20, 7, 32, 27, 8}
+			
+			        VAR idtransportadora = MAX(Base[id_transportadora])
+			
+			        VAR EhME1 =
+			            NOT (
+			                idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105,0}
+			            )
+			
+			        VAR EhME2 =
+			            idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105,0}
+			
+			        VAR Bonus2Porcento =
+			            IF(
+			                idSequencia IN {1, 15, 45}
+			                    && DataVenda >= DATE(2026, 3, 1),
+			                FaturamentoAtual * 0.02,
+			                0
+			            )
+			
+			        VAR Resultado =
+			            IF(
+			                    EhMeli && EhME1,
+			                    IF(
+			                        RepasseRateado >= FaturamentoSemFrete * 0.90,
+			                        Frete,
+			                        0
+			                    ),
+			                    IF(EhME2, 0, Frete)
+			                )
+			
+			        VAR Afiliado = [Faturamento]
+			
+			        RETURN
+			            Resultado
+			    )
+			)
+		lineageTag: 8b97fa68-8463-4200-9016-b60be7878abe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Meta_carteira_total_Historico =
+			
+			CALCULATE(
+			    SUM('Metas por Período'[Meta Faturamento]),
+			    TREATAS(
+			        VALUES('dCalendario'[Mês | Ano]),
+			        'Metas por Período'[Período]
+			    )
+			)
+		lineageTag: 61d6411e-c654-497b-83d8-787327ed7a22
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure teste =
+			EVALUATE
+			SUMMARIZECOLUMNS(
+			    produto[Marca],
+			    "TotalMeta", SUM(produto[Meta Faturamento]),
+			    "Produtos", COUNTROWS(produto)
+			)
+			ORDER BY [TotalMeta] DESC
+		lineageTag: 5bdbc18e-b4ae-48a7-849a-16fc39c1fe07
+
+	measure 'Over Frete' = SUM('NSI Left Join NS  - Id nota e id Produto'[Over Frete])
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 1218ddd5-f0f1-433f-8253-48a3bde5a81d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Qtd Match Repasse Televendas Meli >' =
+			
+			CALCULATE(
+			    COUNTROWS('sysemp_televenas_somente_cartao'),
+			    'sysemp_televenas_somente_cartao'[Meli.Repasse MKT] > 0
+			)
+		formatString: 0
+		lineageTag: 07085082-af66-4976-ad81-25e7425c5c82
+
+	measure 'Qtd Match Repasse Televendas Rede >' =
+			
+			CALCULATE(
+			    COUNTROWS('sysemp_televenas_somente_cartao'),
+			    'sysemp_televenas_somente_cartao'[Rede.Repasse MKT] > 0
+			)
+		formatString: 0
+		lineageTag: e51375ac-979d-4782-833c-ea6f8c8709fb
+
+	measure 'Fat Ontem' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    dCalendario[Date] = TODAY() - 1
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 4ac7af59-92fd-4530-b7d6-7b9c0023af30
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Fat Anteontem' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    dCalendario[Date]= TODAY() - 2
+			)
+		lineageTag: 1c43bfe8-aebb-4abd-a015-76d6c2af7f5d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'COMP 1D' =
+			
+			[Fat Ontem] - [Fat Anteontem]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 4798a63a-d99b-4c3c-be63-43a6e43984dc
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Fat 7D' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    DATESINPERIOD(
+			        dCalendario[Date],
+			        TODAY() - 1,
+			        -7,
+			        DAY
+			    )
+			)
+		lineageTag: c9742cd1-5b93-434f-b9aa-01242ab6b11a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Fat 7D Ant' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    DATESINPERIOD(
+			        dCalendario[Date],
+			        TODAY() - 8,
+			        -7,
+			        DAY
+			    )
+			)
+		lineageTag: d2ec5018-8340-449a-a741-f4adeca4314d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'COMP 7D' =
+			
+			[Fat 7D] - [Fat 7D Ant]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: a6f7ad1e-08fb-4d74-a090-706aa8f7d4b3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Fat 15D' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    DATESINPERIOD(
+			        dCalendario[Date],
+			        TODAY() - 1,
+			        -15,
+			        DAY
+			    )
+			)
+		lineageTag: be20bc06-93a6-4a13-b492-14fa8dd60d51
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Fat 15D Ant' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    DATESINPERIOD(
+			        dCalendario[Date],
+			        TODAY() - 16,
+			        -15,
+			        DAY
+			    )
+			)
+		lineageTag: d2f9c65f-cbbe-47ce-9240-6b9ce1efc24a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'COMP 15D' =
+			
+			[Fat 15D] - [Fat 15D Ant]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 0b8fe8a2-26b1-4e8a-b3fc-6f6f956a1828
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Fat 30D' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    DATESINPERIOD(
+			        dCalendario[Date],
+			        TODAY() - 1,
+			        -30,
+			        DAY
+			    )
+			)
+		lineageTag: fded90f1-5fa2-4af7-aedd-7d4e1a14105a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Fat 30D Ant' =
+			
+			CALCULATE(
+			    [Faturamento],
+			    DATESINPERIOD(
+			        dCalendario[Date],
+			        TODAY() - 31,
+			        -30,
+			        DAY
+			    )
+			)
+		lineageTag: 7efd188b-ed5f-4706-b22e-7c0b9cfbb988
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'COMP 30D' =
+			
+			[Fat 30D] - [Fat 30D Ant]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: cb95a802-8913-4253-8782-75a0e01e48c6
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta Dia até ontem' =
+			
+			VAR DiasMes =
+			    DAY(
+			        EOMONTH(
+			            TODAY(),
+			            0
+			        )
+			    )
+			RETURN
+			    DIVIDE(
+			        [Sum Meta Até Ontem],
+			        DiasMes
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: c5aa80bd-9036-4a56-88de-f5b1ed98e024
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Score 1D' =
+			
+			VAR Atual =
+			    COALESCE([Fat Ontem], 0)
+			
+			VAR Anterior =
+			    COALESCE([Fat Anteontem], 0)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Atual = 0 && Anterior = 0, 1,
+			    Atual > 0 && Anterior = 0, 2,
+			    Atual = 0 && Anterior > 0, 0,
+			    DIVIDE(Atual, Anterior)
+			)
+		lineageTag: e583058c-f646-4cac-88f8-68fa75ab8506
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Score 7D' =
+			
+			VAR Atual =
+			    COALESCE([Fat 7D], 0)
+			
+			VAR Anterior =
+			    COALESCE([Fat 7D Ant], 0)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Atual = 0 && Anterior = 0, 1,
+			    Atual > 0 && Anterior = 0, 2,
+			    Atual = 0 && Anterior > 0, 0,
+			    DIVIDE(Atual, Anterior)
+			)
+		lineageTag: 73c36a50-1242-4b04-8acc-22dfb0c2daae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Score 30D' =
+			
+			VAR Atual =
+			    COALESCE([Fat 30D], 0)
+			
+			VAR Anterior =
+			    COALESCE([Fat 30D Ant], 0)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Atual = 0 && Anterior = 0, 1,
+			    Atual > 0 && Anterior = 0, 2,
+			    Atual = 0 && Anterior > 0, 0,
+			    DIVIDE(Atual, Anterior)
+			)
+		lineageTag: a517dbbb-c5b0-4eb0-8869-9f8961b43723
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Score 15D' =
+			
+			VAR Atual =
+			    COALESCE([Fat 15D], 0)
+			
+			VAR Anterior =
+			    COALESCE([Fat 15D Ant], 0)
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Atual = 0 && Anterior = 0, 1,
+			    Atual > 0 && Anterior = 0, 2,
+			    Atual = 0 && Anterior > 0, 0,
+			    DIVIDE(Atual, Anterior)
+			)
+		lineageTag: 7faaf506-41d3-4a69-8e26-c6580a640e40
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Com Match' =
+			
+			DIVIDE(
+			    CALCULATE(
+			        COUNTROWS(sysemp_televenas_somente_cartao),
+			        sysemp_televenas_somente_cartao[Match?] = "com match"
+			    ),
+			    COUNTROWS(sysemp_televenas_somente_cartao)
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 241cb30a-ff1d-41fe-af41-03604d71a79e
+
+	column Medidas
+		dataType: string
+		lineageTag: 6a6d6c19-44ea-4af1-bdf0-fdbee10f772a
+		summarizeBy: none
+		sourceColumn: Medidas
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = m
+		mode: import
+		queryGroup: Medidas
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Text
+

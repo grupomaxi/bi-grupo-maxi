@@ -1,0 +1,569 @@
+table 'Via Boleto | Last 2M'
+	isHidden
+	lineageTag: 288bee3f-0250-4db1-a7a3-b19a8dc89f2b
+
+	column 'Número Pedido'
+		dataType: string
+		isHidden
+		lineageTag: 9a155317-5e18-4222-9e63-763067bdc063
+		summarizeBy: none
+		sourceColumn: Número Pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Id Entrega'
+		dataType: string
+		isHidden
+		lineageTag: e709301a-84d2-4cf9-8e89-d631eba6a7b8
+		summarizeBy: none
+		sourceColumn: Id Entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo da Transação'
+		dataType: string
+		isHidden
+		lineageTag: 80437e2f-f87e-433e-a3c6-7f98636e47cf
+		summarizeBy: none
+		sourceColumn: Tipo da Transação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		dataType: string
+		isHidden
+		lineageTag: bc11006d-922e-4462-884e-46e84166d509
+		summarizeBy: none
+		sourceColumn: Marca
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data do Pedido Incluído'
+		dataType: string
+		isHidden
+		lineageTag: 686930a8-8bbf-4460-b8b9-e8521ddc9f21
+		summarizeBy: none
+		sourceColumn: Data do Pedido Incluído
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data do Pedido Entregue'
+		dataType: string
+		isHidden
+		lineageTag: 51afa7ed-5f78-4ef6-b294-217325b19957
+		summarizeBy: none
+		sourceColumn: Data do Pedido Entregue
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Liberação'
+		dataType: string
+		isHidden
+		lineageTag: 4bcb416a-665b-473c-bb45-62982ff330aa
+		summarizeBy: none
+		sourceColumn: Data Liberação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Prevista do Repasse'
+		dataType: string
+		isHidden
+		lineageTag: 8054189f-2930-4b55-bd8e-b3e9d295b6ad
+		summarizeBy: none
+		sourceColumn: Data Prevista do Repasse
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data do Repasse'
+		dataType: string
+		isHidden
+		lineageTag: c3f3413a-1270-40fc-b902-3992af112cc0
+		summarizeBy: none
+		sourceColumn: Data do Repasse
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Antecipação'
+		dataType: string
+		isHidden
+		lineageTag: a30e2ecc-586c-4007-9fd0-af4f9f59d48d
+		summarizeBy: none
+		sourceColumn: Data Antecipação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de Liquidação'
+		dataType: string
+		isHidden
+		lineageTag: 97be88bb-3f84-4b04-951c-ac75a5c48118
+		summarizeBy: none
+		sourceColumn: Número de Liquidação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU Marketplace'
+		dataType: string
+		isHidden
+		lineageTag: f228cc43-94df-435b-9791-4f2466e98c21
+		summarizeBy: none
+		sourceColumn: SKU Marketplace
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU Lojista'
+		dataType: string
+		isHidden
+		lineageTag: 8e8ad855-6025-452b-81e9-5e72cf3a2ce5
+		summarizeBy: none
+		sourceColumn: SKU Lojista
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor do Produto sem desconto'
+		dataType: string
+		isHidden
+		lineageTag: 1a67700d-c398-44d1-a97b-f1dd4b222ff1
+		summarizeBy: none
+		sourceColumn: Valor do Produto sem desconto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto Ônus Via'
+		dataType: string
+		isHidden
+		lineageTag: 77f513f2-7d29-4172-805e-e8e7c708cfaa
+		summarizeBy: none
+		sourceColumn: Desconto Ônus Via
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto Ônus Lojista'
+		dataType: string
+		isHidden
+		lineageTag: 46f302bb-32ba-454a-9ab4-036a3f623fd2
+		summarizeBy: none
+		sourceColumn: Desconto Ônus Lojista
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor do Frete'
+		dataType: string
+		isHidden
+		lineageTag: 858e46a8-4c45-497c-885d-2392643a7970
+		summarizeBy: none
+		sourceColumn: Valor do Frete
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo do Frete'
+		dataType: string
+		isHidden
+		lineageTag: 9efeaf06-19d0-4f63-8f20-79491fdc60c6
+		summarizeBy: none
+		sourceColumn: Tipo do Frete
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Frete Promocional Ônus Via'
+		dataType: string
+		isHidden
+		lineageTag: a852d782-5205-4eb4-8205-8320119f650b
+		summarizeBy: none
+		sourceColumn: Frete Promocional Ônus Via
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Frete Promocional Ônus Lojista'
+		dataType: string
+		isHidden
+		lineageTag: b283554c-2240-4179-b8aa-cb1486f0a06c
+		summarizeBy: none
+		sourceColumn: Frete Promocional Ônus Lojista
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor da Transação'
+		dataType: string
+		isHidden
+		lineageTag: 3bb5fa09-8709-40b3-a598-dc158ae1a1df
+		summarizeBy: none
+		sourceColumn: Valor da Transação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comissão Contratual %'
+		dataType: string
+		isHidden
+		lineageTag: 362ea83b-9664-45e5-8126-ec96d70bc60b
+		summarizeBy: none
+		sourceColumn: Comissão Contratual %
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comissão Aplicada %'
+		dataType: string
+		isHidden
+		lineageTag: fb96f83c-eeec-435b-b9a1-e4db6d459161
+		summarizeBy: none
+		sourceColumn: Comissão Aplicada %
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comissão Aplicada R$'
+		dataType: string
+		isHidden
+		lineageTag: bca30bc5-a1a1-4f05-b39a-efe8278ea614
+		summarizeBy: none
+		sourceColumn: Comissão Aplicada R$
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de Parcelas'
+		dataType: string
+		isHidden
+		lineageTag: d2e8f31f-d3bd-48ec-83f5-042d3d54d3c5
+		summarizeBy: none
+		sourceColumn: Número de Parcelas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parcela Atual'
+		dataType: string
+		isHidden
+		lineageTag: 629e7780-dd44-4c8b-b52d-0ff49c30753e
+		summarizeBy: none
+		sourceColumn: Parcela Atual
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Parcela'
+		dataType: string
+		isHidden
+		lineageTag: b2964919-2f58-4857-85a6-154b7b655be6
+		summarizeBy: none
+		sourceColumn: Valor Parcela
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Bruto de Repasse'
+		dataType: string
+		isHidden
+		lineageTag: ad913271-c8e8-4589-8179-7c5ac7a45db5
+		summarizeBy: none
+		sourceColumn: Valor Bruto de Repasse
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor da Antecipação'
+		dataType: string
+		isHidden
+		lineageTag: 1ce2e0a7-0b9f-404b-8b58-31b8e34b79cf
+		summarizeBy: none
+		sourceColumn: Valor da Antecipação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de Antecipação'
+		dataType: string
+		isHidden
+		lineageTag: 4c349a1d-0fb2-48ff-add4-56377b6c4465
+		summarizeBy: none
+		sourceColumn: Taxa de Antecipação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Líquido de Repasse'
+		dataType: string
+		isHidden
+		lineageTag: 51bcd135-5068-4f0f-aba4-549570bef5b8
+		summarizeBy: none
+		sourceColumn: Valor Líquido de Repasse
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Motivo do Ajuste'
+		dataType: string
+		isHidden
+		lineageTag: 568f0586-fa31-4974-97e0-da3d29704572
+		summarizeBy: none
+		sourceColumn: Motivo do Ajuste
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Observações
+		dataType: string
+		isHidden
+		lineageTag: 573d7bca-6fd3-4722-982e-8c514f75f1dd
+		summarizeBy: none
+		sourceColumn: Observações
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código Identificador Operação'
+		dataType: string
+		isHidden
+		lineageTag: 78f37e62-0610-4cd0-a4aa-1b232e1c53d5
+		summarizeBy: none
+		sourceColumn: Código Identificador Operação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Origem Repasse'
+		dataType: string
+		isHidden
+		lineageTag: cf507526-d59b-425b-a126-a74095f86df4
+		summarizeBy: none
+		sourceColumn: Origem Repasse
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meio de Pagamento'
+		dataType: string
+		isHidden
+		lineageTag: 4e89aceb-ecc3-4b30-a42e-61420ba5bf19
+		summarizeBy: none
+		sourceColumn: Meio de Pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de Campanha'
+		dataType: string
+		isHidden
+		lineageTag: a042376c-0572-42d4-a904-249dd4bfcd92
+		summarizeBy: none
+		sourceColumn: Tipo de Campanha
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ajuste realizado outro ciclo'
+		dataType: string
+		isHidden
+		lineageTag: 08046c51-7ea0-4c5e-b605-67f918db2ee9
+		summarizeBy: none
+		sourceColumn: Ajuste realizado outro ciclo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor ajuste realizado ciclos anteriores'
+		dataType: string
+		isHidden
+		lineageTag: 7f067f54-e478-4457-91d4-4cf38aaf92a4
+		summarizeBy: none
+		sourceColumn: Valor ajuste realizado ciclos anteriores
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data do ajuste'
+		dataType: string
+		isHidden
+		lineageTag: a84168cd-e865-4702-8137-1ee025f3aa26
+		summarizeBy: none
+		sourceColumn: Data do ajuste
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NF Repasse'
+		dataType: string
+		isHidden
+		lineageTag: 10c9dfe5-51d9-497c-8521-d47f79c80f1c
+		summarizeBy: none
+		sourceColumn: NF Repasse
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NF Cliente'
+		dataType: string
+		isHidden
+		lineageTag: 35eccdad-0ba4-448f-829c-74a22575444d
+		summarizeBy: none
+		sourceColumn: NF Cliente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrição do produto'
+		dataType: string
+		isHidden
+		lineageTag: 81921ad6-a358-4be5-9f2e-7ebcab0124a7
+		summarizeBy: none
+		sourceColumn: Descrição do produto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Departamento
+		dataType: string
+		isHidden
+		lineageTag: a6395e88-a6e1-4a41-8ba5-55a663191776
+		summarizeBy: none
+		sourceColumn: Departamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		isHidden
+		lineageTag: 9e0fcb92-9764-477a-abd6-131d5301dd65
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor da Comissão NF'
+		dataType: string
+		isHidden
+		lineageTag: 3787afeb-3c7d-48a1-a91b-029c36911d2f
+		summarizeBy: none
+		sourceColumn: Valor da Comissão NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo da Liquidação'
+		dataType: string
+		isHidden
+		lineageTag: f3324eab-c735-4250-8875-0c27cbb6006c
+		summarizeBy: none
+		sourceColumn: Tipo da Liquidação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número do Contrato'
+		dataType: string
+		isHidden
+		lineageTag: 9cd802b3-abdc-4eea-abec-54d6b256ce71
+		summarizeBy: none
+		sourceColumn: Número do Contrato
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Banco Liquidante'
+		dataType: string
+		isHidden
+		lineageTag: c5f218be-8332-4ce2-8625-385d2a393cad
+		summarizeBy: none
+		sourceColumn: Banco Liquidante
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Consumo Saldo Bandeira'
+		dataType: string
+		isHidden
+		lineageTag: c09f1aac-5e7f-44d7-ac97-b974c42c737b
+		summarizeBy: none
+		sourceColumn: Consumo Saldo Bandeira
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Via Boleto | Last 2M' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repase - 2M'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Via%20Boleto%20-%20Ultimo%20Ciclo.xlsx"), null, true),
+				    Sheet1_Sheet = Fonte{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Cabeçalhos Promovidos"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

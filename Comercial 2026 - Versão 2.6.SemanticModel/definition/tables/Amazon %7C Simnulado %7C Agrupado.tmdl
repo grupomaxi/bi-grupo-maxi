@@ -1,0 +1,47 @@
+table 'Amazon | Simnulado | Agrupado'
+	isHidden
+	lineageTag: db4508a3-3c62-40f6-b2b5-7f30575bbb95
+
+	column marketplace_pedido
+		dataType: string
+		isHidden
+		lineageTag: 083c4184-bf71-471c-9316-f2fdeaa19c26
+		summarizeBy: none
+		sourceColumn: marketplace_pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qtde Peds MKT'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 10b28521-c500-4e34-8553-55dc3d20fd94
+		summarizeBy: sum
+		sourceColumn: Qtde Peds MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Amazon | Simnulado | Agrupado' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses
+		source =
+				let
+				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "WITH devolucoes AS (#(lf)    SELECT #(lf)        ref_numero_docfiscal AS id_nr_nf#(lf)    FROM sysemp.nota_saida#(lf)    WHERE #(lf)        data_pedido >= DATE '2025-12-01'#(lf)        AND ref_numero_docfiscal <> 0#(lf)        AND id_nat_operacao IN (#(lf)            8, 11, 12, 29, 32, 42, 44, 47, 59, 60, 72, #(lf)            75, 76, 87, 88, 89, 91, 93, 104, 123#(lf)        )#(lf))#(lf)#(lf)SELECT #(lf)    ns.marketplace_pedido,#(lf)    nsi.valor_total_liquido,#(lf)    nsi.vr_desconto_total,#(lf)    nsi.vr_acrescimo,#(lf)    nsi.ipi_valor,#(lf)#(lf)    -- COLUNAS FINAIS PRIORIZANDO KIT#(lf)    COALESCE(p2.produto_comissãoamazon, p.produto_comissãoamazon) AS produto_comissaoamazon_final,#(lf)    COALESCE(p2.produto_tarifadba, p.produto_tarifadba)           AS produto_tarifadba_final#(lf)#(lf)FROM sysemp.nota_saida_itens nsi#(lf)#(lf)LEFT JOIN sysemp.produto p #(lf)       ON nsi.id_produto = p.id_produto#(lf)#(lf)-- JOIN DO KIT SOMENTE QUANDO O CÓDIGO EXISTE#(lf)LEFT JOIN sysemp.produto p2 #(lf)       ON (nsi.codigos_kit IS NOT NULL AND nsi.codigos_kit <> '' AND nsi.codigos_kit = p2.codigo_auxiliar)#(lf)#(lf)JOIN sysemp.nota_saida ns #(lf)       ON nsi.id_nota_saida = ns.id_nota_saida#(lf)#(lf)-- ANTI JOIN DAS DEVOLUÇÕES#(lf)LEFT JOIN devolucoes d#(lf)       ON d.id_nr_nf = nsi.id_nr_nf#(lf)#(lf)WHERE #(lf)    d.id_nr_nf IS NULL  -- mantém somente vendas que NÃO são devolução#(lf)#(lf)    AND nsi.data_emissao >= DATE '2025-12-01'#(lf)    AND nsi.id_nat_operacao_item IN (#(lf)        1, 2, 3, 4, 19, 48, 83, 84, 90, 96, 103, #(lf)        105, 106, 114, 115, 116, 119, 121#(lf)    )#(lf)#(lf)    AND ns.tipo_documento = 'NF'#(lf)    AND ns.data_pedido >= DATE '2025-12-01'#(lf)#(lf)    AND (#(lf)        (ns.id_empresa = 1 AND ns.nfe_cstat = '100')#(lf)        OR#(lf)        (ns.id_empresa IN (7,5) AND (ns.nfe_cstat IS NULL OR ns.nfe_cstat = ''))#(lf)    )#(lf)#(lf)    AND ns.id_nat_operacao IN (#(lf)        1, 2, 3, 4, 19, 48, 83, 84, 90, 96, 103, #(lf)        105, 106, 114, 115, 116, 119, 121#(lf)    )#(lf)#(lf)    AND ns.id_atendimento IN (15,1,45);"),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"produto_comissaoamazon_final", Currency.Type}, {"produto_tarifadba_final", Currency.Type}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Tipo Alterado",null,500,Replacer.ReplaceValue,{"produto_tarifadba_final"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",null,50,Replacer.ReplaceValue,{"produto_comissaoamazon_final"}),
+				    #"Primeiros caracteres extraídos" = Table.TransformColumns(#"Valor Substituído1", {{"marketplace_pedido", each Text.Start(_, 19), type text}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Primeiros caracteres extraídos", {"marketplace_pedido"}, {{"Qtde Peds MKT", each Table.RowCount(_), Int64.Type}})
+				in
+				    #"Linhas Agrupadas"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

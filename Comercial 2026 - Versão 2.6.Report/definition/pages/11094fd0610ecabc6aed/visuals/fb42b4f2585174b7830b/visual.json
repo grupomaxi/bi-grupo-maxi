@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "fb42b4f2585174b7830b",
+  "position": {
+    "x": 1262,
+    "y": 141,
+    "z": 18000,
+    "height": 59,
+    "width": 205,
+    "tabOrder": 59000
+  },
+  "visualGroup": {
+    "displayName": "impostos",
+    "groupMode": "ScaleMode"
+  }
+}

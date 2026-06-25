@@ -1,0 +1,52 @@
+table 'Shopee | Afiliados'
+	isHidden
+	lineageTag: c551f041-3742-4155-93ad-fbae061167a2
+
+	column 'ID do pedido'
+		dataType: string
+		isHidden
+		lineageTag: 71aec273-f4fe-4993-88e8-af8e29ef7d58
+		summarizeBy: none
+		sourceColumn: ID do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gasto Afiliado'
+		dataType: decimal
+		isHidden
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 18f8e519-f5a4-489e-bf84-ac47ce426b90
+		summarizeBy: none
+		sourceColumn: Gasto Afiliado
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Shopee | Afiliados' = m
+		mode: import
+		queryGroup: 'Marketplaces\Mkts - Afiliados'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Gastos%20Afiliados.xlsx"), null, true),
+				    Plan1_Sheet = Fonte{[Item="Plan1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Plan1_Sheet, [PromoteAllScalars=true]),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Cabeçalhos Promovidos",{"ID do pedido", "despesas(R$)"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Outras Colunas Removidas",".",",",Replacer.ReplaceText,{"despesas(R$)"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído",{{"despesas(R$)", Currency.Type}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each ([#"despesas(R$)"] <> 0)),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Linhas Filtradas",{{"despesas(R$)", "Gasto Afiliado"}}),
+				    #"Linhas em Branco Removidas" = Table.SelectRows(#"Colunas Renomeadas", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Linhas Agrupadas" = Table.Group(#"Linhas em Branco Removidas", {"ID do pedido"}, {{"Gasto Afiliado", each List.Sum([Gasto Afiliado]), type nullable number}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Linhas Agrupadas",{{"Gasto Afiliado", Currency.Type}})
+				in
+				    #"Tipo Alterado1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

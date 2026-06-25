@@ -1,0 +1,43 @@
+table 'Ads Magalu - Sem Match'
+	lineageTag: 64603647-1fc2-4908-a1d9-3f4c6d1ed8ca
+
+	column 'Cod. Aux.'
+		dataType: string
+		lineageTag: ec203200-51b3-4cad-9aab-dfeb244ce9a9
+		summarizeBy: none
+		sourceColumn: Cod. Aux.
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ads Magalu - Sem Match' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Fonte = Excel.Workbook(
+				        Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20Magalu.xlsx"),
+				        null,
+				        true
+				    ),
+				    Base_Sheet = Fonte{[Item="Base", Kind="Sheet"]}[Data],
+				    #"Erros Removidos" = Table.RemoveRowsWithErrors(Base_Sheet, {"Column1"}),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Erros Removidos", [PromoteAllScalars=true]),
+				
+				    // Renomeia antes e já corta o que não precisa
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Cabeçalhos Promovidos", {{"SKU", "Código do anúncio"}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Colunas Renomeadas", "Canal", each "Magalu", type text),
+				
+				    // Mantém só o que você realmente usa para o anti-join
+				    #"Colunas Mantidas" = Table.SelectColumns(#"Personalização Adicionada", {"Cod. Aux.", "Canal"}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Mantidas", {{"Cod. Aux.", type text}}),
+				
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Tipo Alterado1", {"Cod. Aux."}, produto, {"codigo_auxiliar"}, "produto", JoinKind.LeftAnti),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Consultas Mescladas",{"Canal", "produto"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Colunas Removidas")
+				in
+				    #"Duplicatas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

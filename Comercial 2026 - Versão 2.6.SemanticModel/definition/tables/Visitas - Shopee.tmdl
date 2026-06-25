@@ -1,0 +1,202 @@
+table 'Visitas - Shopee'
+	lineageTag: fe6f4ee0-edd6-41f7-a816-86caad9f0432
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b87d9038-1837-4652-92c2-9b1200d9a826
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 4d0943ee-d6e8-46c0-9234-96a3946b31f5
+			defaultHierarchy: LocalDateTable_adbb1c84-34e6-4710-96eb-7c7fa976c834.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'SKU da Variação'
+		dataType: string
+		lineageTag: c8a2359e-0bdb-4df9-8ac5-d999b63bf1b9
+		summarizeBy: none
+		sourceColumn: SKU da Variação
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU Principle'
+		dataType: string
+		lineageTag: 38e07b00-3bc7-4c86-b830-d778dee25e79
+		summarizeBy: none
+		sourceColumn: SKU Principle
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column28
+		dataType: string
+		lineageTag: 880535c3-121f-4bb7-8dea-19a36a0c423f
+		summarizeBy: none
+		sourceColumn: Column28
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column29
+		dataType: string
+		lineageTag: 18a8bfc8-e13a-47e1-994c-34db114346aa
+		summarizeBy: none
+		sourceColumn: Column29
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column30
+		dataType: string
+		lineageTag: 70dd3854-af43-404e-88f0-65046321ff11
+		summarizeBy: none
+		sourceColumn: Column30
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column31
+		dataType: string
+		lineageTag: e0ff531e-2cf2-4181-a6f3-fb84890d2977
+		summarizeBy: none
+		sourceColumn: Column31
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column32
+		dataType: string
+		lineageTag: 2ad1bcc5-6aea-410b-acea-af5c96d64a67
+		summarizeBy: none
+		sourceColumn: Column32
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column33
+		dataType: string
+		lineageTag: 9565712f-1916-4993-a2a6-aff568f00f97
+		summarizeBy: none
+		sourceColumn: Column33
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column34
+		dataType: string
+		lineageTag: dbdf4ab2-e207-4b62-9beb-55b433b0a5f4
+		summarizeBy: none
+		sourceColumn: Column34
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column35
+		dataType: string
+		lineageTag: 7cbba80f-aa0f-410b-92e3-46f815c4cff2
+		summarizeBy: none
+		sourceColumn: Column35
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column36
+		dataType: string
+		lineageTag: 26bf41b0-e7bb-44c8-aab4-888515013741
+		summarizeBy: none
+		sourceColumn: Column36
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column37
+		dataType: string
+		lineageTag: 7b3049f9-95a9-4668-92dc-8242db27bdbe
+		summarizeBy: none
+		sourceColumn: Column37
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column38
+		dataType: string
+		lineageTag: 5260bcd5-1b96-4d7e-bd8a-b7432d24883d
+		summarizeBy: none
+		sourceColumn: Column38
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: 3583ed9f-143d-4a1f-8e7b-da6e317c604e
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: 7f58d4f0-b411-4b63-81ea-99227c5019f7
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Visitas Rateadas'
+		dataType: string
+		lineageTag: 46b2072e-a53d-4130-8682-d94600867158
+		summarizeBy: none
+		sourceColumn: Visitas Rateadas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anuncio
+		dataType: string
+		lineageTag: 344eede2-a498-4bae-87a3-dc576828a51f
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: e092e361-d1ad-4d1c-a75f-425bcc2db2bf
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Visitas - Shopee' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source = ```
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"), null, true),
+				    #"Shopee _Sheet" = Fonte{[Item="Shopee ",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Shopee _Sheet", [PromoteAllScalars=true]),
+				    #"Tipo Alterado3" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data", type date}}),
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"Tipo Alterado3",{"Column2", "Produto", "Status Atual do Item", "ID da Variação", "Nome da Variação", "Status Atual da Variação", "Visitantes do Produto (Visita)", "Visualizações da Página do Produto", "Visitantes que saíram da página", "Taxa de Rejeição do Produto", "Cliques em buscas", "Curtidas", "Visitantes do Produto (Adicionar ao Carrinho)", "Unidades (adicionar ao carrinho)", "Taxa de Conversão (adicionar ao carrinho)", "Compradores (Pedido realizado)", "Unidades (Pedido realizado)", "Vendas (Pedido realizado) (BRL)", "Taxa de conversão (Pedido realizado)", "Compradores (Pedidos pago)", "Unidades (Pedido pago)", "Vendas (Pedido pago) (BRL)", "Taxa de conversão (Pedido pago)"}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Removidas1", {"Data", "ID do Item"}, #"Visitas - Shopee - Contagem", {"Data", "ID do Item"}, "Visitas - Shopee - Repetições", JoinKind.LeftOuter),
+				    #"Visitas - Shopee - Repetições Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Visitas - Shopee - Repetições", {"Contagem", "Visitas"}, {"Contagem", "Visitas"}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Visitas - Shopee - Repetições Expandido", "Personalizar", each let
+				    sku = Text.Trim(Text.From([SKU da Variação])),
+				    cont = try Number.From([Contagem]) otherwise 0
+				  in
+				    if sku = "-" and cont > 1 then "retirar" else "manter"),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Personalização Adicionada1", each ([Personalizar] = "manter")),
+				    #"Colunas Removidas2" = Table.RemoveColumns(#"Linhas Filtradas",{"Personalizar"}),
+				    #"Personalização Adicionada2" = Table.AddColumn(#"Colunas Removidas2", "Visitas Rateadas", each if [Contagem] = 1 or [Contagem] = 2
+				         then [Visitas] / 1
+				         else [Visitas] / ([Contagem] - 1)),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Personalização Adicionada2",{"ID do Item"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Removidas",{{"SKU da Variação", type text}, {"SKU Principle", type text}}),
+				    #"Personalização Adicionada3" = Table.AddColumn(#"Tipo Alterado", "Anuncio", each if [#"SKU da Variação"] = "-" or [#"SKU da Variação"] = null or Text.Trim([#"SKU da Variação"]) = "" 
+				then [#"SKU Principle"] 
+				else [#"SKU da Variação"]),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Personalização Adicionada3", "Canal", each "Shopee")
+				in
+				    #"Personalização Adicionada"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

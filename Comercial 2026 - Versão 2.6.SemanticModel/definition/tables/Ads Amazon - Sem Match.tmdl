@@ -1,0 +1,50 @@
+table 'Ads Amazon - Sem Match'
+	lineageTag: 8c556e64-fecd-41d2-9738-ca799a220283
+
+	column 'Código do anúncio'
+		dataType: string
+		lineageTag: 108b4a80-e58f-414c-bf6d-f70e3d04d2c7
+		summarizeBy: none
+		sourceColumn: Código do anúncio
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ads Amazon - Sem Match' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Url = "https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20Amazon.xlsx",
+				    Fonte = Excel.Workbook(Web.Contents(Url), null, true),
+				    Planilha = Fonte{[Item="Plan1",Kind="Sheet"]}[Data],
+				    Cabec = Table.PromoteHeaders(Planilha, [PromoteAllScalars=true]),
+				
+				    // Só o que importa para o resultado final
+				    SomenteCodigo = Table.SelectColumns(Cabec, {"ASIN anunciado"}),
+				    Renomear = Table.RenameColumns(SomenteCodigo, {{"ASIN anunciado", "Código do anúncio"}}),
+				
+				    Canal = Table.AddColumn(Renomear, "Canal", each "Amazon", type text),
+				
+				    // Reduz o "Anuncio por produto" ao mínimo necessário pro anti-join
+				    Map = Table.Distinct(
+				        Table.SelectColumns(#"Anuncio por produto", {"marketplace", "codigo_produto"}),
+				        {"marketplace", "codigo_produto"}
+				    ),
+				
+				    Anti = Table.NestedJoin(
+				        Canal,
+				        {"Canal", "Código do anúncio"},
+				        Map,
+				        {"marketplace", "codigo_produto"},
+				        "Map",
+				        JoinKind.LeftAnti
+				    ),
+				
+				    Final = Table.Distinct(Table.SelectColumns(Anti, {"Código do anúncio"}), {"Código do anúncio"})
+				in
+				    Final
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

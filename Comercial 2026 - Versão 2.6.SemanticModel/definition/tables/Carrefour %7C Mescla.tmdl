@@ -1,0 +1,46 @@
+table 'Carrefour | Mescla'
+	lineageTag: 50f30f9b-cee4-45d3-8019-c601b683798c
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 176ea290-8971-4137-946f-44fc5d7e2afb
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 89ff89eb-1ace-4eb7-9808-bb51b850e722
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: double
+		lineageTag: fdf50445-0895-49ec-8d6b-a8409359bb0c
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Carrefour | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Carrefour | Legado", #"Carrefour | Last 2 M"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(Fonte,{{"N° do pedido", "Pedido MKT"}, {"Status", "Status MK"}, {"Valor transferido para loja (incluindo impostos)", "Repasse MKT"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Repasse MKT", type number}, {"Pedido MKT", type text}, {"Status MK", type text}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Tipo Alterado", {"Pedido MKT", "Status MK"}, {{"Repasse MKT", each List.Sum([Repasse MKT]), type number}}),
+				    #"Coluna Mesclada Inserida" = Table.AddColumn(#"Linhas Agrupadas", "Status MKT", each Text.Combine({[Status MK], " - Carrefour"}), type text),
+				    #"Colunas Reordenadas" = Table.ReorderColumns(#"Coluna Mesclada Inserida",{"Pedido MKT", "Status MKT", "Status MK", "Repasse MKT"}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Colunas Reordenadas",{"Status MK"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_ResultType = Table
+

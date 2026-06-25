@@ -1,0 +1,45 @@
+table Atendimento
+	lineageTag: f4d2e0ae-6d80-4de0-9900-396a50ce3f6d
+
+	column id_sequencia
+		dataType: int64
+		formatString: 0
+		lineageTag: c77c0f88-6e9e-40ab-bbc0-fb076c6710ef
+		summarizeBy: none
+		sourceColumn: id_sequencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_atendimento
+		dataType: string
+		lineageTag: 82d4218c-799c-4457-9f2e-d7f417b1807c
+		summarizeBy: none
+		sourceColumn: nome_atendimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal_agrupado
+		dataType: string
+		lineageTag: 840e12d1-eb0e-4e1f-8186-f90134078cf5
+		summarizeBy: none
+		sourceColumn: canal_agrupado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Atendimento = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "#(lf)select ""_"".""id_sequencia"" as ""id_sequencia"",#(lf)    replace(""_"".""nome_atendimento"", ' Maxi Ferramentas', '') as ""nome_atendimento"",#(lf)    ""_"".""canal_agrupado"" as ""canal_agrupado""#(lf)from#(lf)(#(lf)    SELECT #(lf)    a.id_sequencia,#(lf)#(lf)    INITCAP(a.nome_atendimento) AS nome_atendimento,#(lf)#(lf)    CASE #(lf)        WHEN a.id_sequencia = 3  THEN 'Casas Bahia'#(lf)        WHEN a.id_sequencia = 5  THEN 'Magalu'#(lf)        WHEN a.id_sequencia = 6  THEN 'Dafiti'#(lf)        WHEN a.id_sequencia IN (7, 8, 27, 32) THEN 'Meli'#(lf)        WHEN a.id_sequencia = 9  THEN 'Netshoes'#(lf)        WHEN a.id_sequencia = 10 THEN 'Carrefour'#(lf)        WHEN a.id_sequencia IN (12, 39) THEN 'Madeira'#(lf)        WHEN a.id_sequencia = 13 THEN 'Ri Happy'#(lf)        WHEN a.id_sequencia = 14 THEN 'Padrão'#(lf)        WHEN a.id_sequencia = 17 THEN 'Maxi Ferramentas'#(lf)        WHEN a.id_sequencia IN (21, 37) THEN 'Shopee'#(lf)        WHEN a.id_sequencia = 23 THEN 'Webcontinenal'#(lf)        WHEN a.id_sequencia = 24 THEN 'Olx'#(lf)        WHEN a.id_sequencia = 25 THEN 'Manual'#(lf)        WHEN a.id_sequencia = 26 THEN 'Balcão'#(lf)        WHEN a.id_sequencia = 29 THEN 'Venda Interna'#(lf)        WHEN a.id_sequencia IN (31, 34) THEN 'Americanas'#(lf)        WHEN a.id_sequencia IN (33, 35) THEN 'Magalu'#(lf)        WHEN a.id_sequencia = 36 THEN 'Leroy'#(lf)        WHEN a.id_sequencia = 38 THEN 'Kabum'#(lf)        WHEN a.id_sequencia = 40 THEN 'Aliexpress'#(lf)        WHEN a.id_sequencia = 41 THEN 'Televendas'#(lf)        WHEN a.id_sequencia = 42 THEN 'Tranfs'#(lf)        WHEN a.id_sequencia IN (43, 44) THEN 'Loja - Maxi Ferramentas'#(lf)        WHEN a.id_sequencia IN (47) THEN 'Loja - Cozilux'#(lf)        WHEN a.id_sequencia IN (1, 45) THEN 'Amazon'#(lf)        WHEN a.id_sequencia = 46 THEN 'Leilão'#(lf)        WHEN a.id_sequencia = 49 THEN 'Fora de Perfil'#(lf)        ELSE ''#(lf)    END AS canal_agrupado#(lf)#(lf)FROM sysemp.atendimento a#(lf)) ""_""#(lf)"),
+				
+				    #"Linhas Classificadas" =
+				        Table.Sort(Fonte,{{"id_sequencia", Order.Ascending}})
+				in
+				    #"Linhas Classificadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

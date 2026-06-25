@@ -1,0 +1,71 @@
+table sysemp_televenas_formpag
+	lineageTag: f944da11-93c0-42a1-87b4-6f77db35be0b
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 26c60643-db9e-40e9-a0dc-aaab5ed303d0
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: ece7d9bc-110e-46b1-ab29-5cbeea4d31f7
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: ac3e335a-c727-4aef-81bb-8c6847f4e22c
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sysemp_televenas_formpag = m
+		mode: import
+		queryGroup: Marketplaces\Televendas
+		source =
+				let
+				    Fonte =
+				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "select#(lf)    cc.id_nota_saida,#(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado,#(lf)    max(ns.total_nota_fiscal) as total_nota_fiscal,#(lf)    string_agg(distinct tc.descricao, ', ') as descricao,#(lf)    max(cc.aut_cartao_credito) as aut_cartao_credito#(lf)from sysemp.conta_corrente cc#(lf)inner join sysemp.nota_saida ns #(lf)    on ns.id_nota_saida = cc.id_nota_saida#(lf)left join sysemp.tipo_cobranca tc #(lf)    on tc.id_tipo_cobranca = cc.id_tipo_cobranca#(lf)where ns.id_atendimento IN (24,26,41) OR  (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)  and ns.data_pedido >= '2024-01-01'#(lf)  and ns.tipo_documento = 'NF'#(lf)  and ns.id_nat_operacao IN (1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121)#(lf)#(lf)group by #(lf)    cc.id_nota_saida, #(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado"),
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(Fonte,{{"descricao", Text.Proper, type text}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colocar Cada Palavra Em Maiúscula", {"id_pedido_vda_importado"}, #"Meli |  Televendas", {"Pedido MKT"}, "Meli |  Televendas", JoinKind.LeftOuter),
+				    #"Meli |  Televendas Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Meli |  Televendas", {"Repasse MKT"}, {"Meli.Repasse MKT"}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Meli |  Televendas Expandido", {"aut_cartao_credito"}, Rede, {"Pedido MKT"}, "Rede", JoinKind.LeftOuter),
+				    #"Rede Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "Rede", {"Repasse MKT"}, {"Rede.Repasse MKT"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Rede Expandido",{{"Rede.Repasse MKT", Currency.Type}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Tipo Alterado",null,0,Replacer.ReplaceValue,{"Meli.Repasse MKT", "Rede.Repasse MKT"}),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(
+				    #"Valor Substituído",
+				    "Repasse MKT",
+				    each
+				        if List.Contains({100, 1, 5}, [id_tipo_cobranca]) then
+				            0
+				        else if [id_tipo_cobranca] = 2
+				            and [#"Rede.Repasse MKT"] = 0
+				            and [#"Meli.Repasse MKT"] = 0 then
+				            0.06 * [total_nota_fiscal]
+				        else if [id_tipo_cobranca] = 2 then
+				            [#"Rede.Repasse MKT"] + [#"Meli.Repasse MKT"]
+				        else
+				            0
+				),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"Repasse MKT", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado1",{{"id_nota_saida", "Pedido MKT"}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Colunas Renomeadas",{"id_tipo_cobranca", "id_pedido_vda_importado", "total_nota_fiscal", "descricao", "aut_cartao_credito", "Meli.Repasse MKT", "Rede.Repasse MKT"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Colunas Removidas", "Status MKT", each "Pago"),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Pedido MKT", type text}, {"Status MKT", type text}})
+				in
+				    #"Tipo Alterado2"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,165 @@
+table 'Ads Amazon'
+	lineageTag: 6f4def79-5df3-417c-9fcb-50de989bbe5b
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 735cb2ce-d0dd-4455-b489-9d0ed58b7004
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: f7d647fa-1f22-420e-abf7-bcbbe6a9a8e7
+			defaultHierarchy: LocalDateTable_6c502058-1e53-49e7-bb19-2ee13efd9ddc.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Canal
+		dataType: string
+		lineageTag: 1f5b65ad-b9e5-4530-b616-3f3549ba56fa
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Investimento Rateado'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: eaec6cd3-d6ed-4890-8076-08ed3d6a8cdd
+		summarizeBy: sum
+		sourceColumn: Investimento Rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column id_produto
+		dataType: string
+		lineageTag: 6c96dc19-9683-4338-9892-22ba2fd535a9
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ads Amazon' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Url = "https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20Amazon.xlsx",
+				    Fonte = Excel.Workbook(Web.Contents(Url), null, true),
+				    Planilha = Fonte{[Item="Plan1",Kind="Sheet"]}[Data],
+				    Cabec = Table.PromoteHeaders(Planilha, [PromoteAllScalars=true]),
+				
+				    Renomear = Table.RenameColumns(
+				        Cabec,
+				        {
+				            {"SKU anunciado", "SKU"},
+				            {"ASIN anunciado", "Código do anúncio"},
+				            {"Gastos", "Investimento"}
+				        }
+				    ),
+				
+				    Tipos = Table.TransformColumnTypes(
+				        Renomear,
+				        {
+				            {"Data", type date},
+				            {"Investimento", type number}
+				        }
+				    ),
+				
+				    Mantidas = Table.SelectColumns(
+				        Tipos,
+				        {"Data", "SKU", "Código do anúncio", "Investimento"}
+				    ),
+				
+				    LinhasValidas = Table.SelectRows(
+				        Mantidas,
+				        each [Data] <> null
+				    ),
+				
+				    Canal = Table.AddColumn(
+				        LinhasValidas,
+				        "Canal",
+				        each "Amazon",
+				        type text
+				    ),
+				
+				    InvAgr = Table.Group(
+				        Canal,
+				        {"Data", "SKU", "Código do anúncio", "Canal"},
+				        {
+				            {"Investimento", each List.Sum([Investimento]), type number}
+				        }
+				    ),
+				
+				    MapBase = Table.SelectColumns(
+				        #"Anuncio por produto",
+				        {"marketplace", "codigo_produto", "id_produto"}
+				    ),
+				
+				    MapDist = Table.Distinct(
+				        MapBase,
+				        {"marketplace", "codigo_produto", "id_produto"}
+				    ),
+				
+				    MapAgr = Table.Group(
+				        MapDist,
+				        {"marketplace", "codigo_produto"},
+				        {
+				            {"Produtos", each [id_produto], type list},
+				            {"Contagem", each Table.RowCount(_), Int64.Type}
+				        }
+				    ),
+				
+				    Mesclar = Table.NestedJoin(
+				        InvAgr,
+				        {"Canal", "Código do anúncio"},
+				        MapAgr,
+				        {"marketplace", "codigo_produto"},
+				        "Map",
+				        JoinKind.LeftOuter
+				    ),
+				
+				    ExpandirMap = Table.ExpandTableColumn(
+				        Mesclar,
+				        "Map",
+				        {"Produtos", "Contagem"},
+				        {"Produtos", "Contagem"}
+				    ),
+				
+				    Rateio = Table.AddColumn(
+				        ExpandirMap,
+				        "Investimento Rateado",
+				        each if [Contagem] = null or [Contagem] = 0 then null else [Investimento] / [Contagem],
+				        Currency.Type
+				    ),
+				
+				    ExpandirLista = Table.ExpandListColumn(
+				        Rateio,
+				        "Produtos"
+				    ),
+				
+				    RenomearProduto = Table.RenameColumns(
+				        ExpandirLista,
+				        {
+				            {"Produtos", "id_produto"},
+				            {"SKU", "codigo_auxiliar"}
+				        }
+				    ),
+				
+				    Final = Table.SelectColumns(
+				        RenomearProduto,
+				        {"Data", "codigo_auxiliar", "Canal", "id_produto", "Investimento Rateado"}
+				    ),
+				    #"Colunas Removidas" = Table.RemoveColumns(Final,{"codigo_auxiliar"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

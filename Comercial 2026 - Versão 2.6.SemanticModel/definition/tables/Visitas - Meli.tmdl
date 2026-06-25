@@ -1,0 +1,246 @@
+table 'Visitas - Meli'
+	lineageTag: 00887f48-15cf-46b0-b444-aabaffcfe6d3
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9a724295-3242-46d1-ba66-deb0e5ae9d23
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: b5af8f68-9f7c-465f-b25c-ecaf902b1725
+			defaultHierarchy: LocalDateTable_7cfd1f5f-389a-4588-a7e9-6e31d86b34bb.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Anuncio1
+		dataType: string
+		lineageTag: eb9fbf6c-1609-41e4-8f58-109741cc704e
+		summarizeBy: none
+		sourceColumn: Anuncio1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: 4fba3862-b763-4e42-9674-9c9269d6c632
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Canal
+		dataType: string
+		lineageTag: d6876f9b-23e0-43b4-963b-c52b14fd2d95
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anuncio
+		dataType: string
+		lineageTag: 0045e2a9-2872-43d7-aa13-be08c1ff440a
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: double
+		formatString: 0
+		lineageTag: fd046b7a-b272-4929-93c0-ab17e28b377a
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Visitas Rateadas'
+		dataType: double
+		lineageTag: b8566285-dcd0-4d65-a695-789d701d5778
+		summarizeBy: sum
+		sourceColumn: Visitas Rateadas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Visitas_Contagem
+		dataType: double
+		lineageTag: d2002896-bc7b-4912-82c3-f11aad603e52
+		summarizeBy: sum
+		sourceColumn: Visitas_Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Visitas - Meli' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source = ```
+				let
+				    // =========================
+				    // 📥 FONTE (com proteção)
+				    // =========================
+				    FonteBinaria = Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"),
+				
+				    FonteExcel = try Excel.Workbook(FonteBinaria, null, true) otherwise error "Erro ao abrir o arquivo Excel",
+				
+				    // =========================
+				    // 📄 ABA MELI
+				    // =========================
+				    Meli_Sheet = FonteExcel{[Item="Meli",Kind="Sheet"]}[Data],
+				
+				    // =========================
+				    // 🔝 CABEÇALHO
+				    // =========================
+				    Cabecalho = Table.PromoteHeaders(Meli_Sheet, [PromoteAllScalars=true]),
+				
+				    // =========================
+				    // 🧹 LIMPEZA INICIAL
+				    // =========================
+				    RemoverColunas = Table.RemoveColumns(Cabecalho, {"Column2"}),
+				
+				    // =========================
+				    // 🧾 CRIA ANUNCIO
+				    // =========================
+				    CriarAnuncio = Table.AddColumn(
+				        RemoverColunas,
+				        "Anuncio",
+				        each "MLB" & Text.From([ID do anúncio]),
+				        type text
+				    ),
+				
+				    // =========================
+				    // 📊 SELECIONA COLUNAS
+				    // =========================
+				    Selecionar = Table.SelectColumns(
+				        CriarAnuncio,
+				        {"Data", "Visitas únicas", "Anuncio"}
+				    ),
+				
+				    Renomear = Table.RenameColumns(
+				        Selecionar,
+				        {{"Visitas únicas", "Visitas"}}
+				    ),
+				
+				    // =========================
+				    // 🔥 LIMPEZA PESADA (ESSENCIAL)
+				    // =========================
+				    LimpezaNumeros = Table.TransformColumns(
+				        Renomear,
+				        {
+				            {"Visitas", each try Number.From(_) otherwise null, type number}
+				        }
+				    ),
+				
+				    LimpezaDatas = Table.TransformColumns(
+				        LimpezaNumeros,
+				        {
+				            {"Data", each try Date.From(_) otherwise null, type date}
+				        }
+				    ),
+				
+				    // =========================
+				    // 📌 CANAL
+				    // =========================
+				    Canal = Table.AddColumn(
+				        LimpezaDatas,
+				        "Canal",
+				        each "Meli",
+				        type text
+				    ),
+				
+				    // =========================
+				    // 🔁 REMOVE DUPLICADOS
+				    // =========================
+				    SemDuplicados = Table.Distinct(Canal),
+				
+				    // =========================
+				    // 🔗 MERGE PRODUTO
+				    // =========================
+				    MergeProduto = Table.NestedJoin(
+				        SemDuplicados,
+				        {"Anuncio", "Canal"},
+				        #"Anuncio por produto",
+				        {"codigo_produto", "marketplace"},
+				        "Produto",
+				        JoinKind.LeftOuter
+				    ),
+				
+				    ExpandProduto = Table.ExpandTableColumn(
+				        MergeProduto,
+				        "Produto",
+				        {"codigo_auxiliar"},
+				        {"codigo_auxiliar"}
+				    ),
+				
+				    // =========================
+				    // 🔗 MERGE CONTAGEM
+				    // =========================
+				    MergeContagem = Table.NestedJoin(
+				        ExpandProduto,
+				        {"Data", "Anuncio"},
+				        #"Visitas - Meli - Contagem",
+				        {"Data", "Anuncio"},
+				        "ContagemTbl",
+				        JoinKind.LeftOuter
+				    ),
+				
+				    ExpandContagem = Table.ExpandTableColumn(
+				        MergeContagem,
+				        "ContagemTbl",
+				        {"Contagem", "Visitas"},
+				        {"Contagem", "Visitas_Contagem"}
+				    ),
+				
+				    // =========================
+				    // 🔥 LIMPEZA FINAL (CRÍTICA)
+				    // =========================
+				    LimpezaFinal = Table.TransformColumns(
+				        ExpandContagem,
+				        {
+				            {"Visitas", each try Number.From(_) otherwise null, type number},
+				            {"Contagem", each try Number.From(_) otherwise null, type number}
+				        }
+				    ),
+				
+				    // =========================
+				    // 🧮 CÁLCULO SEGURO
+				    // =========================
+				    Calculo = Table.AddColumn(
+				        LimpezaFinal,
+				        "Visitas Rateadas",
+				        each 
+				            try
+				                if [Contagem] = null or [Contagem] = 0 then null
+				                else [Visitas] / [Contagem] * 2.10
+				            otherwise null,
+				        type number
+				    ),
+				
+				    // =========================
+				    // 🏷️ AJUSTE FINAL
+				    // =========================
+				    RenomeioFinal = Table.RenameColumns(
+				        Calculo,
+				        {
+				            {"Anuncio", "Anuncio1"},
+				            {"codigo_auxiliar", "Anuncio"}
+				        }
+				    )
+				
+				in
+				    RenomeioFinal
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

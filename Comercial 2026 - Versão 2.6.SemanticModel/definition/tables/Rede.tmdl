@@ -1,0 +1,49 @@
+table Rede
+	lineageTag: b87f9d55-a97f-4274-bad0-6c3f9d2cab15
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: b427586d-137b-47cc-8683-9c58542eb18e
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b613c9d1-6d0a-49bd-ba0b-185901a4123c
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: da71fd65-a57c-4cb6-92ff-af198f229aad
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Rede = m
+		mode: import
+		queryGroup: Marketplaces\Televendas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Rede.xlsx"), null, true),
+				    Plan1_Sheet = Fonte{[Item="Plan1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Plan1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"data da venda", type date}, {"hora da venda", type datetime}, {"status da venda", type text}, {"valor da venda original", type number}, {"valor da venda atualizado", type any}, {"modalidade", type text}, {"tipo", type text}, {"pré-autorizado", type text}, {"número de parcelas", Int64.Type}, {"bandeira", type text}, {"taxa MDR", type any}, {"valor MDR", type any}, {"taxa de recebimento automático", type any}, {"valor taxa de recebimento automático", type any}, {"taxas descontadas (MDR+recebimento automático)", type any}, {"valor total das taxas descontadas (MDR+recebimento automático)", type any}, {"valor líquido", type any}, {"NSU/CV", Int64.Type}, {"Prazo de recebimento", type text}, {"resumo de vendas/número do lote", type any}, {"número da autorização (Auto)", type any}, {"número do estabelecimento", Int64.Type}, {"nome do estabelecimento", type text}, {"CNPJ", Int64.Type}, {"número do cartão", type text}, {"id carteira digital", type text}, {"meio de pagamento", type text}, {"tipo de maquininha", type text}, {"código da maquininha", type text}, {"TID", type text}, {"número do pedido", type text}, {"taxa de embarque", type text}, {"cancelada pelo estabelecimento", type text}, {"data do cancelamento", type text}, {"valor cancelado", type text}, {"em disputa de chargeback", type text}, {"data que entrou em disputa de chargeback", type text}, {"resolução do chargeback", type text}, {"data da resolução do chargeback", type text}, {"nacionalidade do cartão", type text}, {"moeda estrangeira (DCC)", type text}, {"cartão pré-pago", type text}, {"ID Transação", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"status da venda", "Status MKT"}, {"valor líquido", "Repasse MKT"}, {"número da autorização (Auto)", "Pedido MKT"}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Pedido MKT", type text}, {"Repasse MKT", Currency.Type}}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado1",{"Status MKT", "Repasse MKT", "Pedido MKT"})
+				in
+				    #"Outras Colunas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

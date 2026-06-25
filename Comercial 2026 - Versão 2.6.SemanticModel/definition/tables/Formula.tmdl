@@ -1,0 +1,55 @@
+table Formula
+	lineageTag: c4c71c00-8d88-45d4-a5a7-903a6ccc4015
+
+	column item
+		dataType: int64
+		formatString: 0
+		lineageTag: 2068794a-984d-4fc6-a7df-40366e5d8f1a
+		summarizeBy: none
+		sourceColumn: item
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_composicao
+		dataType: int64
+		formatString: 0
+		lineageTag: b9dff6b4-52d7-4384-9d6d-18ddf1f26272
+		summarizeBy: none
+		sourceColumn: item_composicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtde
+		dataType: double
+		lineageTag: 662c9d71-d96d-42e5-a895-3aca1e5e9be9
+		summarizeBy: sum
+		sourceColumn: qtde
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Formula = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				            "
+				SELECT
+				    produto_formula.id_produto AS Item,
+				    produto_formula.id_produto_composicao AS Item_Composicao,
+				    produto_formula.qtde
+				
+				FROM sysemp.produto_formula
+				"
+				        )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

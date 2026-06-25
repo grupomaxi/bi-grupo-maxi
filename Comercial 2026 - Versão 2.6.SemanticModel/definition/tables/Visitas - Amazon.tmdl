@@ -1,0 +1,94 @@
+table 'Visitas - Amazon'
+	lineageTag: 523237b1-9acb-4545-8210-85a053b26d53
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: aeea2456-8e25-452b-b49e-44c6c8d53f18
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 6e5318a8-6f08-43ea-ab4a-f5c3e5252f0d
+			defaultHierarchy: LocalDateTable_09797fc4-b658-4573-ab6c-2a241f08380b.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Anuncio
+		dataType: string
+		lineageTag: b4cea0d8-8c3b-449b-a028-beb80ce31728
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sessões - Total'
+		dataType: string
+		lineageTag: 015b1bcc-daa9-4be0-9da3-cf22f43960c8
+		summarizeBy: none
+		sourceColumn: Sessões - Total
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 3e8c3e26-474c-47d6-8e27-5e35c0f1bb78
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: e6020975-d51a-4033-b799-1cd62528e994
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: ebfbfa74-0185-4a4d-8588-f2a5dc651fe5
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Visitas Rateadas'
+		dataType: double
+		lineageTag: 364dcbc9-91e3-4971-a541-f933b563ced9
+		summarizeBy: sum
+		sourceColumn: Visitas Rateadas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Visitas - Amazon' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"), null, true),
+				    Amazon_Sheet = Fonte{[Item="Amazon",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Amazon_Sheet, [PromoteAllScalars=true]),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Cabeçalhos Promovidos",{"DATA", "ASIN (parent)", "Sessões - Total"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Outras Colunas Removidas", "Canal", each "Amazon"),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Personalização Adicionada", {"DATA", "ASIN (parent)"}, #"Visitas - Amazon - Contagem", {"Data", "Anuncio"}, "Visitas - Amazon - Contagem", JoinKind.LeftOuter),
+				    #"Visitas - Amazon - Contagem Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "Visitas - Amazon - Contagem", {"Contagem", "Visitas"}, {"Contagem", "Visitas"}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Visitas - Amazon - Contagem Expandido", "Visitas Rateadas", each [Visitas]/[Contagem]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada1",{{"Visitas Rateadas", type number}, {"DATA", type date}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"DATA", "Data"}, {"ASIN (parent)", "Anuncio"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

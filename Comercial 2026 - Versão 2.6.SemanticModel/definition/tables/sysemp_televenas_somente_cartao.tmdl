@@ -1,0 +1,121 @@
+table sysemp_televenas_somente_cartao
+	lineageTag: d9a054f9-6924-4377-a626-d8381eb40fb4
+
+	column data_pedido
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ec9a59a2-3b40-4e1d-a9ed-a5584365663d
+		summarizeBy: none
+		sourceColumn: data_pedido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_nota_saida
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ed78b15-33c8-4a74-a9d6-50b99ce0951d
+		summarizeBy: sum
+		sourceColumn: id_nota_saida
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_tipo_cobranca
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b563648-65c4-4bc9-b373-4c7b4399b422
+		summarizeBy: sum
+		sourceColumn: id_tipo_cobranca
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_pedido_vda_importado
+		dataType: int64
+		formatString: 0
+		lineageTag: 52577ab3-8007-47f1-808c-eb4e093da0b8
+		summarizeBy: sum
+		sourceColumn: id_pedido_vda_importado
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_nota_fiscal
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: d61ecab3-edf5-49af-801a-05502ba748a4
+		summarizeBy: sum
+		sourceColumn: total_nota_fiscal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column descricao
+		dataType: string
+		lineageTag: cd7227e8-8cec-43c6-92c3-a65ed6eaf1b4
+		summarizeBy: none
+		sourceColumn: descricao
+
+		annotation SummarizationSetBy = Automatic
+
+	column aut_cartao_credito
+		dataType: string
+		lineageTag: e2fb6b4e-7dc6-4a97-b06d-4cdb405563cb
+		summarizeBy: none
+		sourceColumn: aut_cartao_credito
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meli.Repasse MKT'
+		dataType: double
+		lineageTag: 61707705-ccb5-4666-9d85-5b43c873581f
+		summarizeBy: sum
+		sourceColumn: Meli.Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Rede.Repasse MKT'
+		dataType: double
+		lineageTag: 3025fdd4-1915-4f99-938a-2d1b65200262
+		summarizeBy: sum
+		sourceColumn: Rede.Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Match?
+		dataType: string
+		lineageTag: 9c5e48cd-c330-4971-8187-6bdd37761d46
+		summarizeBy: none
+		sourceColumn: Match?
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sysemp_televenas_somente_cartao = m
+		mode: import
+		queryGroup: Marketplaces\Televendas
+		source =
+				let
+				    Fonte =
+				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT#(lf)    ns.data_pedido,#(lf)    cc.id_nota_saida,#(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado,#(lf)    MAX(ns.total_nota_fiscal) AS total_nota_fiscal,#(lf)    STRING_AGG(DISTINCT tc.descricao, ', ') AS descricao,#(lf)    LTRIM(MAX(cc.aut_cartao_credito), '0') AS aut_cartao_credito#(lf)FROM sysemp.conta_corrente cc#(lf)INNER JOIN sysemp.nota_saida ns#(lf)    ON ns.id_nota_saida = cc.id_nota_saida#(lf)LEFT JOIN sysemp.tipo_cobranca tc#(lf)    ON tc.id_tipo_cobranca = cc.id_tipo_cobranca#(lf)WHERE (#(lf)        ns.id_atendimento IN (24,26,41)#(lf)        OR (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)      )#(lf)  AND ns.data_pedido >= '2026-01-01'#(lf)  AND ns.tipo_documento = 'NF'#(lf)  AND ns.id_nat_operacao IN (#(lf)        1,2,3,4,19,48,83,84,90,96,#(lf)        103,105,106,114,115,116,119,121#(lf)      )#(lf)  AND cc.id_tipo_cobranca NOT IN (100, 1)#(lf)GROUP BY#(lf)    ns.data_pedido,#(lf)    cc.id_nota_saida,#(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado;"),
+				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(Fonte,{{"descricao", Text.Proper, type text}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colocar Cada Palavra Em Maiúscula", {"id_pedido_vda_importado"}, #"Meli |  Televendas", {"Pedido MKT"}, "Meli |  Televendas", JoinKind.LeftOuter),
+				    #"Meli |  Televendas Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Meli |  Televendas", {"Repasse MKT"}, {"Meli.Repasse MKT"}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Meli |  Televendas Expandido", {"aut_cartao_credito"}, #"Rede + Cielo", {"Pedido MKT"}, "Rede", JoinKind.LeftOuter),
+				    #"Rede Expandido1" = Table.ExpandTableColumn(#"Consultas Mescladas1", "Rede", {"Repasse MKT"}, {"Rede.Repasse MKT"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Rede Expandido1",{{"Rede.Repasse MKT", Currency.Type}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Tipo Alterado",null,0,Replacer.ReplaceValue,{"Meli.Repasse MKT", "Rede.Repasse MKT"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Valor Substituído", "Match?", each if [Meli.Repasse MKT] = 0 and [Rede.Repasse MKT] = 0 then
+				    "sem match"
+				else
+				    "com match")
+				in
+				    #"Personalização Adicionada"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,75 @@
+table 'Amazon |  Last 2 M'
+	isHidden
+	lineageTag: faa4888d-2ead-4750-ad39-a54f7ece6189
+
+	column 'Pedido MKT'
+		dataType: string
+		isHidden
+		lineageTag: b85fdd66-cb25-40e9-b906-f0c0b3f9b3cd
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		isHidden
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 4b18d1a2-1f70-46da-bab7-1618f8383f55
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		isHidden
+		lineageTag: bb74ee04-c786-4638-a699-da5605040abf
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		isHidden
+		lineageTag: e6d035c4-2eb1-4f5e-99d9-0efed2da4832
+		summarizeBy: none
+		sourceColumn: Canal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Amazon |  Last 2 M' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repase - 2M'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Amazon%20-%20Last%202%20M%202.0.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Cabeçalhos Promovidos"," GMT-7","",Replacer.ReplaceText,{"data/hora"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído"," GMT-8","",Replacer.ReplaceText,{"data/hora"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Valor Substituído1",{{"data/hora", "Data Pedido"}, {"id do pedido", "Pedido MKT"}, {"total", "Repasse MKT"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Data Pedido", type datetime}, {"Repasse MKT", Currency.Type}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each [Data Pedido] < #datetime(2025, 12, 1, 0, 0, 0)),
+				    #"Linhas Agrupadas" = Table.Group(#"Linhas Filtradas", {"Pedido MKT"}, {{"Repasse MKT", each List.Sum([Repasse MKT]), type nullable number}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Linhas Agrupadas", "Status MKT", each "Aprovado"),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Personalização Adicionada", "Canal", each "Amazon"),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada1",{{"Repasse MKT", Currency.Type}, {"Status MKT", type text}})
+				in
+				    #"Tipo Alterado1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

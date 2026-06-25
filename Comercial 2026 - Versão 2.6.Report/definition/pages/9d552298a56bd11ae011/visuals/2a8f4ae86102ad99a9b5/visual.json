@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "2a8f4ae86102ad99a9b5",
+  "position": {
+    "x": 29.11392405063291,
+    "y": 264.55696202531647,
+    "z": 2000,
+    "height": 713.92405063291142,
+    "width": 492.40506329113924,
+    "tabOrder": 35000
+  },
+  "visualGroup": {
+    "displayName": "COMODORO",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

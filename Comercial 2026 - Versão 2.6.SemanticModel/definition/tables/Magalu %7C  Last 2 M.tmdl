@@ -1,0 +1,649 @@
+table 'Magalu |  Last 2 M'
+	isHidden
+	lineageTag: 7b4265fa-3f66-4601-acc2-8482511a8152
+
+	column 'Relatório solicitado em: Data/Hora'
+		dataType: string
+		isHidden
+		lineageTag: d5080ba0-dd5a-482f-88e9-887054144a82
+		summarizeBy: none
+		sourceColumn: Relatório solicitado em: Data/Hora
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da Loja'
+		dataType: string
+		isHidden
+		lineageTag: b734a494-28ff-41be-9f28-3a61b19e333d
+		summarizeBy: none
+		sourceColumn: Nome da Loja
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Inicial do Relatório'
+		dataType: string
+		isHidden
+		lineageTag: 78c673bf-02f6-4c89-9964-75cbabaf9c35
+		summarizeBy: none
+		sourceColumn: Data Inicial do Relatório
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data final do Relatório'
+		dataType: string
+		isHidden
+		lineageTag: b219dc17-828f-4115-9b1a-0b9f12537a5c
+		summarizeBy: none
+		sourceColumn: Data final do Relatório
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número do pedido'
+		dataType: string
+		isHidden
+		lineageTag: 01ecfbf5-1daa-4e13-b94b-5a75ef75fd09
+		summarizeBy: none
+		sourceColumn: Número do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data/Hora do Pedido'
+		dataType: string
+		isHidden
+		lineageTag: 020a062b-49e5-4c85-9bb2-6e8cd6365771
+		summarizeBy: none
+		sourceColumn: Data/Hora do Pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status do pedido no momento em que o relatório foi solicitado'
+		dataType: string
+		isHidden
+		lineageTag: c9a22788-28dd-43cc-bd46-9f0f282c67c9
+		summarizeBy: none
+		sourceColumn: Status do pedido no momento em que o relatório foi solicitado
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modalidade de Entrega'
+		dataType: string
+		isHidden
+		lineageTag: a9c30c14-197f-48ba-a799-3a84366aa4c1
+		summarizeBy: none
+		sourceColumn: Modalidade de Entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total do pedido pago pelo cliente'
+		dataType: string
+		isHidden
+		lineageTag: a8e343e3-8ebc-4e6b-a7de-942963f975b6
+		summarizeBy: none
+		sourceColumn: Valor total do pedido pago pelo cliente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total dos itens do pedido'
+		dataType: string
+		isHidden
+		lineageTag: ce5f6263-3566-48b0-b070-fe49e80ecacb
+		summarizeBy: none
+		sourceColumn: Valor total dos itens do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forma de pagamento 1'
+		dataType: string
+		isHidden
+		lineageTag: 10f9bfe7-12b8-43a7-9b50-18b4525463fa
+		summarizeBy: none
+		sourceColumn: Forma de pagamento 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total de Parcelas (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: 0ca37824-e754-42da-aee8-eaa0ef4289fb
+		summarizeBy: none
+		sourceColumn: Total de Parcelas (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bandeira (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: 3fdf9ecb-c6ed-4f22-8df9-6510adb65080
+		summarizeBy: none
+		sourceColumn: Bandeira (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de Autorização (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: e5717765-c2f3-489f-9b9d-ad0b83cc8748
+		summarizeBy: none
+		sourceColumn: Código de Autorização (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de Integração (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: 1d691541-c7ca-4822-a5e6-4ccd5024badb
+		summarizeBy: none
+		sourceColumn: Tipo de Integração (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Credenciadora (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: b0547982-8b30-49c5-bdbf-4a71e2ce2c11
+		summarizeBy: none
+		sourceColumn: Credenciadora (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: 96170e4d-eab9-4efd-90f8-cf555a659412
+		summarizeBy: none
+		sourceColumn: Valor total (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor bruto da parcela (Forma de pagamento 1)'
+		dataType: string
+		isHidden
+		lineageTag: 813c02c0-df02-431f-a6d3-cb2e701fc216
+		summarizeBy: none
+		sourceColumn: Valor bruto da parcela (Forma de pagamento 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forma de pagamento 2'
+		dataType: string
+		isHidden
+		lineageTag: 0a306d75-7009-4b18-bc77-d55259ecb70b
+		summarizeBy: none
+		sourceColumn: Forma de pagamento 2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total de Parcelas (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: 1d331f5b-39e5-4a24-b14a-7a31a4acb577
+		summarizeBy: none
+		sourceColumn: Total de Parcelas (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Bandeira (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: 9d726116-9c7d-4470-bf23-e6cd85278810
+		summarizeBy: none
+		sourceColumn: Bandeira (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de Autorização (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: 9745e5f9-c288-4f19-8440-ece592a7156a
+		summarizeBy: none
+		sourceColumn: Código de Autorização (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de Integração (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: dc2be5fb-883a-4159-9b51-089d5d61ffc9
+		summarizeBy: none
+		sourceColumn: Tipo de Integração (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Credenciadora (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: 7b9e5676-85b0-4cba-8437-1cc5452eac5e
+		summarizeBy: none
+		sourceColumn: Credenciadora (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: d151f3f8-ad1c-4ae3-9d93-d53a39e763e7
+		summarizeBy: none
+		sourceColumn: Valor total (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor bruto da parcela (Forma de pagamento 2)'
+		dataType: string
+		isHidden
+		lineageTag: 14d8045d-20c1-47a9-a53c-c96eaf9db9cd
+		summarizeBy: none
+		sourceColumn: Valor bruto da parcela (Forma de pagamento 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modelo Recebível'
+		dataType: string
+		isHidden
+		lineageTag: 8a1dbc86-585d-44ba-afd7-c6f10c9a7889
+		summarizeBy: none
+		sourceColumn: Modelo Recebível
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Coparticipação de Fretes estimada'
+		dataType: string
+		isHidden
+		lineageTag: 151b63cc-d01b-4f99-8904-7ba4089ecc4d
+		summarizeBy: none
+		sourceColumn: Coparticipação de Fretes estimada
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Juros
+		dataType: string
+		isHidden
+		lineageTag: 6ae7c4ea-4f66-4c61-b6ce-3b9ee0836c26
+		summarizeBy: none
+		sourceColumn: Juros
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de antecipação'
+		dataType: string
+		isHidden
+		lineageTag: 0689654c-1bf8-484e-a0c9-ad85114186ba
+		summarizeBy: none
+		sourceColumn: Taxa de antecipação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Custos logísticos'
+		dataType: string
+		isHidden
+		lineageTag: f4c18f49-cf4e-46d2-b3c2-8b82ba2bd83c
+		summarizeBy: none
+		sourceColumn: Custos logísticos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descontos (*)'
+		dataType: string
+		isHidden
+		lineageTag: 23e6c263-ddf7-4adc-a206-1a2be7bc3f99
+		summarizeBy: none
+		sourceColumn: Descontos (*)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor do repasse financeiro (**)'
+		dataType: string
+		isHidden
+		lineageTag: d23ba348-cc20-48cc-bb83-efe3f0d3d323
+		summarizeBy: none
+		sourceColumn: Valor do repasse financeiro (**)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Coparticipação de descontos (***) Pago pelo magalu Desconto à Vista'
+		dataType: string
+		isHidden
+		lineageTag: d96290a4-199c-45da-a73d-37393e25fec6
+		summarizeBy: none
+		sourceColumn: Coparticipação de descontos (***) Pago pelo magalu Desconto à Vista
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Coparticipação de descontos (***) Pago por você (seller) Desconto à Vista'
+		dataType: string
+		isHidden
+		lineageTag: 91aead03-bc3c-413b-9aa9-d8056332b8c0
+		summarizeBy: none
+		sourceColumn: Coparticipação de descontos (***) Pago por você (seller) Desconto à Vista
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Coparticipação de descontos (***) Pago pelo magalu Preço Promocional'
+		dataType: string
+		isHidden
+		lineageTag: 8675d0a4-414b-4f1f-a38b-2cdf95b4be14
+		summarizeBy: none
+		sourceColumn: Coparticipação de descontos (***) Pago pelo magalu Preço Promocional
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Coparticipação de descontos (***) Pago por você (seller) Preço Promocional'
+		dataType: string
+		isHidden
+		lineageTag: b21c8072-da65-4d9e-b62f-cd0a8a111c29
+		summarizeBy: none
+		sourceColumn: Coparticipação de descontos (***) Pago por você (seller) Preço Promocional
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor subsídio Cupom (R$) Pago pelo magalu'
+		dataType: string
+		isHidden
+		lineageTag: b8198ba8-5eae-4a58-aa7c-355e8571d513
+		summarizeBy: none
+		sourceColumn: Valor subsídio Cupom (R$) Pago pelo magalu
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor subsídio Cupom (R$) Pago por você (seller)'
+		dataType: string
+		isHidden
+		lineageTag: 85badaaa-2976-4feb-89fc-04545ba87e9c
+		summarizeBy: none
+		sourceColumn: Valor subsídio Cupom (R$) Pago por você (seller)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor líquido estimado a receber (****)'
+		dataType: string
+		isHidden
+		lineageTag: 23d15c36-2f3d-4782-81a8-b83fd83e639e
+		summarizeBy: none
+		sourceColumn: Valor líquido estimado a receber (****)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Previsão de liberação de recebível'
+		dataType: string
+		isHidden
+		lineageTag: aca4da3d-06cf-430d-9a18-3462f6857df3
+		summarizeBy: none
+		sourceColumn: Previsão de liberação de recebível
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nota de Reputação'
+		dataType: string
+		isHidden
+		lineageTag: 4e87bd68-4a3c-4d63-a7bb-8ca6e1a24492
+		summarizeBy: none
+		sourceColumn: Nota de Reputação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data apuração Score'
+		dataType: string
+		isHidden
+		lineageTag: 35e35113-e2b3-4650-8611-87f4a0e600f2
+		summarizeBy: none
+		sourceColumn: Data apuração Score
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MagaluPay
+		dataType: string
+		isHidden
+		lineageTag: 27109e33-68d6-44b9-bd6b-764e33485495
+		summarizeBy: none
+		sourceColumn: MagaluPay
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Canal de Venda'
+		dataType: string
+		lineageTag: 31b0752b-b9ac-4c55-aa31-25a41b0dc684
+		summarizeBy: none
+		sourceColumn: Canal de Venda
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Último Evento'
+		dataType: string
+		lineageTag: 7984c849-fdb6-47eb-a2d1-b4e04fc707e0
+		summarizeBy: none
+		sourceColumn: Último Evento
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços do marketplace (%) (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: ac9d1a43-0752-4956-98ee-6f1df061e4d7
+		summarizeBy: none
+		sourceColumn: Serviços do marketplace (%) (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços do marketplace (1+2+3+4) (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: 5f3a2a4f-577b-447a-8c94-3e92b122899b
+		summarizeBy: none
+		sourceColumn: Serviços do marketplace (1+2+3+4) (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços de intermediação (1) (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: eedb10b6-45ec-4d59-a8db-7625a3425e24
+		summarizeBy: none
+		sourceColumn: Serviços de intermediação (1) (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços de tecnologia (2) (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: 260460b8-6532-4bf1-b773-3b6da51da9ea
+		summarizeBy: none
+		sourceColumn: Serviços de tecnologia (2) (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Intermediações financeiras (MDR) (3) (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: 7efcdb82-58ed-439f-9908-61933dd9c1c5
+		summarizeBy: none
+		sourceColumn: Intermediações financeiras (MDR) (3) (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Adm e gestão de recebíveis (4) (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: a702f273-e217-4d16-b95c-9607f4c584b2
+		summarizeBy: none
+		sourceColumn: Adm e gestão de recebíveis (4) (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modalidade (Forma de pagamento 1)'
+		dataType: string
+		lineageTag: 190d65be-f7f4-47eb-9b14-493200294a51
+		summarizeBy: none
+		sourceColumn: Modalidade (Forma de pagamento 1)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços do marketplace (%) (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: 60441eeb-c614-4397-8037-dd138270f801
+		summarizeBy: none
+		sourceColumn: Serviços do marketplace (%) (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços do marketplace (1+2+3+4) (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: 083e2e38-ce41-43f0-8ab9-b9552bfb523a
+		summarizeBy: none
+		sourceColumn: Serviços do marketplace (1+2+3+4) (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços de intermediação (1) (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: 7dc546b6-a2bd-4e5e-bae0-04e741ad319f
+		summarizeBy: none
+		sourceColumn: Serviços de intermediação (1) (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Serviços de tecnologia (2) (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: 4b8465f6-fe82-42a2-b8f3-a1b4192a6a62
+		summarizeBy: none
+		sourceColumn: Serviços de tecnologia (2) (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Intermediações financeiras (MDR) (3) (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: f99ee8ac-aedb-4265-a0ab-26b5e1d3bb9a
+		summarizeBy: none
+		sourceColumn: Intermediações financeiras (MDR) (3) (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Adm e gestão de recebíveis (4) (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: 7ef16329-63b6-4d9c-acff-2b6c5c421054
+		summarizeBy: none
+		sourceColumn: Adm e gestão de recebíveis (4) (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modalidade (Forma de pagamento 2)'
+		dataType: string
+		lineageTag: 609a09f5-e0b8-40ec-9177-b11cf8798cab
+		summarizeBy: none
+		sourceColumn: Modalidade (Forma de pagamento 2)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tarifa fixa'
+		dataType: string
+		lineageTag: 83042258-dad4-4a9a-85c3-ba8d8cc7c96f
+		summarizeBy: none
+		sourceColumn: Tarifa fixa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CD de Origem'
+		dataType: string
+		lineageTag: 77a54b26-3059-4dc2-a49a-72f8ce8fe9a7
+		summarizeBy: none
+		sourceColumn: CD de Origem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Magalu |  Last 2 M' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repase - 2M'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Magalu%20-%20Last%202%20M.xlsx"), null, true),
+				    Planilha2_Sheet = Fonte{[Item="Planilha2",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha2_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Cabeçalhos Promovidos"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

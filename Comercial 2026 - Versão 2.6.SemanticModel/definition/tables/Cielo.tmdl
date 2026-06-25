@@ -1,0 +1,48 @@
+table Cielo
+	lineageTag: 8c06d6e8-fd04-4c0d-831f-adc798c4ee81
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b6f762b4-8d2a-41fa-b2cd-846596936715
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: ec80646b-0179-4108-8134-ce96e5cea9f3
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 0969b2fc-2c45-41cf-ae4b-0ffe6321ca74
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cielo = m
+		mode: import
+		queryGroup: Marketplaces\Televendas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Cielo.xlsx"), null, true),
+				    Plan1_Sheet = Fonte{[Item="Plan1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Plan1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Valor líquido", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Status da venda", "Status MKT"}, {"Código de autorização", "Pedido MKT"}, {"Valor líquido", "Repasse MKT"}}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Colunas Renomeadas",{"Repasse MKT", "Status MKT", "Pedido MKT"})
+				in
+				    #"Outras Colunas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

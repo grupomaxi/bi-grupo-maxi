@@ -1,0 +1,91 @@
+table 'Visitas - Magalu'
+	lineageTag: 159c2ab9-aabf-451b-9a0b-a9591b7e5924
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 14570497-02bc-4e54-881a-a6ce6379b087
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: cc64cb5a-d16f-42ab-9fa5-3a93c818edbc
+			defaultHierarchy: LocalDateTable_d265e847-2a64-4057-9930-cea511849014.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Anuncio
+		dataType: string
+		lineageTag: 2bdf6663-d362-4e9e-8e84-e3be386724f4
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: 24d99bca-adcf-4653-bf0c-de813d9beeaf
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Contagem
+		dataType: double
+		lineageTag: ee18bb76-e8e9-4bb4-8c54-5c347dba74f4
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Visitas Rateadas'
+		dataType: double
+		lineageTag: 1c8a1912-2a36-414a-bd12-8ebcef9f9019
+		summarizeBy: sum
+		sourceColumn: Visitas Rateadas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Canal
+		dataType: string
+		lineageTag: 1e4a0bee-4cd3-41ef-a64c-85313ce10e89
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Visitas - Magalu' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"), null, true),
+				    Magalu_Sheet = Fonte{[Item="Magalu",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Magalu_Sheet, [PromoteAllScalars=true]),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Cabeçalhos Promovidos",{"Column2", "Loja", "Canal", "Total de Vendas", "Pedidos Finalizados", "ConversÃ£o", "Cancelamentos", "Ticket MÃ©dio", "Link do Produto", "Data AnÃ¡lise"}),
+				    #"Linhas Agrupadas" = Table.Group(#"Colunas Removidas", {"Data", "SKU"}, {{"Visitas", each List.Sum([Quantidade de Visitas]), type nullable number}, {"Contagem", each Table.RowCount(_), Int64.Type}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Linhas Agrupadas", "Visitas Rateadas", each if [Contagem] = 1 then
+				            [Visitas] / [Contagem]
+				         else if [Contagem] > 1 then
+				            [Visitas] / ([Contagem] - 1)
+				         else
+				            null),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Data", type date}, {"Visitas Rateadas", type number}, {"Contagem", type number}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"SKU", "Anuncio"}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Colunas Renomeadas", "Canal", each "Magalu")
+				in
+				    #"Personalização Adicionada1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

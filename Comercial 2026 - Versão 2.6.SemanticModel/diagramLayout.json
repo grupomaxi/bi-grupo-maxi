@@ -1,0 +1,1193 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 4883.8078362182341,
+        "y": 2243.1675437121821
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 4086,
+            "y": 2912
+          },
+          "nodeIndex": "NSI Left Join NS + Left Anti NS Devol",
+          "nodeLineageTag": "a0ecd6eb-af9e-4d07-ac9d-d8849e4e10fc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 3749.4325954529995,
+            "y": 862
+          },
+          "nodeIndex": "Atendimento",
+          "nodeLineageTag": "f4d2e0ae-6d80-4de0-9900-396a50ce3f6d",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 3528.6743334188513,
+            "y": 1774.0027308711769
+          },
+          "nodeIndex": "Ads - Planilha",
+          "nodeLineageTag": "25d70de2-5851-4c68-8b9c-e2573b1d03ee",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 2098.4309353228327,
+            "y": 2898.8686849243877
+          },
+          "nodeIndex": "Ads Amazon",
+          "nodeLineageTag": "6f4def79-5df3-417c-9fcb-50de989bbe5b",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 1812.9002268232293,
+            "y": 2894.4343113220484
+          },
+          "nodeIndex": "Ads Magalu",
+          "nodeLineageTag": "ea12da5e-75d2-4085-a6e4-72fe31da37d6",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 2095.9619931711368,
+            "y": 2623.4868248962357
+          },
+          "nodeIndex": "Ads Meli",
+          "nodeLineageTag": "6406629e-f639-4ff9-9a40-83dfe88348e9",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 17
+        },
+        {
+          "location": {
+            "x": 1823.2472691808634,
+            "y": 2593
+          },
+          "nodeIndex": "Ads shopee",
+          "nodeLineageTag": "b72f8592-38dc-4351-908a-667e8ce258e0",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 18
+        },
+        {
+          "location": {
+            "x": 957.76877646820594,
+            "y": 1752.8811438048149
+          },
+          "nodeIndex": "Amazon |  Last 2 M",
+          "nodeLineageTag": "faa4888d-2ead-4750-ad39-a54f7ece6189",
+          "size": {
+            "height": 170.35526069946218,
+            "width": 234
+          },
+          "zIndex": 72
+        },
+        {
+          "location": {
+            "x": 699.21277652600656,
+            "y": 1788
+          },
+          "nodeIndex": "Amazon | Legado",
+          "nodeLineageTag": "9678161d-0654-4da7-a60f-cebb74cec12c",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 19
+        },
+        {
+          "location": {
+            "x": 1274.9584649441495,
+            "y": 322
+          },
+          "nodeIndex": "Amazon | Mescla",
+          "nodeLineageTag": "84cf2457-e1f5-4d16-a1fd-68b6724db7ff",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 20
+        },
+        {
+          "location": {
+            "x": 1270.1782838711406,
+            "y": 1861
+          },
+          "nodeIndex": "Amazon | Simnulado",
+          "nodeLineageTag": "b8c9f7f2-f075-4989-82af-84e75ad7a812",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 21
+        },
+        {
+          "location": {
+            "x": 855.61792172511559,
+            "y": 2256
+          },
+          "nodeIndex": "Amazon | Simnulado | Agrupado",
+          "nodeLineageTag": "db4508a3-3c62-40f6-b2b5-7f30575bbb95",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 22
+        },
+        {
+          "location": {
+            "x": 188.5,
+            "y": 486.5
+          },
+          "nodeIndex": "Americanas | Last 2 M",
+          "nodeLineageTag": "9fb01c6c-9cff-40cb-a050-688ad9909bcc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 23
+        },
+        {
+          "location": {
+            "x": 433.74568841814221,
+            "y": 480.5
+          },
+          "nodeIndex": "Americanas | Legado",
+          "nodeLineageTag": "95df9865-4f61-4b63-8595-72a88f23cfbe",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 67
+        },
+        {
+          "location": {
+            "x": 1275.9239722892817,
+            "y": 2034
+          },
+          "nodeIndex": "Americanas | Mescla",
+          "nodeLineageTag": "b4806475-3676-4b28-bfa9-3e438b27a3f5",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 24
+        },
+        {
+          "location": {
+            "x": 5190.7041533622923,
+            "y": 3097
+          },
+          "nodeIndex": "Anuncio por produto",
+          "nodeLineageTag": "a4ea324a-97e3-4bb7-81eb-363148ca5437",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 25
+        },
+        {
+          "location": {
+            "x": 4273.74895259386,
+            "y": 789.77272727272748
+          },
+          "nodeIndex": "Base",
+          "nodeLineageTag": "676a4474-59b9-493a-ac33-889432385c70",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 79
+        },
+        {
+          "location": {
+            "x": 3015.6756768443993,
+            "y": 1149.6422583035671
+          },
+          "nodeIndex": "Base - Visitas",
+          "nodeLineageTag": "55455813-c1dd-467c-87f9-e8fe933910c7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 26
+        },
+        {
+          "location": {
+            "x": 185.34601098376379,
+            "y": 799.5
+          },
+          "nodeIndex": "Carrefour | Last 2 M",
+          "nodeLineageTag": "cacc297a-6417-44c3-b152-d2ac806e45f4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 27
+        },
+        {
+          "location": {
+            "x": 434.09169940190577,
+            "y": 802
+          },
+          "nodeIndex": "Carrefour | Legado",
+          "nodeLineageTag": "df55f3ee-8626-4ed6-9dcf-f8cec4f13261",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 28
+        },
+        {
+          "location": {
+            "x": 1277.4153491255638,
+            "y": 1661
+          },
+          "nodeIndex": "Carrefour | Mescla",
+          "nodeLineageTag": "50f30f9b-cee4-45d3-8019-c601b683798c",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 29
+        },
+        {
+          "location": {
+            "x": 4903.1855548026542,
+            "y": 3090.7411540468124
+          },
+          "nodeIndex": "De Para Status",
+          "nodeLineageTag": "e6a83e9f-904b-4856-a9d9-64141e03da63",
+          "size": {
+            "height": 184.36011892843453,
+            "width": 234
+          },
+          "zIndex": 74
+        },
+        {
+          "location": {
+            "x": 4270.1610375437049,
+            "y": 1776
+          },
+          "nodeIndex": "Formula",
+          "nodeLineageTag": "c4c71c00-8d88-45d4-a5a7-903a6ccc4015",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 30
+        },
+        {
+          "location": {
+            "x": 5208.1003225656223,
+            "y": 2894.0472186265379
+          },
+          "nodeIndex": "Formula Agrupado - Item",
+          "nodeLineageTag": "2e305409-0382-4594-8c0c-f1149382735a",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 73
+        },
+        {
+          "location": {
+            "x": 700.33738782004775,
+            "y": 1120
+          },
+          "nodeIndex": "Leroy | Last 2 M",
+          "nodeLineageTag": "e9d40571-c216-4859-aa86-07764ec80f77",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 31
+        },
+        {
+          "location": {
+            "x": 958.58307623818973,
+            "y": 1117.5
+          },
+          "nodeIndex": "Leroy | Legado",
+          "nodeLineageTag": "bd138df4-6a16-4800-b18e-2810964b390b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 32
+        },
+        {
+          "location": {
+            "x": 1267.240059295179,
+            "y": 850.66666666666652
+          },
+          "nodeIndex": "Leroy | Mescla",
+          "nodeLineageTag": "c09ef180-48b1-4937-895b-7f11cdd838dc",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 33
+        },
+        {
+          "location": {
+            "x": 684.32876465633171,
+            "y": 802.5
+          },
+          "nodeIndex": "Madeira | Last 2 M",
+          "nodeLineageTag": "6604098e-5d2d-454d-b276-b3d3074dec30",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 34
+        },
+        {
+          "location": {
+            "x": 687.57445307447415,
+            "y": 480
+          },
+          "nodeIndex": "Madeira | Legado",
+          "nodeLineageTag": "b9fddcb4-62ed-4551-8a0a-6ceed970e93f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 35
+        },
+        {
+          "location": {
+            "x": 1269.652414379987,
+            "y": 2424
+          },
+          "nodeIndex": "Madeira | Mescla",
+          "nodeLineageTag": "386c93bc-68ea-4684-a17a-ce28c26856ee",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 36
+        },
+        {
+          "location": {
+            "x": 440.82014149261613,
+            "y": 1120
+          },
+          "nodeIndex": "Magalu |  Last 2 M",
+          "nodeLineageTag": "7b4265fa-3f66-4601-acc2-8482511a8152",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 37
+        },
+        {
+          "location": {
+            "x": 180,
+            "y": 1125
+          },
+          "nodeIndex": "Magalu | Legado",
+          "nodeLineageTag": "f180a653-2d82-41a4-b2d5-cb162919d066",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 38
+        },
+        {
+          "location": {
+            "x": 1275.3981027981281,
+            "y": 1464
+          },
+          "nodeIndex": "Magalu | Mescla",
+          "nodeLineageTag": "965c2841-5e7e-465f-a440-54ddf8f1b8ed",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 39
+        },
+        {
+          "location": {
+            "x": 1281.1437912162692,
+            "y": 2221
+          },
+          "nodeIndex": "Meli |  Acrescentar",
+          "nodeLineageTag": "14916b95-d16d-4d99-8180-74b0f4fe40d9",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 40
+        },
+        {
+          "location": {
+            "x": 1267.0539425713246,
+            "y": 521.87878787878788
+          },
+          "nodeIndex": "Meli | Acresc - para verificação",
+          "nodeLineageTag": "2f2ac7e9-e9ad-4dbc-a29a-8f194c92879a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 41
+        },
+        {
+          "location": {
+            "x": 177.22387341370904,
+            "y": 1446.666666666667
+          },
+          "nodeIndex": "Meli | Last 2 M",
+          "nodeLineageTag": "1d4e5744-b5c2-424e-9dc4-28f5e74341c1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 42
+        },
+        {
+          "location": {
+            "x": 436.3028951651836,
+            "y": 1446.6666666666665
+          },
+          "nodeIndex": "Meli | Legado",
+          "nodeLineageTag": "fa58ce87-9517-428f-93c6-4b12bedcfec0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 43
+        },
+        {
+          "location": {
+            "x": 1261.3636101432567,
+            "y": 1076
+          },
+          "nodeIndex": "Meli | Mescla",
+          "nodeLineageTag": "80babc7f-6ba4-4bfc-bff0-3253a9c528eb",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 44
+        },
+        {
+          "location": {
+            "x": 1647.8652930208568,
+            "y": 1111.190573360632
+          },
+          "nodeIndex": "MKT's | 1 - Acrescentar",
+          "nodeLineageTag": "9a409489-cf16-4f5a-a2f2-e100731a710a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 45
+        },
+        {
+          "location": {
+            "x": 3806.8894796344102,
+            "y": 2924
+          },
+          "nodeIndex": "NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)",
+          "nodeLineageTag": "ca7e282a-008d-490a-858d-6b6964250315",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 46
+        },
+        {
+          "location": {
+            "x": 789.08010810644737,
+            "y": 3677.823829578997
+          },
+          "nodeIndex": "pag-brasil",
+          "nodeLineageTag": "2a610d4d-cd71-4427-9b17-ba9f1272c08b",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 47
+        },
+        {
+          "location": {
+            "x": 4270.460938668135,
+            "y": 1259.939393939394
+          },
+          "nodeIndex": "produto",
+          "nodeLineageTag": "f310f033-ab3d-4bac-9546-0f786327b9ea",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 77
+        },
+        {
+          "location": {
+            "x": 4421.4794704463766,
+            "y": 3247.0501917047545
+          },
+          "nodeIndex": "Report de produtos",
+          "nodeLineageTag": "0d164e8d-d7b0-46e7-add4-4a340c1a191d",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 48
+        },
+        {
+          "location": {
+            "x": 5203.1092985613977,
+            "y": 1126
+          },
+          "nodeIndex": "Shopee | Afiliados",
+          "nodeLineageTag": "c551f041-3742-4155-93ad-fbae061167a2",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 75
+        },
+        {
+          "location": {
+            "x": 693.53996041961,
+            "y": 1443.3333333333335
+          },
+          "nodeIndex": "Shopee | Last 2 M",
+          "nodeLineageTag": "ea862e19-914c-4fed-ae79-4f66a2402bce",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 69
+        },
+        {
+          "location": {
+            "x": 955.95231550441838,
+            "y": 1440
+          },
+          "nodeIndex": "Shopee | Legado",
+          "nodeLineageTag": "abb3645b-d00d-46ba-b7cd-6efa8557d9fd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 68
+        },
+        {
+          "location": {
+            "x": 1252.6351680525513,
+            "y": 1281
+          },
+          "nodeIndex": "Shopee | Mescla",
+          "nodeLineageTag": "e58e85e5-1ffd-4203-b4b2-ee7c8b2514a3",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 49
+        },
+        {
+          "location": {
+            "x": 175.0313372558935,
+            "y": 1770.0000000000002
+          },
+          "nodeIndex": "Via Boleto | Last 2M",
+          "nodeLineageTag": "288bee3f-0250-4db1-a7a3-b19a8dc89f2b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 70
+        },
+        {
+          "location": {
+            "x": 437.44369234070291,
+            "y": 1763.3333333333333
+          },
+          "nodeIndex": "Via Boleto | Legado",
+          "nodeLineageTag": "4c526a4e-1d92-433c-8139-f5522bfbf3c6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 50
+        },
+        {
+          "location": {
+            "x": 468.38085647069238,
+            "y": 2161
+          },
+          "nodeIndex": "Via Boleto | Mescla",
+          "nodeLineageTag": "b3298b37-d9c0-4965-b97c-9adda4d4335b",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 51
+        },
+        {
+          "location": {
+            "x": 194.12654488883345,
+            "y": 2134
+          },
+          "nodeIndex": "Via Cartão | 2M",
+          "nodeLineageTag": "5c37ae1d-6a1f-4dbd-b884-93d73476a2cc",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 71
+        },
+        {
+          "location": {
+            "x": 3020.2645155082919,
+            "y": 3861
+          },
+          "nodeIndex": "Visitas - Amazon",
+          "nodeLineageTag": "7e249fcf-71c3-42de-9a85-14be2dd5dc74",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 52
+        },
+        {
+          "location": {
+            "x": 1462.9412186167174,
+            "y": 2858
+          },
+          "nodeIndex": "Visitas - Amazon - Contagem",
+          "nodeLineageTag": "3c4ee93e-a28e-426a-bcc9-57f8dcfe6d71",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 53
+        },
+        {
+          "location": {
+            "x": 3322.9085768595346,
+            "y": 3452.69696969697
+          },
+          "nodeIndex": "Visitas - Magalu",
+          "nodeLineageTag": "1dc9e014-47d0-444c-b03b-95f841077108",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 54
+        },
+        {
+          "location": {
+            "x": 3634.8560474255128,
+            "y": 3730.666666666667
+          },
+          "nodeIndex": "Visitas - Meli",
+          "nodeLineageTag": "7f072f31-2179-4595-8777-460fc6ecb74d",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 55
+        },
+        {
+          "location": {
+            "x": 3008.0366056954231,
+            "y": 3207.0918209044644
+          },
+          "nodeIndex": "Visitas - Meli - Contagem",
+          "nodeLineageTag": "649c4bb1-51df-48f6-bb48-d070e274ed49",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 56
+        },
+        {
+          "location": {
+            "x": 3330.6017358436557,
+            "y": 3731.424242424242
+          },
+          "nodeIndex": "Visitas - Shopee",
+          "nodeLineageTag": "3aef5fa5-49f8-4a6d-90a0-985259012c01",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 57
+        },
+        {
+          "location": {
+            "x": 3013.6869070348585,
+            "y": 3642
+          },
+          "nodeIndex": "Visitas - Shopee - Contagem",
+          "nodeLineageTag": "e78c7c69-a9a4-4fad-9b01-14f6dae4ff36",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 58
+        },
+        {
+          "location": {
+            "x": 3009.8722333069745,
+            "y": 3481
+          },
+          "nodeIndex": "Vistas por Dia",
+          "nodeLineageTag": "38ddd4fa-a450-45b4-8d1b-3de124707892",
+          "size": {
+            "height": 145,
+            "width": 234
+          },
+          "zIndex": 59
+        },
+        {
+          "location": {
+            "x": 4221.1092985613977,
+            "y": 302
+          },
+          "nodeIndex": "dCalendario",
+          "nodeLineageTag": "6a55a444-12d0-41b1-a1da-be3801087715",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 60
+        },
+        {
+          "location": {
+            "x": 4883.8078362182341,
+            "y": 2899.6688807306782
+          },
+          "nodeIndex": "Medidas",
+          "nodeLineageTag": "208ace48-71fb-4c4e-9482-04efc04e140f",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 61
+        },
+        {
+          "location": {
+            "x": 3924.1092985613977,
+            "y": 550
+          },
+          "nodeIndex": "Transportadoras",
+          "nodeLineageTag": "728d613d-8894-4a10-8beb-cb638d6dece3",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 62
+        },
+        {
+          "location": {
+            "x": 4721.1092985613977,
+            "y": 1834
+          },
+          "nodeIndex": "produto (somente kits)",
+          "nodeLineageTag": "7c418d71-a532-41e3-9cd9-dbd53a986cd2",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 63
+        },
+        {
+          "location": {
+            "x": 3344.6092985613977,
+            "y": 1058
+          },
+          "nodeIndex": "Estoque",
+          "nodeLineageTag": "873893d0-0a47-4a9d-a837-c3e0c7fdabd6",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 76
+        },
+        {
+          "location": {
+            "x": 2082.7356962818994,
+            "y": 3161
+          },
+          "nodeIndex": "Ads Amazon - Sem Match",
+          "nodeLineageTag": "8c556e64-fecd-41d2-9738-ca799a220283",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 64
+        },
+        {
+          "location": {
+            "x": 1799.3620940024011,
+            "y": 3146
+          },
+          "nodeIndex": "Ads Magalu - Sem Match",
+          "nodeLineageTag": "64603647-1fc2-4908-a1d9-3f4c6d1ed8ca",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 78
+        },
+        {
+          "location": {
+            "x": 1475.9884917229028,
+            "y": 3121
+          },
+          "nodeIndex": "Ads Meli - Sem Match",
+          "nodeLineageTag": "e1b87e20-18fd-466b-bcbc-d6b17198dffa",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 65
+        },
+        {
+          "location": {
+            "x": 3216.388880132316,
+            "y": 1437.3010460727044
+          },
+          "nodeIndex": "Base - Ads",
+          "nodeLineageTag": "a255ad79-c314-499b-bca9-b767c7576cb3",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 80
+        },
+        {
+          "location": {
+            "x": 159.98849172290284,
+            "y": 3795
+          },
+          "nodeIndex": "Acrescentar - ID Transação Shopify",
+          "nodeLineageTag": "9cb5e33d-b83e-492a-a052-71b3bc096fb4",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 66
+        },
+        {
+          "location": {
+            "x": 7336.1516833796222,
+            "y": 50
+          },
+          "nodeIndex": "Histórico Metas",
+          "nodeLineageTag": "e8fc3d74-08fc-442a-bb94-b455cdb1afd5",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 8137.7676243943833,
+            "y": 74
+          },
+          "nodeIndex": "Meli |  Televendas",
+          "nodeLineageTag": "e8925a8d-615e-4dd9-952e-df606e62ffd2",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 5332.1118308427194,
+            "y": 0
+          },
+          "nodeIndex": "Meli | FDS",
+          "nodeLineageTag": "08031645-0d59-42b7-ae8c-fd00cc1430ef",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 6391.4066684845147,
+            "y": 375.37567414652892
+          },
+          "nodeIndex": "Metas por Período",
+          "nodeLineageTag": "b1ff038e-9eec-4244-95c8-ccbd21150dde",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 82
+        },
+        {
+          "location": {
+            "x": 7736.9596538870028,
+            "y": 62
+          },
+          "nodeIndex": "produto - somente metas",
+          "nodeLineageTag": "053e4714-a509-4cdf-9c54-f4fec5228054",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 5732.9198013501,
+            "y": 0
+          },
+          "nodeIndex": "Rede",
+          "nodeLineageTag": "b87f9d55-a97f-4274-bad0-6c3f9d2cab15",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 6133.7277718574805,
+            "y": 0
+          },
+          "nodeIndex": "Shopee | FDS",
+          "nodeLineageTag": "b75cece0-5a11-4378-91f2-9f0c1d3e63b1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 6935.3437128722417,
+            "y": 38
+          },
+          "nodeIndex": "sysemp_televenas_formpag",
+          "nodeLineageTag": "f944da11-93c0-42a1-87b4-6f77db35be0b",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 9038.5100392058685,
+            "y": 96
+          },
+          "nodeIndex": "Filtro Margem - Tab Aux",
+          "nodeLineageTag": "ba4722f6-3335-407b-8f70-8a2206cf9f78",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 8650.1445859386749,
+            "y": 60
+          },
+          "nodeIndex": "Produtos_com_estoque_custo_formacao",
+          "nodeLineageTag": "b2d44938-59c9-4dad-b157-9f3d74a5ae2b",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 5995.53634074131,
+            "y": 899.14788409244045
+          },
+          "nodeIndex": "Entrada",
+          "nodeLineageTag": "15054024-5fbd-4182-872c-808ce55ed546",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 81
+        },
+        {
+          "location": {
+            "x": 6289.93686871761,
+            "y": 1205.8696056950564
+          },
+          "nodeIndex": "log_custo",
+          "nodeLineageTag": "34ef311d-fd5a-4a1b-9e55-5c47e518675f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 5842.3676056891618,
+            "y": 1191.9776272272375
+          },
+          "nodeIndex": "usuario",
+          "nodeLineageTag": "52d4b1ab-2abd-409d-a140-68ea6d7847be",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 9162.5215474829656,
+            "y": 0
+          },
+          "nodeIndex": "Fato_Meta_IA",
+          "nodeLineageTag": "9995a946-5f2a-4500-851c-1caf824bd4bb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 9575.2473199173855,
+            "y": 0
+          },
+          "nodeIndex": "Fato_Vendas_IA",
+          "nodeLineageTag": "82593823-d3d1-4b56-a9a5-3a0fd6a23ed0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11226.150409655067,
+            "y": 38
+          },
+          "nodeIndex": "NSI Left Join NS  - Id nota e id Produto",
+          "nodeLineageTag": "463013d8-2dbb-4763-bdd2-deb2d7afe03a",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 11638.876182089487,
+            "y": 74
+          },
+          "nodeIndex": "Over por Período",
+          "nodeLineageTag": "05716d35-3c36-4842-a81b-4a1369669075",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 9987.9730923518055,
+            "y": 0
+          },
+          "nodeIndex": "Shopify - Last 2 M",
+          "nodeLineageTag": "ab453eb3-3b83-4fe6-8da5-5a0f85b12c14",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10400.698864786225,
+            "y": 0
+          },
+          "nodeIndex": "Shopify - Legado",
+          "nodeLineageTag": "42992ac4-84aa-4ccc-bbea-2bb1137f8982",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10813.424637220647,
+            "y": 2
+          },
+          "nodeIndex": "sysemp_televenas_somente_cartao",
+          "nodeLineageTag": "d9a054f9-6924-4377-a626-d8381eb40fb4",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 10.954117634197537,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    },
+    {
+      "ordinal": 1,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [],
+      "name": "Layout 1",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Layout 1",
+  "defaultDiagram": "Todas as tabelas"
+}

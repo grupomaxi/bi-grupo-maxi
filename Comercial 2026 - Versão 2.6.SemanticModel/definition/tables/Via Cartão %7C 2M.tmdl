@@ -1,0 +1,67 @@
+table 'Via Cartão | 2M'
+	isHidden
+	lineageTag: 5c37ae1d-6a1f-4dbd-b884-93d73476a2cc
+
+	column 'Pedido MKT'
+		dataType: string
+		isHidden
+		lineageTag: e85773de-3b88-460e-b8ac-54ff0f42f8be
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		isHidden
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: ed4885f7-23be-4b24-b851-40b34762c861
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		isHidden
+		lineageTag: f3a6df59-d7d8-4ad7-a830-7702c1cb6e9a
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Via Cartão | 2M' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/VIA%20CART%C3%83O%20-%202M.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Cabeçalhos Promovidos",{"Número Pedido", "Número de Parcelas", "Valor Líquido de Repasse"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Outras Colunas Removidas", "Repasse MKT", each ( [Número de Parcelas] * [Valor Líquido de Repasse] ) - ([Número de Parcelas] * [Valor Líquido de Repasse] * 0.008)),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Repasse MKT", Currency.Type}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"Número de Parcelas", "Valor Líquido de Repasse"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Colunas Removidas"),
+				    #"Caracteres extraídos" = Table.TransformColumns(#"Duplicatas Removidas", {{"Número Pedido", each Text.Start(Text.From(_, "pt-BR"), 9), type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Caracteres extraídos",{{"Número Pedido", "Pedido MKT"}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Colunas Renomeadas", each ([Repasse MKT] <> null)),
+				    #"Linhas Agrupadas" = Table.Group(#"Linhas Filtradas", {"Pedido MKT"}, {{"Repasse MKT", each List.Sum([Repasse MKT]), type nullable number}}),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Linhas Agrupadas", "Status MKT", each if [Repasse MKT] <= 0 then "Cancelado" else "status único via"),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"Status MKT", type text}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Tipo Alterado1",{{"Repasse MKT", Currency.Type}})
+				in
+				    #"Tipo Alterado2"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

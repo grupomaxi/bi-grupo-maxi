@@ -1,0 +1,99 @@
+table 'Anuncio por produto'
+	lineageTag: a4ea324a-97e3-4bb7-81eb-363148ca5437
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: 367ab679-1f0f-4c7b-b714-d651f09c7788
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_auxiliar
+		dataType: string
+		lineageTag: cdc40e64-6328-41c2-aef8-7a53fc8028cd
+		summarizeBy: none
+		sourceColumn: codigo_auxiliar
+
+		annotation SummarizationSetBy = Automatic
+
+	column marketplace
+		dataType: string
+		lineageTag: e8dadd80-877b-4705-a29a-7d3fc801879b
+		summarizeBy: none
+		sourceColumn: marketplace
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_produto
+		dataType: string
+		lineageTag: 6360f953-d151-4ff4-8ee1-df1626173a4f
+		summarizeBy: none
+		sourceColumn: codigo_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Anuncio por produto' = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				            "
+				SELECT
+				    p.id_produto,
+				    p.codigo_auxiliar,
+				    'Amazon' AS marketplace,
+				    unnest(string_to_array(replace(p.produto_cod_amazon,' ',''),',')) AS codigo_produto
+				FROM sysemp.produto p
+				WHERE p.inativo = 'F'
+				AND p.produto_cod_amazon IS NOT NULL
+				
+				UNION ALL
+				
+				SELECT
+				    p.id_produto,
+				    p.codigo_auxiliar,
+				    'Meli' AS marketplace,
+				    unnest(string_to_array(replace(p.produto_codigo_meli,' ',''),',')) AS codigo_produto
+				FROM sysemp.produto p
+				WHERE p.inativo = 'F'
+				AND p.produto_codigo_meli IS NOT NULL
+				
+				UNION ALL
+				
+				SELECT
+				    p.id_produto,
+				    p.codigo_auxiliar,
+				    'Shopee' AS marketplace,
+				    unnest(string_to_array(replace(p.produto_codigo_shopee,' ',''),',')) AS codigo_produto
+				FROM sysemp.produto p
+				WHERE p.inativo = 'F'
+				AND p.produto_codigo_shopee IS NOT NULL
+				
+				UNION ALL
+				
+				SELECT
+				    p.id_produto,
+				    p.codigo_auxiliar,
+				    'Magalu' AS marketplace,
+				    unnest(string_to_array(replace(p.produto_codigo_magalu,' ',''),',')) AS codigo_produto
+				FROM sysemp.produto p
+				WHERE p.inativo = 'F'
+				AND p.produto_codigo_magalu IS NOT NULL
+				"
+				        ),
+				
+				    #"Linhas Filtradas" =
+				        Table.SelectRows(Fonte, each [codigo_produto] <> "")
+				
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

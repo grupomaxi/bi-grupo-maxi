@@ -1,0 +1,65 @@
+table 'Over por Período'
+	lineageTag: 05716d35-3c36-4842-a81b-4a1369669075
+
+	column id_produto
+		dataType: string
+		lineageTag: 1863b1d2-1da0-44b1-8556-52c49269e318
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Período
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2bc447e0-5947-4010-aac2-ead58c0a4cb4
+		summarizeBy: none
+		sourceColumn: Período
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Over Frete'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 4f2f4e7c-61b2-4336-a96b-4071533b289d
+		summarizeBy: sum
+		sourceColumn: Over Frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Over por Período' = m
+		mode: import
+		queryGroup: Base
+		source =
+				let Fonte = Table.Combine({#"Histórico Metas", #"produto - somente metas"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Período", type date}, {"Meta Faturamento", type number}, {"produto_carteira_marca", type text}, {"produto_carteira_por_produto", type text}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "Carteira Definitivo", each let
+				    Hoje = Date.From(DateTime.LocalNow()),
+				    MesAtual = Date.Month(Hoje),
+				    AnoAtual = Date.Year(Hoje),
+				    MesLinha = Date.Month([Período]),
+				    AnoLinha = Date.Year([Período])
+				in
+				    if MesLinha = MesAtual and AnoLinha = AnoAtual then
+				        if [produto_carteira_por_produto] <> null and [produto_carteira_por_produto] <> ""
+				        then [produto_carteira_por_produto]
+				        else [produto_carteira_marca]
+				    else
+				        [Carteira]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Carteira Definitivo", type text}}), #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado1",{"Carteira", "produto_carteira_marca", "produto_carteira_por_produto", "Meta Faturamento", "Meta Margem", "Carteira Definitivo"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas",null,0,Replacer.ReplaceValue,{"Over Frete", "produto_overfrete"}), #"Colunas Renomeadas1" = Table.RenameColumns(#"Valor Substituído",{{"Período", "Período"}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Colunas Renomeadas1", "Over Frete.1", each [Over Frete] + [produto_overfrete]),
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"Personalização Adicionada1",{"Over Frete", "produto_overfrete"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas1",{{"Over Frete.1", "Over Frete"}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Over Frete", Currency.Type}})
+				in
+				    #"Tipo Alterado2"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

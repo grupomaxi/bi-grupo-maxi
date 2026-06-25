@@ -1,0 +1,117 @@
+table 'Shopee | Mescla'
+	lineageTag: e58e85e5-1ffd-4203-b4b2-ee7c8b2514a3
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 3b061b28-24a0-459d-bc0f-2def9a5fbd3e
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 514f751d-231a-4aa3-8096-568c448d536b
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: double
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: ce067027-a5f3-4c90-aabb-c89d62ad0cfe
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Shopee | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source = ```
+				let
+				    Fonte = Table.Combine({#"Shopee | Legado", #"Shopee | Last 2 M", #"Shopee | FDS"}),
+				    #"Consultas Mescladas" = Table.NestedJoin(Fonte, {"ID do pedido"}, #"Shopee | Afiliados", {"ID do pedido"}, "Shopee | 5 - Afiliados", JoinKind.LeftOuter),
+				    #"Shopee | 5 - Afiliados Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Shopee | 5 - Afiliados", {"Gasto Afiliado"}, {"Gasto Afiliado"}),
+				    #"Valor Substituído3" = Table.ReplaceValue(
+				    #"Shopee | 5 - Afiliados Expandido",
+				    null,
+				    0,
+				    Replacer.ReplaceValue,
+				    {
+				        "Total global",
+				        "Taxa de serviço bruta",
+				        "Taxa de comissão bruta",
+				        "Taxa de transação",
+				        "Taxa de Envio Reversa",
+				        "Taxa de envio pagas pelo comprador",
+				        "Desconto da Leve Mais por Menos do vendedor",
+				        "Desconto Shopee da Leve Mais por Menos",
+				        "Ajuste por participação em ação comercial",
+				        "Compensar Moedas Shopee",
+				        "Cupom Shopee",
+				        "Gasto Afiliado",
+				        "Desconto de Frete Aproximado"
+				    }
+				),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Valor Substituído3",{{"Gasto Afiliado", Currency.Type}}),
+				    #"Valor Substituído" = Table.TransformColumns(
+				    #"Tipo Alterado2",
+				    {
+				        {"Preço original", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Preço acordado", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Subtotal do produto", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Desconto do vendedor", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Desconto do vendedor_1", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Ajuste por participação em ação comercial", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Peso total SKU", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Peso total do pedido", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Cupom do vendedor", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Seller Absorbed Coin Cashback", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Cupom Shopee", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Desconto Shopee da Leve Mais por Menos", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Desconto da Leve Mais por Menos do vendedor", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Total descontado Cartão de Crédito", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Valor Total", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Taxa de envio pagas pelo comprador", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Desconto de Frete Aproximado", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Taxa de Envio Reversa", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Taxa de transação", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Taxa de comissão bruta", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Taxa de serviço bruta", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Total global", each Text.Replace(Text.From(_), ",", ""), type text},
+				        {"Compensar Moedas Shopee", each Text.Replace(Text.From(_), ",", ""), type text}
+				    }
+				),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",".",",",Replacer.ReplaceText,{"Preço original", "Preço acordado", "Subtotal do produto", "Compensar Moedas Shopee","Desconto do vendedor", "Desconto do vendedor_1", "Ajuste por participação em ação comercial", "Peso total SKU", "Peso total do pedido", "Cupom do vendedor", "Seller Absorbed Coin Cashback", "Cupom Shopee", "Desconto Shopee da Leve Mais por Menos", "Desconto da Leve Mais por Menos do vendedor", "Total descontado Cartão de Crédito", "Valor Total", "Taxa de envio pagas pelo comprador", "Desconto de Frete Aproximado", "Taxa de Envio Reversa", "Taxa de transação", "Taxa de comissão bruta", "Taxa de serviço bruta", "Total global", "Valor estimado do frete", "ps_csv_shopee_voucher_price_BR", "Incentivo Shopee para ação comercial"
+				
+				}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído1",{{"Data de criação do pedido", type datetime}, {"Preço original", Currency.Type}, {"Preço acordado", Currency.Type}, {"Subtotal do produto", Currency.Type}, {"Desconto do vendedor", Currency.Type}, {"Desconto do vendedor_1", Currency.Type}, {"Ajuste por participação em ação comercial", Currency.Type}, {"Cupom do vendedor", Currency.Type}, {"Cupom Shopee", Currency.Type}, {"Desconto Shopee da Leve Mais por Menos", Currency.Type}, {"Desconto da Leve Mais por Menos do vendedor", Currency.Type}, {"Total descontado Cartão de Crédito", Currency.Type}, {"Valor Total", Currency.Type}, {"Taxa de envio pagas pelo comprador", Currency.Type}, {"Desconto de Frete Aproximado", Currency.Type}, {"Taxa de Envio Reversa", Currency.Type}, {"Taxa de transação", Currency.Type}, {"Taxa de comissão bruta", Currency.Type}, {"Total global", Currency.Type}, {"Taxa de serviço bruta", Currency.Type}, {"Valor estimado do frete", Currency.Type}, {"Compensar Moedas Shopee", type number}, {"ps_csv_shopee_voucher_price_BR", Currency.Type}, {"Incentivo Shopee para ação comercial", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Data de criação do pedido", "Data Pedido"}, {"Status do pedido", "Status MKT"}, {"ID do pedido", "Pedido MKT"}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Colunas Renomeadas", "Repasse", each if [Opção de envio] = "Shopee Xpress" or [Opção de envio] = "Retirar na Agência Shopee" or [Opção de envio] = "Retirada pelo Comprador" or [Opção de envio] = "Full" then 
+				  
+				  [Subtotal do produto] - [Taxa de serviço bruta] - [Taxa de comissão bruta] - [Taxa de transação] - [Taxa de Envio Reversa] - [Desconto da Leve Mais por Menos do vendedor] + [Desconto Shopee da Leve Mais por Menos] + ([Compensar Moedas Shopee] / 100) - [Gasto Afiliado] + [Incentivo Shopee para ação comercial]
+				
+				
+				
+				        
+				    else if [Opção de envio] = "Logística do vendedor" then 
+				        [Subtotal do produto] - [Taxa de serviço bruta] - [Taxa de comissão bruta] - [Taxa de transação] - [Taxa de Envio Reversa] - [Desconto da Leve Mais por Menos do vendedor] + [Desconto Shopee da Leve Mais por Menos] + ([Compensar Moedas Shopee] / 100) - [Gasto Afiliado] + [Incentivo Shopee para ação comercial]
+				
+				    else 
+				        null),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Personalização Adicionada1", {"Pedido MKT"}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Duplicatas Removidas",{{"Repasse", Currency.Type}}),
+				    #"Erros Removidos" = Table.RemoveRowsWithErrors(#"Tipo Alterado1", {"Status MKT"}),
+				    #"Linhas Agrupadas" = Table.Group(#"Erros Removidos", {"Status MKT", "Pedido MKT"}, {{"Repasse MKT", each List.Sum([Repasse]), type nullable number}})
+				in
+				    #"Linhas Agrupadas"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

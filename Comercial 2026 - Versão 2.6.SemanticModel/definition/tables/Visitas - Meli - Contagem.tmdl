@@ -1,0 +1,73 @@
+table 'Visitas - Meli - Contagem'
+	lineageTag: 48f6f007-ce8e-4381-a2b9-470cfd66daea
+
+	column Data
+		dataType: string
+		lineageTag: 675b5644-cd3d-4b41-a715-dcb014e69a02
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anuncio
+		dataType: string
+		lineageTag: b81d679e-7408-484a-ad57-df9145aa6715
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 1641f0e3-3e6d-4f5d-bf95-e84a23948a29
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: b3442bf6-a760-4c05-a08d-ebaf6c312220
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: 0f99ccfd-acc2-40c9-89ba-ca487d154619
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Visitas - Meli - Contagem' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"), null, true),
+				    Meli_Sheet = Fonte{[Item="Meli",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Meli_Sheet, [PromoteAllScalars=true]),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Cabeçalhos Promovidos",{"Column2"}),
+				    #"Coluna Mesclada Inserida" = Table.AddColumn(#"Colunas Removidas", "Anuncio", each Text.Combine({"MLB", Text.From([ID do anúncio], "pt-BR")}), type text),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Coluna Mesclada Inserida",{"Data", "Visitas únicas", "Anuncio"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Outras Colunas Removidas",{{"Visitas únicas", "Visitas"}}),
+				    #"Colunas Reordenadas" = Table.ReorderColumns(#"Colunas Renomeadas1",{"Data", "Anuncio", "Visitas"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Colunas Reordenadas", "Canal", each "Meli"),
+				    #"Linhas Classificadas" = Table.Sort(#"Personalização Adicionada",{{"Anuncio", Order.Ascending}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Linhas Classificadas", {"Anuncio", "Canal"}, #"Anuncio por produto", {"codigo_produto", "marketplace"}, "Anuncio por produto", JoinKind.LeftOuter),
+				    #"Anuncio por produto Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Anuncio por produto", {"id_produto"}, {"id_produto"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Anuncio por produto Expandido",null,0,Replacer.ReplaceValue,{"id_produto"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Valor Substituído"),
+				    #"Linhas Agrupadas" = Table.Group(#"Duplicatas Removidas", {"Data", "Anuncio", "Canal"}, {{"Contagem", each Table.RowCount(_), Int64.Type}, {"Visitas", each List.Average([Visitas]), type number}})
+				in
+				    #"Linhas Agrupadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

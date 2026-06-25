@@ -1,0 +1,37 @@
+table 'Meli | Mescla'
+	lineageTag: 80babc7f-6ba4-4bfc-bff0-3253a9c528eb
+
+	column 'Código de referência (external_reference)'
+		dataType: string
+		lineageTag: e71f85ca-2e53-4cc3-b196-ed551e258199
+		summarizeBy: none
+		sourceColumn: Código de referência (external_reference)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da venda no Mercado Livre (order_id)'
+		dataType: string
+		lineageTag: 06ae5e93-be2d-491b-8821-5e6586b8e073
+		summarizeBy: none
+		sourceColumn: Número da venda no Mercado Livre (order_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Meli | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Meli | Legado", #"Meli | Last 2 M"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Código de referência (external_reference)", "Número da venda no Mercado Livre (order_id)"}),
+				    #"Erros Removidos" = Table.RemoveRowsWithErrors(#"Outras Colunas Removidas", {"Número da venda no Mercado Livre (order_id)"}),
+				    #"Linhas em Branco Removidas" = Table.SelectRows(#"Erros Removidos", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Linhas em Branco Removidas", {"Número da venda no Mercado Livre (order_id)"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Duplicatas Removidas", each [#"Número da venda no Mercado Livre (order_id)"] <> "")
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

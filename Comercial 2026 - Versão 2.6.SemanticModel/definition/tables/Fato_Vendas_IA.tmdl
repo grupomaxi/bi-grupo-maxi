@@ -1,0 +1,172 @@
+table Fato_Vendas_IA
+	lineageTag: 82593823-d3d1-4b56-a9a5-3a0fd6a23ed0
+
+	column Qtd
+		formatString: 0
+		lineageTag: 58f14b48-acb4-4129-982c-68d5729f4599
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Qtd]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Repasse
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 2e14405d-d8d0-43ea-9591-2fdb008da262
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Repasse]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column QtdKits
+		formatString: 0
+		lineageTag: 60a49c08-23bb-44c9-b81d-2412d03cdefd
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [QtdKits]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Faturamento
+		lineageTag: 127b9169-dc09-4419-97b5-96879e69024e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Faturamento]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MargemRS
+		lineageTag: 9b7b95c8-6f01-4bda-84ae-7d242d88622f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MargemRS]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MargemPct
+		lineageTag: bcdead58-2f1d-458f-95a5-ebc13b5af66f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MargemPct]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AdsMKT
+		lineageTag: 2c408ce2-58fe-4274-a9d3-c9ad1d838885
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [AdsMKT]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AdsLoja
+		lineageTag: 53bc73e0-6645-4319-b1ec-7ce830a64bb1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [AdsLoja]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MargemNegativa
+		formatString: 0
+		lineageTag: ebfdb160-4e29-4a01-a750-3b4d99bf0928
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MargemNegativa]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		formatString: General Date
+		lineageTag: e40787c5-63c5-44b0-addf-a518c60ce086
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: dCalendario[Date]
+
+		variation Variation
+			isDefault
+			relationship: 36f7d919-2625-4468-a287-ea4e7f9690b1
+			defaultHierarchy: LocalDateTable_06480e03-06ff-447f-87f3-03c2461726b7.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		formatString: 0
+		lineageTag: ec503893-4b5f-4135-a0ee-9dc64fec0354
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Base[id_produto]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Canal Agrupado'
+		lineageTag: d32a52e7-bc01-41dd-9435-9a9198a44be0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Base[Canal Agrupado]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'produto.nome_produto'
+		lineageTag: d65d7bf4-8a76-4a9e-af48-54b27e8e9beb
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Base[produto.nome_produto]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'produto.Marca'
+		lineageTag: 1bfa0f56-34f4-4aff-b47b-9babddccfa8a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Base[produto.Marca]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fato_Vendas_IA = calculated
+		mode: import
+		source = ```
+				
+				FILTER(
+				    ADDCOLUMNS(
+				        SUMMARIZE(
+				            Base,
+				            dCalendario[Date],
+				            Base[id_produto],
+				            Base[Canal Agrupado],
+				            Base[produto.nome_produto],
+				            Base[produto.Marca]
+				        ),
+				        "Qtd",            SUM(Base[qtde]),
+				        "Faturamento",    [Faturamento],
+				        "MargemRS",       [Margem R$],
+				        "MargemPct",      [Margem %],
+				        "AdsMKT",         [Ads Rateado MKT 2],
+				        "AdsLoja",        [Ads Rateado Loja],
+				        "Repasse",        COALESCE([Repasse Rateado $], 0),
+				        "QtdKits",        CALCULATE(
+				                              COUNTROWS(Base),
+				                              NOT ISBLANK(Base[codigos_kit])
+				                          ),
+				        "MargemNegativa", IF([Margem R$] < 0, 1, 0)
+				    ),
+				    [Qtd] > 0
+				)
+				
+				```
+
+	annotation PBI_Id = df84dc94140249d89f4096d8336c180f
+

@@ -1,0 +1,77 @@
+table 'Report de produtos'
+	lineageTag: 0d164e8d-d7b0-46e7-add4-4a340c1a191d
+
+	column Id_produto
+		dataType: string
+		lineageTag: df59090f-739c-4165-ba4a-b4ee6ce71356
+		summarizeBy: none
+		sourceColumn: Id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produto
+		dataType: string
+		lineageTag: 9673bea0-3527-4271-82b9-6815a9e3b174
+		summarizeBy: none
+		sourceColumn: Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5bcb2d4e-e744-439e-8fe7-7f7015ac022e
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 28f0363d-bb47-4ec8-8e34-360f13252c78
+			defaultHierarchy: LocalDateTable_92553340-64c1-4216-9f44-493cc4760b91.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Diagnóstico
+		dataType: string
+		lineageTag: ebfbd192-51e4-4443-bb7e-3167cc1a9f48
+		summarizeBy: none
+		sourceColumn: Diagnóstico
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Solicitação Receita'
+		dataType: string
+		lineageTag: 1b593fa4-83fa-48d2-b5e7-52819b5aef2c
+		summarizeBy: none
+		sourceColumn: Solicitação Receita
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Solicitação Margem'
+		dataType: string
+		lineageTag: c778cfe5-6e66-4928-8268-1caa5afa74bf
+		summarizeBy: none
+		sourceColumn: Solicitação Margem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Report de produtos' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Report%20Produtos.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Linhas em Branco Removidas" = Table.SelectRows(#"Cabeçalhos Promovidos", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Linhas em Branco Removidas",{"Id_produto", "Produto", "Data", "Diagnóstico", "Solicitação Receita", "Solicitação Margem"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Outras Colunas Removidas",{{"Data", type date}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "MENU FECHADO ADS ANALITICO",
+  "name": "f7f8a2716521f27860d5",
+  "options": {
+    "targetVisualNames": [],
+    "suppressActiveSection": true,
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "bc53e66b87b387e2272a",
+    "sections": {
+      "bc53e66b87b387e2272a": {
+        "visualContainers": {},
+        "visualContainerGroups": {
+          "a77cc63e8a97d9b1a7d4": {
+            "isHidden": true
+          },
+          "904649285d770421a83a": {
+            "isHidden": false
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

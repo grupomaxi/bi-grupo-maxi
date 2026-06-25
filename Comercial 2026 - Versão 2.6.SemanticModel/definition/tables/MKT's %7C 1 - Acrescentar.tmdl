@@ -1,0 +1,67 @@
+table 'MKT''s | 1 - Acrescentar'
+	lineageTag: 9a409489-cf16-4f5a-a2f2-e100731a710a
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 0182a631-41d5-4fa3-b544-5a1e078f1b6d
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 8950a4fe-bbc2-4825-a6be-30a8e18aaf7a
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b9ec9410-a151-4972-bbe3-a7f8f298aea8
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Pedido MKT Final'
+		dataType: string
+		lineageTag: 5f3243dd-4342-44b8-bc52-d7338b36ead4
+		summarizeBy: none
+		sourceColumn: Pedido MKT Final
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Maxi'
+		dataType: string
+		lineageTag: 4a5281ce-2bbc-4fc0-aa8c-60729dcbc884
+		summarizeBy: none
+		sourceColumn: Status Maxi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'MKT''s | 1 - Acrescentar' = m
+		mode: import
+		queryGroup: Base
+		source =
+				let
+				    Fonte = Table.Combine({#"Meli |  Acrescentar", #"Shopee | Mescla", #"Magalu | Mescla", #"Amazon | Mescla", #"Leroy | Mescla", #"Carrefour | Mescla", #"Americanas | Mescla", #"Madeira | Mescla", #"Via Boleto | Mescla", #"Amazon | Simnulado", #"pag-brasil", sysemp_televenas_formpag}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Pedido MKT", "Status MKT", "Repasse MKT"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Outras Colunas Removidas",null,"Sem Inf de Pedido",Replacer.ReplaceValue,{"Pedido MKT"}),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Valor Substituído", "Pedido MKT Final", each if Text.Trim([Pedido MKT] & "") = "" then "Pedido Não Declarado" else [Pedido MKT]),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Coluna Condicional Adicionada", {"Status MKT"}, #"De Para Status", {"Status Parceiro"}, "De Para Status", JoinKind.LeftOuter),
+				    #"De Para Status Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "De Para Status", {"Status Maxi"}, {"Status Maxi"}),
+				    #"Erros Removidos" = Table.RemoveRowsWithErrors(#"De Para Status Expandido"),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Erros Removidos", each ([Status Maxi] = "Pago")),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas",{{"Repasse MKT", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

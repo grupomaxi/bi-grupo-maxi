@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY25SU12",
+      "reportVersionAtImport": {
+        "visual": "2.5.0",
+        "report": "3.1.0",
+        "page": "2.3.0"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "horizontalBarChartPBICraft",
+    "powerKPIMatrixEB2381CC88A8425FBEB1B07FF57784E6",
+    "SmartFilterBySQLBI1458262140625"
+  ],
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "LAyout_Ajustado_(7)8596059844991681.png",
+          "path": "LAyout_Ajustado_(7)8596059844991681.png",
+          "type": "Image"
+        },
+        {
+          "name": "PG_2_(4)7243478168419212.png",
+          "path": "PG_2_(4)7243478168419212.png",
+          "type": "Image"
+        },
+        {
+          "name": "PG_2_(8)8741194224964578.png",
+          "path": "PG_2_(8)8741194224964578.png",
+          "type": "Image"
+        },
+        {
+          "name": "PG_319612109419884127.png",
+          "path": "PG_319612109419884127.png",
+          "type": "Image"
+        },
+        {
+          "name": "PG_39660771247012022.png",
+          "path": "PG_39660771247012022.png",
+          "type": "Image"
+        },
+        {
+          "name": "Sem_T_tulo-17417232062981787.png",
+          "path": "Sem_T_tulo-17417232062981787.png",
+          "type": "Image"
+        },
+        {
+          "name": "wallet685771100434085.png",
+          "path": "wallet685771100434085.png",
+          "type": "Image"
+        }
+      ]
+    },
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY25SU12",
+          "path": "BaseThemes/CY25SU12.json",
+          "type": "BaseTheme"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true,
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  }
+}

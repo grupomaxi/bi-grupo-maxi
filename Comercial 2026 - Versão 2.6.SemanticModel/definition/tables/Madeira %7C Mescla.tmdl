@@ -1,0 +1,47 @@
+table 'Madeira | Mescla'
+	lineageTag: 386c93bc-68ea-4684-a17a-ce28c26856ee
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: ff09eff3-e87f-4ab6-830a-55378034ee39
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: c1c65f9a-5c31-41d5-a874-d32e3cdd4576
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: double
+		lineageTag: 19f2e440-0ddb-4dd5-840e-a41000997f28
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Madeira | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Madeira | Legado", #"Madeira | Last 2 M"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(Fonte,{{"Pedido", "Pedido MKT"}, {"Status", "Status MKT"}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Renomeadas",".",",",Replacer.ReplaceText,{"Valor Pedido", "Comissão"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído",{{"Valor Pedido", Currency.Type}, {"Comissão", Currency.Type}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "Repasse MKT", each [Valor Pedido] - [Comissão]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Repasse MKT", Currency.Type}, {"Pedido MKT", type text}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Tipo Alterado1", {"Pedido MKT", "Status MKT"}, {{"Repasse MKT", each List.Sum([Repasse MKT]), type nullable number}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Linhas Agrupadas",{{"Status MKT", type text}})
+				in
+				    #"Tipo Alterado2"
+
+	annotation PBI_ResultType = Table
+

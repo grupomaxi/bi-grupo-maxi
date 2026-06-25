@@ -1,0 +1,85 @@
+table 'Amazon | Simnulado'
+	isHidden
+	lineageTag: b8c9f7f2-f075-4989-82af-84e75ad7a812
+
+	column 'Pedido MKT'
+		dataType: string
+		isHidden
+		lineageTag: aaaee726-6939-4d4a-a9e9-b4682a3955ba
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		isHidden
+		lineageTag: 72972628-2d7c-4065-8181-532d3e05fc2b
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: double
+		isHidden
+		lineageTag: cefed0e8-0ee9-4c01-a87e-939a9bf93cf3
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Amazon | Simnulado' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses
+		source = ```
+				let
+				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "WITH devolucoes AS (#(lf)    SELECT DISTINCT ON (marketplace_pedido)#(lf)        ref_numero_docfiscal AS id_nr_nf,#(lf)        marketplace_pedido#(lf)    FROM sysemp.nota_saida#(lf)    WHERE #(lf)        data_pedido >= DATE '2025-12-01'#(lf)        AND ref_numero_docfiscal <> 0#(lf)        AND id_nat_operacao IN (#(lf)            8, 11, 12, 29, 32, 42, 44, 47, 59, 60, 72, #(lf)            75, 76, 87, 88, 89, 91, 93, 104, 123,#(lf)            13, 65, 135, 71, 66#(lf)        )#(lf)    ORDER BY marketplace_pedido, id_nota_saida DESC#(lf))#(lf)#(lf)SELECT#(lf)    ns.id_nota_saida,#(lf)    ns.id_nat_operacao, #(lf)    ns.marketplace_pedido,#(lf)    nsi.valor_total_liquido,#(lf)    nsi.vr_desconto_total,#(lf)    nsi.vr_acrescimo,#(lf)    nsi.ipi_valor,#(lf)    ns.id_transportadora,#(lf)    c.razsocial,#(lf)    c.fantasia,#(lf)#(lf)    -- COLUNAS FINAIS PRIORIZANDO KIT#(lf)    COALESCE(p2.produto_comissãoamazon, p.produto_comissãoamazon) AS produto_comissaoamazon_final,#(lf)    COALESCE(p2.produto_tarifadba, p.produto_tarifadba)           AS produto_tarifadba_final#(lf)#(lf)FROM sysemp.nota_saida_itens nsi#(lf)#(lf)LEFT JOIN sysemp.produto p #(lf)       ON nsi.id_produto = p.id_produto#(lf)#(lf)-- JOIN DO KIT SOMENTE QUANDO O CÓDIGO EXISTE#(lf)LEFT JOIN sysemp.produto p2 #(lf)       ON (nsi.codigos_kit IS NOT NULL AND nsi.codigos_kit <> '' AND nsi.codigos_kit = p2.codigo_auxiliar)#(lf)#(lf)JOIN sysemp.nota_saida ns #(lf)       ON nsi.id_nota_saida = ns.id_nota_saida#(lf)#(lf)LEFT JOIN sysemp.cliente c#(lf)       ON ns.id_transportadora = c.id_cliente#(lf)#(lf)-- ANTI JOIN DAS DEVOLUÇÕES#(lf)LEFT JOIN devolucoes d#(lf)       ON d.id_nr_nf = nsi.id_nr_nf#(lf)#(lf)WHERE #(lf)    d.id_nr_nf IS NULL  -- mantém somente vendas que NÃO são devolução#(lf)#(lf)    AND nsi.data_emissao >= DATE '2025-12-01'#(lf)    AND nsi.id_nat_operacao_item IN (#(lf)        1, 2, 3, 4, 19, 48, 83, 84, 90, 96, 103, #(lf)        105, 106, 114, 115, 116, 119, 121#(lf)    )#(lf)#(lf)    AND ns.tipo_documento = 'NF'#(lf)    AND ns.data_pedido >= DATE '2025-12-01'#(lf)#(lf)    AND (#(lf)        (ns.id_empresa = 1 AND ns.nfe_cstat = '100')#(lf)        OR#(lf)        (ns.id_empresa IN (7,5) AND (ns.nfe_cstat IS NULL OR ns.nfe_cstat = ''))#(lf)    )#(lf)#(lf)    AND ns.id_nat_operacao IN (#(lf)        1, 2, 3, 4, 19, 48, 83, 84, 90, 96, 103, #(lf)        105, 106, 114, 115, 116, 119, 121#(lf)    )#(lf)#(lf)    AND ns.id_atendimento IN (15,1,45);#(lf)"),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"produto_comissaoamazon_final", Currency.Type}, {"produto_tarifadba_final", Currency.Type}}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Tipo Alterado",null,500,Replacer.ReplaceValue,{"produto_tarifadba_final"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",null,50,Replacer.ReplaceValue,{"produto_comissaoamazon_final"}),
+				    #"Primeiros caracteres extraídos" = Table.TransformColumns(#"Valor Substituído1", {{"marketplace_pedido", each Text.Start(_, 19), type text}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Primeiros caracteres extraídos", {"marketplace_pedido"}, #"Amazon | Simnulado | Agrupado", {"marketplace_pedido"}, "Amazon | Simnulado | Agrupado", JoinKind.LeftOuter),
+				    #"Amazon | Simnulado | Agrupado Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Amazon | Simnulado | Agrupado", {"Qtde Peds MKT"}, {"Qtde Peds MKT"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Amazon | Simnulado | Agrupado Expandido", "Repasse MKT", each (
+				    [valor_total_liquido] 
+				    - [vr_desconto_total] 
+				    + [vr_acrescimo] 
+				    + [ipi_valor]
+				)
+				- (
+				    (
+				        [valor_total_liquido] 
+				        - [vr_desconto_total] 
+				        + [vr_acrescimo] 
+				        + [ipi_valor]
+				    ) 
+				    * ([produto_comissaoamazon_final] / 100)
+				)
+				- ([produto_tarifadba_final] / [Qtde Peds MKT])),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Repasse MKT", Currency.Type}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Tipo Alterado1", "Status MKT", each "Aprovado"),
+				    #"Personalização Adicionada2" = Table.AddColumn(#"Personalização Adicionada1", "Canal", each "Amazon"),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Personalização Adicionada2",{{"Status MKT", type text}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado2",{"valor_total_liquido", "vr_desconto_total", "vr_acrescimo", "ipi_valor", "produto_comissaoamazon_final", "produto_tarifadba_final","Qtde Peds MKT"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas",{{"marketplace_pedido", "Pedido MKT"}}),
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"Colunas Renomeadas",{"id_nota_saida", "id_nat_operacao", "id_transportadora", "razsocial", "fantasia", "Canal"}),
+				    #"Linhas Agrupadas" = Table.Group(#"Colunas Removidas1", {"Pedido MKT", "Status MKT"}, {{"Repasse MKT", each List.Sum([Repasse MKT]), type nullable number}})
+				in
+				    #"Linhas Agrupadas"
+				```
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

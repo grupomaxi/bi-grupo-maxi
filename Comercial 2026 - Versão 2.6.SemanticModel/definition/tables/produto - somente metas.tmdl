@@ -1,0 +1,97 @@
+table 'produto - somente metas'
+	lineageTag: 053e4714-a509-4cdf-9c54-f4fec5228054
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: 58e0d596-9b4c-4f15-bbcf-b9bf4962691c
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meta Faturamento'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 96bd7029-c24c-4ab5-b16d-f7de24ca7518
+		summarizeBy: sum
+		sourceColumn: Meta Faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Meta Margem'
+		dataType: double
+		lineageTag: 95596421-6aa9-4592-8998-e6e5f9f40c62
+		summarizeBy: sum
+		sourceColumn: Meta Margem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Período
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 989ef53c-dfb5-4117-9dcb-027d7e566061
+		summarizeBy: none
+		sourceColumn: Período
+
+		variation Variation
+			isDefault
+			relationship: f1449833-c976-42b0-9844-ece268342ef6
+			defaultHierarchy: LocalDateTable_74b1212d-536d-4348-9f08-ab4b717f95f2.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column produto_carteira_marca
+		dataType: string
+		lineageTag: fbb68c4e-83cc-47af-a386-ed9ecc01a547
+		summarizeBy: none
+		sourceColumn: produto_carteira_marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_carteira_por_produto
+		dataType: string
+		lineageTag: be2211f5-283a-4f8d-8368-31db4bd2c0ce
+		summarizeBy: none
+		sourceColumn: produto_carteira_por_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Carteira
+		dataType: string
+		lineageTag: a214863b-58e0-4f65-957f-47054674fb0e
+		summarizeBy: none
+		sourceColumn: Carteira
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_overfrete
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 4b358119-1854-46ed-b58b-cd3b2d8f4157
+		summarizeBy: sum
+		sourceColumn: produto_overfrete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'produto - somente metas' = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT #(lf)  p.id_produto,#(lf)  p.produto_produto_meta_faturamento AS ""Meta Faturamento"",#(lf)  p.produto_produto_meta_margem AS ""Meta Margem"",#(lf)  p.produto_carteira_marca,#(lf)  p.produto_carteira_por_produto,#(lf)  date_trunc('month', CURRENT_DATE) AS ""Período"",#(lf)  p.produto_overfrete#(lf)  FROM sysemp.produto p#(lf)  WHERE p.produto_produto_meta_faturamento IS NOT NULL AND TRIM(p.produto_produto_meta_faturamento) <> ''#(lf)  AND p.produto_produto_meta_margem IS NOT NULL#(lf)  AND TRIM(p.produto_produto_meta_margem) <> ''"),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(Fonte,{{"produto_overfrete", Currency.Type}}), #"Tipo Alterado" = Table.TransformColumnTypes( #"Tipo Alterado1", { {"Meta Faturamento", Currency.Type}, {"Meta Margem", Percentage.Type}, {"Período", type date}, {"produto_carteira_marca", type text}, {"produto_carteira_por_produto", type text} } ), #"Carteira Ajustada" = Table.AddColumn( #"Tipo Alterado", "Carteira", each if [produto_carteira_marca] <> null and Text.Trim([produto_carteira_marca]) <> "" then [produto_carteira_marca] else [produto_carteira_por_produto], type text )
+				in
+				    #"Carteira Ajustada"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

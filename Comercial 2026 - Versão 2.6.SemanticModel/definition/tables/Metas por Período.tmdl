@@ -1,0 +1,112 @@
+table 'Metas por Período'
+	lineageTag: b1ff038e-9eec-4244-95c8-ccbd21150dde
+
+	column id_produto
+		dataType: string
+		lineageTag: 94da5f1a-10f1-4119-a225-35c105da5272
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meta Faturamento'
+		dataType: double
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 17a45488-aca4-4bc0-9e4c-26af7260439d
+		summarizeBy: sum
+		sourceColumn: Meta Faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Meta Margem'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: d0717ac9-70df-413c-88dd-cdc48ba1d443
+		summarizeBy: none
+		sourceColumn: Meta Margem
+
+		annotation SummarizationSetBy = User
+
+	column Período
+		dataType: dateTime
+		formatString: yyyy-mm
+		lineageTag: e1119066-cd74-40b3-a38b-0a34f0e09842
+		summarizeBy: none
+		sourceColumn: Período
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Meta Até Ontem'
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: badc20da-bdb7-49ec-9887-5ea3162ff9f4
+		summarizeBy: sum
+		sourceColumn: Meta Até Ontem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Carteira
+		dataType: string
+		lineageTag: e4bafe13-e128-4e2e-823a-3174244ba390
+		summarizeBy: none
+		sourceColumn: Carteira
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Over Frete'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: edc13b15-c44d-466f-b5b0-789edf7ab31a
+		summarizeBy: sum
+		sourceColumn: Over Frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column produto_overfrete
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: e3ba00a7-53a1-425e-8780-2841815d75bb
+		summarizeBy: sum
+		sourceColumn: produto_overfrete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Metas por Período' = m
+		mode: import
+		queryGroup: Base
+		source =
+				let Fonte = Table.Combine({#"Histórico Metas", #"produto - somente metas"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Período", type date}, {"Meta Faturamento", type number}, {"produto_carteira_marca", type text}, {"produto_carteira_por_produto", type text}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "Carteira Definitivo", each let
+				    Hoje = Date.From(DateTime.LocalNow()),
+				    MesAtual = Date.Month(Hoje),
+				    AnoAtual = Date.Year(Hoje),
+				    MesLinha = Date.Month([Período]),
+				    AnoLinha = Date.Year([Período])
+				in
+				    if MesLinha = MesAtual and AnoLinha = AnoAtual then
+				        if [produto_carteira_por_produto] <> null and [produto_carteira_por_produto] <> ""
+				        then [produto_carteira_por_produto]
+				        else [produto_carteira_marca]
+				    else
+				        [Carteira]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Carteira Definitivo", type text}}), #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado1",{"Carteira", "produto_carteira_marca", "produto_carteira_por_produto"}), #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas",{{"Carteira Definitivo", "Carteira"}}), DiaAtual = Date.Day(DateTime.LocalNow()), DiasMes = Date.DaysInMonth(Date.From(DateTime.LocalNow())), #"Meta Proporcional" = Table.AddColumn( #"Colunas Renomeadas", "Meta Até Ontem", each [Meta Faturamento] * ((DiaAtual - 1) / DiasMes), type number ), #"Colunas Renomeadas1" = Table.RenameColumns(#"Meta Proporcional",{{"Período", "Período"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

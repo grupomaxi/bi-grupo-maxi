@@ -1,0 +1,71 @@
+table 'Meli |  Televendas'
+	lineageTag: e8925a8d-615e-4dd9-952e-df606e62ffd2
+
+	column 'Pedido MKT'
+		dataType: int64
+		formatString: 0
+		lineageTag: 23f592dc-ae56-48b3-9657-5ca487203a36
+		summarizeBy: sum
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: f6d46b86-7abd-441f-bb01-9e2db8a68640
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 749275b4-c4e0-4aaf-80f4-e20a7c2c2cd6
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column match-id-transacao
+		dataType: string
+		lineageTag: 577fe3a7-cbf8-4777-bb5b-19728c3533d6
+		summarizeBy: none
+		sourceColumn: match-id-transacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Meli |  Televendas' = m
+		mode: import
+		queryGroup: Marketplaces\Televendas
+		source = ```
+				let
+				    Fonte = Table.Combine({#"Meli | Legado", #"Meli | Last 2 M"}),
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([#"Data da compra (date_created)"] <> true)),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Linhas Filtradas",",","",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",".",",",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído1",{{"Data da compra (date_created)", type datetime}, {"Valor total recebido (net_received_amount)", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Data da compra (date_created)", "Data Pedido"}}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Colunas Renomeadas",{{"Status da operação (status)", "Status MKT"}}),
+				    #"Linhas Filtradas1" = Table.SelectRows(#"Colunas Renomeadas1", each ([#"Operador de multibanco (operator_name)"] = "Rita Barboza")),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Linhas Filtradas1", "Match-id-Transacao", each if [#"Código de referência (external_reference)"] = null 
+				            or [#"Código de referência (external_reference)"] = "blank" 
+				            or [#"Código de referência (external_reference)"] = ""
+				        then "Sem Id Transação"
+				        else "Com Id Transação"),
+				    #"Linhas Agrupadas" = Table.Group(#"Personalização Adicionada", {"Código de referência (external_reference)", "Status MKT"}, {{"Repasse MKT", each List.Sum([#"Valor total recebido (net_received_amount)"]), type nullable number}, {"match-id-transacao", each List.Max([#"Match-id-Transacao"]), type text}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Linhas Agrupadas",{{"Repasse MKT", Currency.Type}}),
+				    #"Colunas Renomeadas2" = Table.RenameColumns(#"Tipo Alterado1",{{"Código de referência (external_reference)", "Pedido MKT"}}),
+				    #"Valor Substituído2" = Table.ReplaceValue(#"Colunas Renomeadas2","Pedido: Nº ","",Replacer.ReplaceText,{"Pedido MKT"}),
+				    #"Linhas Filtradas2" = Table.SelectRows(#"Valor Substituído2", each ([Status MKT] = "approved") and ([Pedido MKT] <> "")),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Linhas Filtradas2",{{"Pedido MKT", Int64.Type}})
+				in
+				    #"Tipo Alterado2"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

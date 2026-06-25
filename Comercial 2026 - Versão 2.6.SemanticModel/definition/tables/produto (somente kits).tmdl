@@ -1,0 +1,57 @@
+table 'produto (somente kits)'
+	lineageTag: 7c418d71-a532-41e3-9cd9-dbd53a986cd2
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: fab2ad79-5e96-4a0d-a80c-b074f3abbf15
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_auxiliar
+		dataType: string
+		lineageTag: 5864ecb0-0911-48c8-ad03-663c08f88c0b
+		summarizeBy: none
+		sourceColumn: codigo_auxiliar
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricao
+		dataType: string
+		lineageTag: 6c40cac5-f211-4a6b-9c32-bb0cb01d1770
+		summarizeBy: none
+		sourceColumn: descricao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'produto (somente kits)' = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				            "
+				SELECT
+				    p.id_produto,
+				    p.codigo_auxiliar,
+				    INITCAP(p.descricao) AS descricao
+				
+				FROM sysemp.produto p
+				
+				INNER JOIN sysemp.tipo_produto t
+				    ON p.composicao_estoque = t.id_tp_produto
+				
+				WHERE t.id_tp_produto IN (50,51,52,53,54)
+				"
+				        )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

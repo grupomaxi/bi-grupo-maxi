@@ -1,0 +1,577 @@
+table produto
+	lineageTag: f310f033-ab3d-4bac-9546-0f786327b9ea
+
+	column id_produto
+		dataType: string
+		lineageTag: 9282e9da-d13f-45f7-8564-b7f5490a1df5
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_auxiliar
+		dataType: string
+		lineageTag: 7b0459f4-ea8d-4bd3-89c0-206781c894bc
+		summarizeBy: none
+		sourceColumn: codigo_auxiliar
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_produto
+		dataType: string
+		lineageTag: 35ef041a-d23d-4fc8-a5c2-84f5e17fdb7e
+		summarizeBy: none
+		sourceColumn: nome_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_barra
+		dataType: string
+		lineageTag: e1796b1b-456d-4c61-8cab-07d762610c4a
+		summarizeBy: none
+		sourceColumn: cod_barra
+
+		annotation SummarizationSetBy = Automatic
+
+	column cod_fabrica
+		dataType: string
+		lineageTag: b4cfcba1-ec3a-4d64-9fb5-6543fbcbeff5
+		summarizeBy: none
+		sourceColumn: cod_fabrica
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_secao
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d514c53-a87c-4392-8953-29dbea1df3e9
+		summarizeBy: sum
+		sourceColumn: id_secao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meta visitas'
+		dataType: double
+		lineageTag: c0834b1b-efe2-458a-b721-4138e6336440
+		summarizeBy: sum
+		sourceColumn: Meta visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Marca
+		dataType: string
+		lineageTag: 4f24f450-34fb-4736-b281-268275f50665
+		summarizeBy: none
+		sourceColumn: Marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupo
+		dataType: string
+		lineageTag: 1b58ee21-c38c-4bf6-9a29-240d20b76892
+		summarizeBy: none
+		sourceColumn: Grupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subgrupo
+		dataType: string
+		lineageTag: bf61fdc1-f416-42fd-93a2-efb20d091aa3
+		summarizeBy: none
+		sourceColumn: Subgrupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria.1'
+		dataType: string
+		lineageTag: 32ec9712-51c4-45ca-ae6b-6ed629678554
+		summarizeBy: none
+		sourceColumn: Categoria.1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria.2'
+		dataType: string
+		lineageTag: 33085064-ab21-4072-8271-a6dd9b4dcc83
+		summarizeBy: none
+		sourceColumn: Categoria.2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria.3'
+		dataType: string
+		lineageTag: 0133be0c-2a67-47da-91ae-abce83f53f80
+		summarizeBy: none
+		sourceColumn: Categoria.3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria.4'
+		dataType: string
+		lineageTag: 49bdad74-c9e1-4d8f-be87-ee6d34628b35
+		summarizeBy: none
+		sourceColumn: Categoria.4
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_cadastro
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a4e939f9-d403-4f15-90a4-823c6964c552
+		summarizeBy: none
+		sourceColumn: dt_cadastro
+
+		variation Variation
+			isDefault
+			relationship: 469de3e9-3682-4109-b28d-6c5610dab3dc
+			defaultHierarchy: LocalDateTable_a3740993-0f3a-447c-8b5a-32b8843c3eb3.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column inativo
+		dataType: string
+		lineageTag: 3b7e613a-0ac5-4be7-88a7-91eb677fc9b8
+		summarizeBy: none
+		sourceColumn: inativo
+
+		annotation SummarizationSetBy = Automatic
+
+	column disponivel
+		dataType: string
+		lineageTag: 233b2980-6ae5-413a-a00f-d55310e1703a
+		summarizeBy: none
+		sourceColumn: disponivel
+
+		annotation SummarizationSetBy = Automatic
+
+	column volume_m3
+		dataType: double
+		lineageTag: 934c3332-2a28-4fb5-8760-2419dfad1317
+		summarizeBy: sum
+		sourceColumn: volume_m3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peso_bruto
+		dataType: double
+		lineageTag: 21844fa5-0675-48ec-9023-b6903cb48291
+		summarizeBy: sum
+		sourceColumn: peso_bruto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peso_liquido
+		dataType: double
+		lineageTag: b6307bcb-bee3-4705-a0e6-f3414f691306
+		summarizeBy: sum
+		sourceColumn: peso_liquido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column comprimento
+		dataType: double
+		lineageTag: 4d653e85-89d7-4f2b-a5a8-cfc0262ce50c
+		summarizeBy: sum
+		sourceColumn: comprimento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column largura
+		dataType: double
+		lineageTag: f046cefd-a543-4728-a337-f6d4e96c5d71
+		summarizeBy: sum
+		sourceColumn: largura
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column altura
+		dataType: double
+		lineageTag: 861106e6-ea94-43bd-ac60-51cda4525bb2
+		summarizeBy: sum
+		sourceColumn: altura
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peso_cubado
+		dataType: double
+		lineageTag: d89cdcca-bdfa-40fe-9e6f-be4ab580ac71
+		summarizeBy: sum
+		sourceColumn: peso_cubado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column peso_considerado
+		dataType: double
+		lineageTag: 3a99af6a-83b4-43d3-b435-07f8e045e2d6
+		summarizeBy: sum
+		sourceColumn: peso_considerado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column frete_simulado_magalu
+		dataType: double
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 845c2cac-8d08-4148-a1cd-3038598027b6
+		summarizeBy: sum
+		sourceColumn: frete_simulado_magalu
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column id_marca
+		dataType: int64
+		formatString: 0
+		lineageTag: e50d29b3-beaa-4107-94bd-eaf02381b984
+		summarizeBy: sum
+		sourceColumn: id_marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_estoque_full_magalu
+		dataType: int64
+		formatString: 0
+		lineageTag: 536d3d0f-c4cc-4949-8c18-94f73eb15ad3
+		summarizeBy: sum
+		sourceColumn: produto_estoque_full_magalu
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_estoque_full_meli
+		dataType: int64
+		formatString: 0
+		lineageTag: 32d0355c-0c62-4cf7-ad2a-ba01b21b4ae8
+		summarizeBy: sum
+		sourceColumn: produto_estoque_full_meli
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_carteira_por_produto
+		dataType: string
+		lineageTag: 532d34a0-12b1-48ee-8e5f-809fab25afce
+		summarizeBy: none
+		sourceColumn: produto_carteira_por_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_carteira_marca
+		dataType: string
+		lineageTag: dc281baa-761d-47b8-9a75-490c56653e77
+		summarizeBy: none
+		sourceColumn: produto_carteira_marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Carteira Definitiva'
+		dataType: string
+		lineageTag: a9d00ef3-bacb-4c9c-8034-e76f71b243a6
+		summarizeBy: none
+		sourceColumn: Carteira Definitiva
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo_Produto
+		dataType: string
+		lineageTag: 5b2828cd-b335-48c4-b686-05ad48bdfee7
+		summarizeBy: none
+		sourceColumn: Tipo_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_cod_shopee
+		dataType: string
+		lineageTag: a7d96ed3-ce01-480c-a679-ff0a2266410a
+		summarizeBy: none
+		sourceColumn: produto_cod_shopee
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_codigo_meli
+		dataType: string
+		lineageTag: 89329bd9-fcd5-4ba7-a7c3-0c544b1ef00a
+		summarizeBy: none
+		sourceColumn: produto_codigo_meli
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_cod_amazon
+		dataType: string
+		lineageTag: c578a4d6-afc8-4d2f-b890-273b3b1af62d
+		summarizeBy: none
+		sourceColumn: produto_cod_amazon
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria_Original
+		dataType: string
+		lineageTag: b990af17-b200-4f90-94a8-0b6cacf825d8
+		summarizeBy: none
+		sourceColumn: Categoria_Original
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_produto_meta_margem
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8a16c1e0-d4a0-4b7f-b33b-6c601430cfa3
+		summarizeBy: sum
+		sourceColumn: produto_produto_meta_margem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meta Faturamento'
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 4acad26e-e79c-490b-8d74-086bdb5a98a6
+		summarizeBy: sum
+		sourceColumn: Meta Faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Categoria Magalu'
+		dataType: string
+		lineageTag: f4c67902-2c5e-4a93-98fa-83ca9f819ac8
+		summarizeBy: none
+		sourceColumn: Categoria Magalu
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Categoria Shopee'
+		dataType: string
+		lineageTag: 4ecb45f5-6034-4d60-bf2f-deb8370cbd84
+		summarizeBy: none
+		sourceColumn: Categoria Shopee
+
+		annotation SummarizationSetBy = Automatic
+
+	column PMA
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 6141ea27-2538-4720-8707-322e0d13a1de
+		summarizeBy: sum
+		sourceColumn: PMA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Produto + Marca + Estoque' =
+			
+			produto[id_produto]
+			& " | " &
+			produto[nome_produto]
+			& " | " &
+			produto[Marca]
+			& " | Estoque: "
+			& FORMAT(
+			    SUMX(
+			        RELATEDTABLE(Estoque),
+			        Estoque[estoque]
+			    ),
+			    "#,##0"
+			)
+		lineageTag: 30e54aaf-3400-4117-b56d-4aadc4af0a4b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition produto = m
+		mode: import
+		queryGroup: Sysemp
+		source = ```
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				
+				"WITH produto_base AS (
+				
+				    SELECT 
+				        p.id_produto,
+				        p.codigo_auxiliar,
+				        p.descricao,
+				        p.cod_barra,
+				        p.cod_fabrica,
+				        p.id_secao,
+				
+				        CAST(NULLIF(REPLACE(p.produto_meta_visita, ',', '.'), '') AS DECIMAL(18,2)) AS produto_meta_visita,
+				
+				        p.id_marca,
+				        p.id_categoria,
+				        p.id_grupo,
+				        p.id_subgrupo,
+				        p.id_material,
+				        p.dt_cadastro,
+				        p.inativo,
+				        p.disponivel,
+				
+				        p.produto_pma,  -- ✅ ADICIONADO
+				
+				        p.altura,
+				        p.largura,
+				        p.comprimento,
+				        p.peso_bruto,
+				        p.peso_liquido,
+				
+				        p.produto_estoque_full_magalu,
+				        p.produto_estoque_full_meli,
+				
+				        p.produto_carteira_por_produto,
+				        p.produto_carteira_marca,
+				
+				        p.produto_produto_meta_faturamento,
+				        p.produto_produto_meta_margem,
+				
+				        p.produto_cod_shopee,
+				        p.produto_codigo_meli,
+				        p.produto_cod_amazon,
+				
+				        p.produto_cateogoria_magalu,
+				        p.produto_cateogoria_shopee,
+				
+				        p.composicao_estoque,
+				
+				        ROUND(p.altura * p.largura * p.comprimento,2) AS volume_m3,
+				
+				        ROUND(
+				            CASE 
+				                WHEN p.peso_bruto < 30
+				                    THEN p.altura * p.largura * p.comprimento * 167
+				                ELSE p.altura * p.largura * p.comprimento * 300
+				            END,2
+				        ) AS peso_cubado
+				
+				    FROM sysemp.produto p
+				    WHERE p.inativo = 'F'
+				)
+				
+				SELECT 
+				
+				    p.id_produto,
+				    p.codigo_auxiliar,
+				
+				    INITCAP(p.descricao) AS nome_produto,
+				
+				    p.cod_barra,
+				    p.cod_fabrica,
+				    p.id_secao,
+				
+				    p.produto_meta_visita AS ""Meta visitas"",
+				
+				    INITCAP(m.descricao) AS ""Marca"",
+				    g.descricao AS ""Grupo"",
+				    sb.descricao AS ""Subgrupo"",
+				
+				    SPLIT_PART(c.descricao,'/',1) AS ""Categoria.1"",
+				    SPLIT_PART(c.descricao,'/',2) AS ""Categoria.2"",
+				    SPLIT_PART(c.descricao,'/',3) AS ""Categoria.3"",
+				    SPLIT_PART(c.descricao,'/',4) AS ""Categoria.4"",
+				
+				    c.descricao AS ""Categoria_Original"",
+				
+				    p.dt_cadastro,
+				    p.inativo,
+				    p.disponivel,
+				
+				    p.volume_m3,
+				    p.peso_bruto,
+				    p.peso_liquido,
+				
+				    p.comprimento,
+				    p.largura,
+				    p.altura,
+				
+				    p.peso_cubado,
+				
+				    GREATEST(p.peso_bruto,p.peso_cubado) AS peso_considerado,
+				
+				    CASE
+				        WHEN GREATEST(p.peso_bruto,p.peso_cubado) <= 0.5 THEN 14.95
+				        WHEN GREATEST(p.peso_bruto,p.peso_cubado) <= 1 THEN 17.95
+				        WHEN GREATEST(p.peso_bruto,p.peso_cubado) <= 200 THEN 180.45
+				        ELSE 187.95
+				    END AS frete_simulado_magalu,
+				
+				    p.id_marca,
+				
+				    p.produto_pma AS ""PMA"",  -- ✅ ADICIONADO NO FINAL
+				
+				    p.produto_estoque_full_magalu,
+				    p.produto_estoque_full_meli,
+				
+				    p.produto_carteira_por_produto,
+				    p.produto_carteira_marca,
+				
+				    COALESCE(
+				        NULLIF(p.produto_carteira_por_produto,''),
+				        p.produto_carteira_marca
+				    ) AS ""Carteira Definitiva"",
+				
+				    CAST(
+				        NULLIF(REPLACE(p.produto_produto_meta_faturamento,',','.'),'')
+				        AS DECIMAL(18,2)
+				    ) AS ""Meta Faturamento"",
+				
+				    CAST(
+				        NULLIF(REPLACE(REPLACE(p.produto_produto_meta_margem, '%', ''), ',', '.'), '')
+				        AS DECIMAL(18,4)
+				    ) / 100 AS produto_produto_meta_margem,
+				
+				    INITCAP(t.descricao) AS ""Tipo_Produto"",
+				
+				    p.produto_cod_shopee,
+				    p.produto_codigo_meli,
+				    p.produto_cod_amazon,
+				
+				    p.produto_cateogoria_magalu AS ""Categoria Magalu"",
+				    p.produto_cateogoria_shopee AS ""Categoria Shopee""
+				
+				FROM produto_base p
+				
+				INNER JOIN sysemp.marca m 
+				    ON p.id_marca = m.id_marca
+				
+				LEFT JOIN sysemp.categoria c 
+				    ON p.id_categoria = c.id_categoria
+				
+				LEFT JOIN sysemp.grupo g 
+				    ON p.id_grupo = g.id_grupo
+				
+				LEFT JOIN sysemp.subgrupo sb 
+				    ON p.id_subgrupo = sb.id_subgrupo
+				
+				LEFT JOIN sysemp.tipo_produto t 
+				    ON p.composicao_estoque = t.id_tp_produto"
+				)
+				in
+				    Fonte
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

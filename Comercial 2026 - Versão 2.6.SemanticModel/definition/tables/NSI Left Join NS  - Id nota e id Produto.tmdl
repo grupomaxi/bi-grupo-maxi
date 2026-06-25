@@ -1,0 +1,89 @@
+table 'NSI Left Join NS  - Id nota e id Produto'
+	lineageTag: 463013d8-2dbb-4763-bdd2-deb2d7afe03a
+
+	column id_nota_saida
+		dataType: int64
+		formatString: 0
+		lineageTag: f54a04ef-1089-4054-b594-fbee5e1e5b98
+		summarizeBy: sum
+		sourceColumn: id_nota_saida
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: 35595d0b-4c99-49a8-998e-7591506beea4
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_pedido
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 297afb04-bf3c-4b15-9df4-8b01f5f74730
+		summarizeBy: none
+		sourceColumn: data_pedido
+
+		variation Variation
+			isDefault
+			relationship: f9a0598b-67e4-4e7b-be07-91f7427b21d0
+			defaultHierarchy: LocalDateTable_fa6dae1c-59c4-4c36-9bdc-b7dedc660fc5.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Período
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 29f037df-d255-4dfc-b069-c8877fa15061
+		summarizeBy: none
+		sourceColumn: Período
+
+		variation Variation
+			isDefault
+			relationship: e848ea61-e3cb-4ee1-86f7-40fd679fbb0a
+			defaultHierarchy: LocalDateTable_2419117b-5553-42b7-bc9f-ef0c2e262f01.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'id Nota e Produto'
+		dataType: string
+		lineageTag: 5ec9fc74-143c-44d0-a939-65fe6f5d19e1
+		summarizeBy: none
+		sourceColumn: id Nota e Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Over Frete'
+		dataType: decimal
+		lineageTag: d0253948-9c02-443e-a01f-a1009ddf63d7
+		summarizeBy: sum
+		sourceColumn: Over Frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'NSI Left Join NS  - Id nota e id Produto' = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT#(lf)    nsi.id_nota_saida,#(lf)    nsi.id_produto,#(lf)    ns.data_pedido,#(lf)#(lf)    DATE_TRUNC('month', ns.data_pedido)::date AS ""Período"",#(lf)#(lf)    nsi.id_nota_saida || '_' || nsi.id_produto#(lf)        AS ""id Nota e Produto""#(lf)#(lf)FROM sysemp.nota_saida_itens nsi#(lf)#(lf)INNER JOIN sysemp.nota_saida ns#(lf)    ON nsi.id_nota_saida = ns.id_nota_saida#(lf)#(lf)WHERE#(lf)    ns.data_pedido >= '2026-05-19'#(lf)#(lf)    AND nsi.id_nat_operacao_item IN (#(lf)        1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)    )#(lf)#(lf)    AND nsi.id_nota_saida NOT IN (#(lf)        1604288,1609721,1520316#(lf)    )#(lf)#(lf)    AND ns.tipo_documento = 'NF'#(lf)#(lf)    AND (#(lf)        (ns.id_empresa IN (1,5,7,12,13,14,15) AND ns.nfe_cstat = '100')#(lf)        OR#(lf)        (ns.id_empresa IN (7,5,13,14,15)#(lf)         AND (ns.nfe_cstat IS NULL OR ns.nfe_cstat = ''))#(lf)    )#(lf)#(lf)    AND ns.id_nat_operacao IN (#(lf)        1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)    )"),
+				    #"Consultas Mescladas" = Table.NestedJoin(Fonte, {"Período", "id_produto"}, #"Over por Período", {"Período", "id_produto"}, "Over por Período", JoinKind.LeftOuter),
+				    #"Over por Período Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Over por Período", {"Over Frete"}, {"Over por Período.Over Frete"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Over por Período Expandido",null,0,Replacer.ReplaceValue,{"Over por Período.Over Frete"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Valor Substituído",{{"Over por Período.Over Frete", "Over Frete"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Over Frete", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

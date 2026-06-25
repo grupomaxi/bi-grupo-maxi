@@ -1,0 +1,195 @@
+table 'Americanas | Legado'
+	isHidden
+	lineageTag: 95df9865-4f61-4b63-8595-72a88f23cfbe
+
+	column Marca
+		dataType: string
+		isHidden
+		lineageTag: 7e8e1cc1-c74b-4c5e-a9e4-25132df2abcc
+		summarizeBy: none
+		sourceColumn: Marca
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome Fantasia'
+		dataType: string
+		isHidden
+		lineageTag: 7e1cbe55-0e38-4167-9cf9-51c5de146cf5
+		summarizeBy: none
+		sourceColumn: Nome Fantasia
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data pedido'
+		dataType: string
+		isHidden
+		lineageTag: d3e5b5c5-9468-4014-8328-2014ee110fbd
+		summarizeBy: none
+		sourceColumn: Data pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Pagamento'
+		dataType: string
+		isHidden
+		lineageTag: a91a65ab-bdd1-4d4c-bcdc-857fcd975c63
+		summarizeBy: none
+		sourceColumn: Data Pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Estorno'
+		dataType: string
+		isHidden
+		lineageTag: cf2ff0b2-df35-4216-8c79-a6c6336a62f8
+		summarizeBy: none
+		sourceColumn: Data Estorno
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Liberação'
+		dataType: string
+		isHidden
+		lineageTag: 43bc90af-c6ad-44ff-aaa8-182bfcaf46ce
+		summarizeBy: none
+		sourceColumn: Data Liberação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Prevista Pgto'
+		dataType: string
+		isHidden
+		lineageTag: b52b7455-5400-4c6c-82c3-828061f5de0c
+		summarizeBy: none
+		sourceColumn: Data Prevista Pgto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lançamento
+		dataType: string
+		isHidden
+		lineageTag: a76ff96d-3fb1-489e-a4aa-71776266ed2c
+		summarizeBy: none
+		sourceColumn: Lançamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ref. Pedido'
+		dataType: string
+		isHidden
+		lineageTag: 395e31fc-818d-46d9-8c78-fe5ab3bb1215
+		summarizeBy: none
+		sourceColumn: Ref. Pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Entrega
+		dataType: string
+		isHidden
+		lineageTag: 115c5516-2f2e-4915-a90d-a2f35ccb30f5
+		summarizeBy: none
+		sourceColumn: Entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo
+		dataType: string
+		isHidden
+		lineageTag: 19334a3f-2da2-42df-9a8d-b07f759b540e
+		summarizeBy: none
+		sourceColumn: Tipo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		isHidden
+		lineageTag: 6177f4d8-5e4c-455d-9857-20583c2d14e0
+		summarizeBy: none
+		sourceColumn: Status
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valor
+		dataType: string
+		isHidden
+		lineageTag: 8b9a5aa5-033e-42cb-a5fa-b152ef573655
+		summarizeBy: none
+		sourceColumn: Valor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Parcela
+		dataType: string
+		isHidden
+		lineageTag: 2a42a55d-dbbc-4f0a-ba36-cf54b0e57d40
+		summarizeBy: none
+		sourceColumn: Parcela
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meio Pgto'
+		dataType: string
+		isHidden
+		lineageTag: 2879bdc8-ffdd-46a2-a4b3-c3cfd90834ed
+		summarizeBy: none
+		sourceColumn: Meio Pgto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Modelo Financeiro'
+		dataType: string
+		isHidden
+		lineageTag: 17ed5ca7-5db9-47bf-8aab-5996971c0611
+		summarizeBy: none
+		sourceColumn: Modelo Financeiro
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Americanas | Legado' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repasse - Legado'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Americanas%20-%202024.xlsx"), null, true),
+				    ReportCC14244294000101B2W_PARCE_Sheet = Fonte{[Item="ReportCC14244294000101B2W_PARCE",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(ReportCC14244294000101B2W_PARCE_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Cabeçalhos Promovidos"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

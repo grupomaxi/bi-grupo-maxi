@@ -1,0 +1,623 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "412f9d6fd6dd82a36320",
+  "position": {
+    "x": 251.11111111111111,
+    "y": 403.33333333333331,
+    "z": 2000,
+    "height": 293.33333333333331,
+    "width": 1008.8888888888889,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Entrada"
+                    }
+                  },
+                  "Property": "dt_entrada"
+                }
+              },
+              "queryRef": "Entrada.dt_entrada",
+              "nativeQueryRef": "Data Entrada",
+              "displayName": "Data Entrada"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "id_produto"
+                }
+              },
+              "queryRef": "produto.id_produto",
+              "nativeQueryRef": "id_produto"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "nome_produto"
+                }
+              },
+              "queryRef": "produto.nome_produto",
+              "nativeQueryRef": "nome_produto"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "Marca"
+                }
+              },
+              "queryRef": "produto.Marca",
+              "nativeQueryRef": "Marca1"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Entrada"
+                        }
+                      },
+                      "Property": "qtde_entrada"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Entrada.qtde_entrada)",
+              "nativeQueryRef": "Entrada",
+              "displayName": "Entrada"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "produto"
+                        }
+                      },
+                      "Property": "Meta Faturamento"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(produto.Meta Faturamento)",
+              "nativeQueryRef": "Soma de Meta Faturamento"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "produto_produto_meta_margem"
+                }
+              },
+              "queryRef": "produto.produto_produto_meta_margem",
+              "nativeQueryRef": "Meta Marg",
+              "displayName": "Meta Marg"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "produto_carteira_marca"
+                }
+              },
+              "queryRef": "produto.produto_carteira_marca",
+              "nativeQueryRef": "Carteira M",
+              "displayName": "Carteira M"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "produto"
+                    }
+                  },
+                  "Property": "produto_carteira_por_produto"
+                }
+              },
+              "queryRef": "produto.produto_carteira_por_produto",
+              "nativeQueryRef": "Carteira P",
+              "displayName": "Carteira P"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Entrada"
+                  }
+                },
+                "Property": "dt_entrada"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F72585'"
+                    }
+                  }
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(Entrada.qtde_entrada)"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "47.76120871417659D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "produto.produto_produto_meta_margem"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "340.0253317816329D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "produto.nome_produto"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "102.66664843632927D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(produto.Meta Faturamento)"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "88.80720180045012D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(Entrada.qtde_entrada)"
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FDD9E9'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridHorizontalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FDD9E9'"
+                    }
+                  }
+                }
+              }
+            },
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FDD9E9'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FDD9E9'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "837d8bbee45865422a6a",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Entrada"
+              }
+            },
+            "Property": "dt_entrada"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "f869d780750b3c75a1d9",
+        "ordinal": 1,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Entrada"
+                  }
+                },
+                "Property": "qtde_entrada"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6dd33da02d27603e095a",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "Tipo_Produto"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "adbbfa7c69964752b3ce",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "id_produto"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "73a84ff257a89ef1c042",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "produto_produto_meta_margem"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c9c9cc7c9055dceb01dc",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "produto_carteira_marca"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "930f2dcc05dd236f1d44",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "produto_carteira_por_produto"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "49e36aac68ac078e6769",
+        "ordinal": 7,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "nome_produto"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "produto",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "p"
+                              }
+                            },
+                            "Property": "nome_produto"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "9e0ff6b2c7a155f3e697",
+        "ordinal": 8,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "produto"
+              }
+            },
+            "Property": "Marca"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "9f7041d6cb4218e8463c",
+        "ordinal": 9,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "produto"
+                  }
+                },
+                "Property": "Meta Faturamento"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}

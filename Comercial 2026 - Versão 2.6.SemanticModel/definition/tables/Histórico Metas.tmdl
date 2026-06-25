@@ -1,0 +1,82 @@
+table 'Histórico Metas'
+	lineageTag: e8fc3d74-08fc-442a-bb94-b455cdb1afd5
+
+	column id_produto
+		dataType: string
+		lineageTag: b20fbcb7-8d36-4afa-a13c-bfc087757765
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meta Faturamento'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: a421cbfc-6d5f-4702-b84b-6e8215ff1e08
+		summarizeBy: sum
+		sourceColumn: Meta Faturamento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Meta Margem'
+		dataType: double
+		lineageTag: 6b5aaeae-4db3-483f-ab51-4ab08a5d6249
+		summarizeBy: sum
+		sourceColumn: Meta Margem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Período
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 78261221-63ef-4e61-9548-57a53bc6426c
+		summarizeBy: none
+		sourceColumn: Período
+
+		variation Variation
+			isDefault
+			relationship: 4b64ba94-4cb8-4b91-9136-e297791f6aa6
+			defaultHierarchy: LocalDateTable_42e90c90-aff3-4630-b0c3-77c883fe250e.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Carteira
+		dataType: string
+		lineageTag: 3afc086e-73b3-4062-9a59-00701ad7c951
+		summarizeBy: none
+		sourceColumn: Carteira
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Over Frete'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: c2ad1d01-ae2f-4446-a79e-8d66726b9a8d
+		summarizeBy: sum
+		sourceColumn: Over Frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Histórico Metas' = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Metas%20Por%20Produto%20e%20Período.xlsx"), null, true),
+				    Plan1_Sheet = Fonte{[Item="Plan1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Plan1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Meta Margem", Percentage.Type}, {"Meta Faturamento", Currency.Type}, {"Período", type date}, {"Over Frete", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

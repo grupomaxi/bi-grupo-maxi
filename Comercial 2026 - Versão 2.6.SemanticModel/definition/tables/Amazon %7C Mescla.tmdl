@@ -1,0 +1,66 @@
+table 'Amazon | Mescla'
+	isHidden
+	lineageTag: 84cf2457-e1f5-4d16-a1fd-68b6724db7ff
+
+	column 'Pedido MKT'
+		dataType: string
+		isHidden
+		lineageTag: 6a48f997-66ec-472b-8633-f330b1c2061c
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		isHidden
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 37524adc-4bcf-4fdc-9461-2f135845048e
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		isHidden
+		lineageTag: 2abe32b8-a01e-40e5-9272-79febf6c7e34
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		isHidden
+		lineageTag: 6cf8c0ed-323f-4a1a-ba9f-db6df84ba499
+		summarizeBy: none
+		sourceColumn: Canal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Amazon | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Amazon | Legado", #"Amazon |  Last 2 M"}),
+				    #"Duplicatas Removidas" = Table.Distinct(Fonte, {"Pedido MKT"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Duplicatas Removidas",{{"Pedido MKT", type text}, {"Status MKT", type text}})
+				in
+				    #"Tipo Alterado"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

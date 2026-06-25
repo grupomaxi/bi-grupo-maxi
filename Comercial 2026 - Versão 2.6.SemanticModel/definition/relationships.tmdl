@@ -1,0 +1,325 @@
+relationship ea64c24e-ae4b-4587-888b-b069c8c15021
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'NSI Left Join NS + Left Anti NS Devol'.data_emissao
+	toColumn: LocalDateTable_869dc869-dce6-4955-ae65-a389ad40b5e9.Date
+
+relationship b86470d9-8b80-4381-a689-52f84ab56cd6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'NSI Left Join NS + Left Anti NS Devol'.data_pedido
+	toColumn: LocalDateTable_a92a6794-87d1-463c-8803-cfad237f3aa9.Date
+
+relationship 084e29df-2d25-416a-817f-b3742f94b78b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ads shopee'.Data
+	toColumn: LocalDateTable_e918b0dd-0e37-476a-9b94-a793319ae5f7.Date
+
+relationship f7d647fa-1f22-420e-abf7-bcbbe6a9a8e7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ads Amazon'.Data
+	toColumn: LocalDateTable_6c502058-1e53-49e7-bb19-2ee13efd9ddc.Date
+
+relationship ccb4e043-5bfa-4677-b9c1-90ffd0aed397
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ads Meli'.Data
+	toColumn: LocalDateTable_4fc362e2-e2cb-42f6-8aae-2cc54743b9c1.Date
+
+relationship 28f0363d-bb47-4ec8-8e34-360f13252c78
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Report de produtos'.Data
+	toColumn: LocalDateTable_92553340-64c1-4216-9f44-493cc4760b91.Date
+
+relationship 1774d54f-8af5-420a-9ce7-5f9e94303417
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Legado'.'Data da compra (date_created)'
+	toColumn: LocalDateTable_5edcf0ff-3ea0-4063-8f2f-743cd195e7c5.Date
+
+relationship f74efcac-7a0f-4e3f-9316-2c40c44ac587
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Legado'.'Data de creditação (date_approved)'
+	toColumn: LocalDateTable_4e7239f6-e6ae-4902-9ec7-068ec42ccb97.Date
+
+relationship 27abcc93-17a6-4cd5-929a-b5fd654a1eb3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Legado'.'Data de liberação do dinheiro (date_released)'
+	toColumn: LocalDateTable_cfe09cfb-1409-4f41-b052-375fdab6f601.Date
+
+relationship 4b864dbb-d8a5-4673-ac0a-40887cb736f1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Last 2 M'.'Data da compra (date_created)'
+	toColumn: LocalDateTable_fbb3b7c4-2f7e-4494-a901-79b9006befe6.Date
+
+relationship f8cdf963-19c8-461d-adf4-f89a0461255b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Last 2 M'.'Data de creditação (date_approved)'
+	toColumn: LocalDateTable_196180df-7538-4dfd-a00f-b552c2499b26.Date
+
+relationship fecb70bb-a646-4ffb-ab07-f47d63e53cb2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Last 2 M'.'Data de liberação do dinheiro (date_released)'
+	toColumn: LocalDateTable_e376c44b-52b9-4b65-94e9-fe2e6c8c1285.Date
+
+relationship c2d7c9cf-0e03-427e-9fae-e666ed509381
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Acresc - para verificação'.'Data Pedido'
+	toColumn: LocalDateTable_45aea64c-5153-43d1-826e-c719e1781f06.Date
+
+relationship c6176351-a86b-459e-912f-41dcb060d3b5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Acresc - para verificação'.'Data de creditação (date_approved)'
+	toColumn: LocalDateTable_5fca5fec-c041-4f61-9503-e39308d0feb8.Date
+
+relationship 6fa929cd-ea8c-47cb-9956-48c31d6a3576
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | Acresc - para verificação'.'Data de liberação do dinheiro (date_released)'
+	toColumn: LocalDateTable_1a3e58c3-4bcd-4faa-89df-10e6d1260568.Date
+
+relationship 469de3e9-3682-4109-b28d-6c5610dab3dc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: produto.dt_cadastro
+	toColumn: LocalDateTable_a3740993-0f3a-447c-8b5a-32b8843c3eb3.Date
+
+relationship 85e92de8-f2b0-4ca3-ac3c-e7a212ba1a8f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'.data_pedido
+	toColumn: LocalDateTable_1657fd49-8b49-4e23-afab-3de57fb9cb73.Date
+
+relationship 4487dab3-80db-4100-b6fd-988e1f6be80f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Base.data_emissao
+	toColumn: LocalDateTable_1e42cb1d-d9c1-4c99-964e-c082e9f77441.Date
+
+relationship 90ac2ac2-9f53-0929-4805-d92821c8a0cf
+	crossFilteringBehavior: bothDirections
+	fromColumn: Base.id_transportadora
+	toColumn: Transportadoras.id_cliente
+
+relationship 1e30ce3d-29b8-3a22-9735-348340636d5d
+	crossFilteringBehavior: bothDirections
+	fromColumn: Base.id_atendimento
+	toColumn: Atendimento.id_sequencia
+
+relationship 1655cdd5-9583-8f3a-7ce9-6bbad8d79dec
+	fromColumn: Formula.item_composicao
+	toColumn: produto.id_produto
+
+relationship f5275c72-7ff9-4878-2924-d000019a1486
+	fromColumn: Base.codigos_kit
+	toColumn: 'produto (somente kits)'.codigo_auxiliar
+
+relationship 8f5c20ed-70be-99bc-abd7-c1a47649aeaf
+	crossFilteringBehavior: bothDirections
+	fromColumn: Formula.item
+	toColumn: 'produto (somente kits)'.id_produto
+
+relationship 7098d960-efc8-bd55-761b-7d1a8a70d0cb
+	toCardinality: many
+	fromColumn: 'Ads - Planilha'.'Canal Agrupado'
+	toColumn: Atendimento.canal_agrupado
+
+relationship AutoDetected_7fc38f44-1fb3-4588-96d8-e9931452a778
+	fromColumn: Estoque.id_produto
+	toColumn: produto.id_produto
+
+relationship 632e6f7c-dc09-a413-c4d1-5a0b480af338
+	fromColumn: Base.id_produto
+	toColumn: produto.id_produto
+
+relationship 06bf9535-3e64-2448-d4eb-7484add245e2
+	crossFilteringBehavior: bothDirections
+	fromColumn: Base.'Pedido MKT Final'
+	toColumn: 'Shopee | Afiliados'.'ID do pedido'
+
+relationship b709c93f-f201-476d-a80f-53effed0705a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ads Magalu'.Data
+	toColumn: LocalDateTable_0f5df81d-8552-4a4c-91ea-b70da998ba9d.Date
+
+relationship 1a071988-f2e6-d677-709f-d37263970e99
+	toCardinality: many
+	fromColumn: 'Base - Ads'.Canal
+	toColumn: Atendimento.canal_agrupado
+
+relationship f7b83506-22d1-f18b-7af6-d5d46d0ddff6
+	fromColumn: 'Base - Ads'.id_produto
+	toColumn: produto.id_produto
+
+relationship 906098e1-312e-f7b4-b2b3-0f9291d78cae
+	toCardinality: many
+	fromColumn: 'Base - Ads'.id_produto
+	toColumn: Formula.item
+
+relationship 4b64ba94-4cb8-4b91-9136-e297791f6aa6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Histórico Metas'.Período
+	toColumn: LocalDateTable_42e90c90-aff3-4630-b0c3-77c883fe250e.Date
+
+relationship f1449833-c976-42b0-9844-ece268342ef6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'produto - somente metas'.Período
+	toColumn: LocalDateTable_74b1212d-536d-4348-9f08-ab4b717f95f2.Date
+
+relationship b71bc8d5-853e-7a3e-33c0-60001c037ecf
+	fromColumn: 'Metas por Período'.id_produto
+	toColumn: produto.id_produto
+
+relationship ae9e8e8f-061f-4ad9-bfe7-ec3c3f341991
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | FDS'.'Data da compra (date_created)'
+	toColumn: LocalDateTable_4f167cf5-9763-41f0-96b2-0466be127a81.Date
+
+relationship 33c4b81b-5c2a-4595-921d-10bda0f00402
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | FDS'.'Data de creditação (date_approved)'
+	toColumn: LocalDateTable_9e146f87-81ff-4229-83b6-1227a2970881.Date
+
+relationship bf69c302-4988-4351-8767-a26060953f21
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Meli | FDS'.'Data de liberação do dinheiro (date_released)'
+	toColumn: LocalDateTable_b356b443-4919-476e-969e-2ce35c06d992.Date
+
+relationship 42d46399-4c17-40b7-88d2-d19f024e0dd5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Vistas por Dia'.Data
+	toColumn: LocalDateTable_2af3fbd3-268c-40fa-a3ff-ce8820fa5905.Date
+
+relationship 4d0943ee-d6e8-46c0-9234-96a3946b31f5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Visitas - Shopee'.Data
+	toColumn: LocalDateTable_adbb1c84-34e6-4710-96eb-7c7fa976c834.Date
+
+relationship f2d422f4-783e-4c72-898e-205375f35398
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Visitas - Shopee - Contagem'.Data
+	toColumn: LocalDateTable_27fc56b1-6c35-4fb3-9606-f265ff6f7e0a.Date
+
+relationship cc64cb5a-d16f-42ab-9fa5-3a93c818edbc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Visitas - Magalu'.Data
+	toColumn: LocalDateTable_d265e847-2a64-4057-9930-cea511849014.Date
+
+relationship 579533aa-8259-44c0-a05e-684182bdb516
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Visitas - Amazon - Contagem'.Data
+	toColumn: LocalDateTable_870bf840-6a4f-47e6-a31e-97c6bc7f45f3.Date
+
+relationship 6e5318a8-6f08-43ea-ab4a-f5c3e5252f0d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Visitas - Amazon'.Data
+	toColumn: LocalDateTable_09797fc4-b658-4573-ab6c-2a241f08380b.Date
+
+relationship b5af8f68-9f7c-465f-b25c-ecaf902b1725
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Visitas - Meli'.Data
+	toColumn: LocalDateTable_7cfd1f5f-389a-4588-a7e9-6e31d86b34bb.Date
+
+relationship f14fadc6-806f-4b52-8b0a-5e248c6a4f7a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: log_custo.dthr_alteracao
+	toColumn: LocalDateTable_99f966a0-2c75-46e5-94af-743a75cd918a.Date
+
+relationship 95111b9c-5945-48f2-a371-b45777d7155f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: usuario.dt_registro
+	toColumn: LocalDateTable_cae80f9d-648c-42f8-a0a4-2bf2ab23f347.Date
+
+relationship f3832543-279b-4c53-b256-6416beb978bf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: usuario.datamodificacao
+	toColumn: LocalDateTable_791b5f22-936d-4ed6-96d5-e556ad1b541c.Date
+
+relationship b6bdcd02-c50d-47e1-a217-a6a1aab68477
+	joinOnDateBehavior: datePartOnly
+	fromColumn: usuario.datamodificacaoserver
+	toColumn: LocalDateTable_7a9b3363-7c9e-4d0f-918c-377fc1ab04c3.Date
+
+relationship 73a757f3-24fc-4d95-9551-5d2819f7480c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: usuario.dthr_atualizacao
+	toColumn: LocalDateTable_5d100d3a-5c06-4eba-8c8b-2f43cf2d7234.Date
+
+relationship 724fe03a-511d-46b2-9b76-c76b19bd40aa
+	fromColumn: log_custo.id_usuario
+	toColumn: usuario.id_usuario
+
+	annotation PBI_IsFromSource = FS
+
+relationship 3724a37d-7496-9d3c-f1ff-1bf3e84eef8b
+	fromColumn: Entrada.id_produto
+	toColumn: produto.id_produto
+
+relationship 29175a9a-ca9c-b236-4347-784c2b51b1e3
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: log_custo.id_produto
+	toColumn: Entrada.id_produto
+
+relationship ea7e4f1e-b7d9-120e-3166-60bbf276b4f6
+	toCardinality: many
+	fromColumn: Base.id_produto
+	toColumn: 'Metas por Período'.id_produto
+
+relationship d6bba865-25ca-4ab4-db01-f45311804298
+	fromColumn: Base.data_pedido
+	toColumn: dCalendario.Date
+
+relationship 82fdf8d9-f972-7ff9-aa71-104ce36f1bf7
+	fromColumn: 'Base - Ads'.Data
+	toColumn: dCalendario.Date
+
+relationship 765da4d0-dcfd-e37e-53e6-41600d76daca
+	fromColumn: 'Ads - Planilha'.Data
+	toColumn: dCalendario.Date
+
+relationship b3fb9661-aeb5-3204-bf05-f6b9e10dbfd8
+	fromColumn: 'Base - Visitas'.Data
+	toColumn: dCalendario.Date
+
+relationship d650231f-da0d-9538-4201-91a681663046
+	fromColumn: Entrada.dt_entrada
+	toColumn: dCalendario.Date
+
+relationship e277fbc6-2f2d-a613-06a7-1ccafcc71567
+	isActive: false
+	fromColumn: log_custo.dt_alteracao
+	toColumn: dCalendario.Date
+
+relationship 67f0f011-1c14-15fe-3570-aee8617a632f
+	toCardinality: many
+	fromColumn: 'Metas por Período'.Período
+	toColumn: dCalendario.'Mês - Ano'
+
+relationship 36f7d919-2625-4468-a287-ea4e7f9690b1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Fato_Vendas_IA.Date
+	toColumn: LocalDateTable_06480e03-06ff-447f-87f3-03c2461726b7.Date
+
+relationship dd47300e-b8b4-429f-bc29-e862c16a6b35
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Fato_Meta_IA.Date
+	toColumn: LocalDateTable_09dc7944-b7d3-433c-a933-89c02e7b7405.Date
+
+relationship f936ce36-999a-a7df-e244-cc45dea87f97
+	toCardinality: many
+	fromColumn: 'Over por Período'.Período
+	toColumn: dCalendario.'Mês - Ano'
+
+relationship f9a0598b-67e4-4e7b-be07-91f7427b21d0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'NSI Left Join NS  - Id nota e id Produto'.data_pedido
+	toColumn: LocalDateTable_fa6dae1c-59c4-4c36-9bdc-b7dedc660fc5.Date
+
+relationship e848ea61-e3cb-4ee1-86f7-40fd679fbb0a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'NSI Left Join NS  - Id nota e id Produto'.Período
+	toColumn: LocalDateTable_2419117b-5553-42b7-bc9f-ef0c2e262f01.Date
+
+relationship 3681643f-a5f0-c6dd-3c5b-8340e3b895b2
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: 'NSI Left Join NS  - Id nota e id Produto'.'id Nota e Produto'
+	toColumn: Base.'id Nota e Produto'
+
+relationship efcbbbba-541e-5f8c-4f20-6dc1128c0a62
+	fromColumn: sysemp_televenas_somente_cartao.data_pedido
+	toColumn: dCalendario.Date
+

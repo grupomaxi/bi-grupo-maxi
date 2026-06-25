@@ -1,0 +1,682 @@
+table Base
+	lineageTag: 676a4474-59b9-493a-ac33-889432385c70
+
+	measure 'Ranking Faturamento' =
+			
+			RANKX(
+			    ALLSELECTED(Base[id_produto]),
+			    [Faturamento],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		lineageTag: f989a990-8feb-4023-94da-8f770e05d93e
+
+	measure 'Faturamento Total Filtrado' = ```
+			
+			CALCULATE(
+			    [Faturamento],
+			    ALLSELECTED(Base[id_produto])
+			)
+			
+			
+			```
+		lineageTag: 4dca7070-2864-4e1e-8576-acf1aa61eb1b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Classificação ABC' = ```
+			
+			VAR CurrentProduct = SELECTEDVALUE(Base[id_produto])
+			VAR CurrentRank = [Ranking Faturamento]
+			VAR FaturamentoTotal = [Faturamento Total Filtrado]
+			
+			VAR FaturamentoAcumulado = 
+			    CALCULATE(
+			        [Faturamento],
+			        FILTER(
+			            ALLSELECTED(Base[id_produto]),
+			            [Ranking Faturamento] <= CurrentRank
+			        )
+			    )
+			
+			VAR PercAcumulado = DIVIDE(FaturamentoAcumulado, FaturamentoTotal, 0)
+			
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        PercAcumulado <= 0.8, "A",
+			        PercAcumulado <= 0.95, "B",
+			        "C"
+			    )
+			```
+		lineageTag: 6cc4877d-b81d-460b-a704-bb7c0f1b7e19
+
+	measure 'Quantidade A' = ```
+			
+			VAR TabelaProdutos = 
+			    ADDCOLUMNS(
+			        SUMMARIZE(Base, Base[id_produto]),
+			        "Classif", [Classificação ABC]
+			    )
+			RETURN
+			    COUNTROWS(FILTER(TabelaProdutos, [Classif] = "A"))
+			```
+		formatString: 0
+		lineageTag: df16af6c-f7ba-42bb-a48d-1e35eb9eb324
+
+	measure 'Quantidade B' = ```
+			
+			VAR TabelaProdutos = 
+			    ADDCOLUMNS(
+			        SUMMARIZE(Base, Base[id_produto]),
+			        "Classif", [Classificação ABC]
+			    )
+			RETURN
+			    COUNTROWS(FILTER(TabelaProdutos, [Classif] = "B"))	
+			```
+		formatString: 0
+		lineageTag: a12a3d10-1c72-46bf-9628-e3c48ab0bc06
+
+	measure 'Quantidade C' = ```
+			
+			VAR TabelaProdutos = 
+			    ADDCOLUMNS(
+			        SUMMARIZE(Base, Base[id_produto]),
+			        "Classif", [Classificação ABC]
+			    )
+			RETURN
+			    COUNTROWS(FILTER(TabelaProdutos, [Classif] = "C"))	
+			```
+		formatString: 0
+		lineageTag: be8aed7b-8191-4988-865f-0ac30c69e582
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 02cffc74-11f6-47b4-b597-a87b42695bb7
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: b26367d1-0205-4126-8541-605bc5a79520
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 83bf3bdd-2fed-4ad9-9f01-993cd1a4b686
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Pedido MKT Final'
+		dataType: string
+		lineageTag: 288092c0-9170-4231-aec9-8aaf387db82c
+		summarizeBy: none
+		sourceColumn: Pedido MKT Final
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Maxi'
+		dataType: string
+		lineageTag: d32f677c-8ae7-405c-9362-24c374b45bd7
+		summarizeBy: none
+		sourceColumn: Status Maxi
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_nr_nf
+		dataType: int64
+		formatString: 0
+		lineageTag: 1792e195-4543-4f91-9851-a1da60a9db1a
+		summarizeBy: sum
+		sourceColumn: id_nr_nf
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: 45058753-2a3e-408b-820c-47aa7ca4994e
+		summarizeBy: sum
+		sourceColumn: id_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_cliente
+		dataType: int64
+		formatString: 0
+		lineageTag: 73ef45f3-7aa1-4bff-9300-6151d484cdbd
+		summarizeBy: sum
+		sourceColumn: id_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_emissao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ccb7bb03-3c3e-4fa3-95ce-e8435926b8c5
+		summarizeBy: none
+		sourceColumn: data_emissao
+
+		variation Variation
+			isDefault
+			relationship: 4487dab3-80db-4100-b6fd-988e1f6be80f
+			defaultHierarchy: LocalDateTable_1e42cb1d-d9c1-4c99-964e-c082e9f77441.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: 574d270a-0d4e-4a4a-a00a-c26cbd1fed4f
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column item
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a8c767d-d143-4ef1-851a-f7123b43704a
+		summarizeBy: sum
+		sourceColumn: item
+
+		annotation SummarizationSetBy = Automatic
+
+	column ipi_valor
+		dataType: double
+		lineageTag: 83743fa5-f097-4d66-ae4b-41a087c84ef4
+		summarizeBy: sum
+		sourceColumn: ipi_valor
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtde
+		dataType: int64
+		lineageTag: bba05fc1-752e-492d-b2c7-29ecd639ca6f
+		summarizeBy: sum
+		sourceColumn: qtde
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custo_produto
+		dataType: double
+		lineageTag: c56a6120-a6e0-4b08-b61f-78c588c2ceb4
+		summarizeBy: sum
+		sourceColumn: custo_produto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nat_operacao_item
+		dataType: int64
+		formatString: 0
+		lineageTag: d5331ba3-c3f3-4682-8b66-e12932660e6d
+		summarizeBy: sum
+		sourceColumn: id_nat_operacao_item
+
+		annotation SummarizationSetBy = Automatic
+
+	column vr_frete
+		dataType: double
+		lineageTag: 14e09d82-9a0c-438a-92e2-58309c1f5933
+		summarizeBy: sum
+		sourceColumn: vr_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nota_saida
+		dataType: string
+		lineageTag: 337755a0-9d82-4e7c-93df-2de8fde9db71
+		summarizeBy: none
+		sourceColumn: id_nota_saida
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_total_liquido
+		dataType: double
+		lineageTag: 2d90ca7d-038e-40d0-b0ca-47f81ff38ca9
+		summarizeBy: sum
+		sourceColumn: valor_total_liquido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_vendedor
+		dataType: int64
+		formatString: 0
+		lineageTag: 410963a7-ca87-4247-a387-fe2df59a831b
+		summarizeBy: sum
+		sourceColumn: id_vendedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_item_kit
+		dataType: int64
+		formatString: 0
+		lineageTag: 4173609d-47e3-40e3-a00c-58b3e9fb6ded
+		summarizeBy: sum
+		sourceColumn: id_item_kit
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_original
+		dataType: int64
+		formatString: 0
+		lineageTag: bc8ea847-3e44-4be7-8a36-6cbccbb4fe96
+		summarizeBy: sum
+		sourceColumn: item_original
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_frete
+		dataType: double
+		lineageTag: e7596e60-ec49-473e-abcd-57a30924ede9
+		summarizeBy: sum
+		sourceColumn: custo_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sku
+		dataType: string
+		lineageTag: 13064915-87d9-4b51-86ee-22b7dce5a1dd
+		summarizeBy: none
+		sourceColumn: sku
+
+		annotation SummarizationSetBy = Automatic
+
+	column mlb
+		dataType: string
+		lineageTag: 570e95b4-f919-4a52-8e6f-4489046f78b9
+		summarizeBy: none
+		sourceColumn: mlb
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_formacao
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 9836cde1-c39e-4329-bd2a-5ee4265fa0ac
+		summarizeBy: sum
+		sourceColumn: custo_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column codigos_kit
+		dataType: string
+		lineageTag: 0e1bdd42-ce22-45f2-acc2-64ba76da3537
+		summarizeBy: none
+		sourceColumn: codigos_kit
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_material
+		dataType: int64
+		formatString: 0
+		lineageTag: 5eeeb564-eb1d-4b39-845a-df28beeb6d24
+		summarizeBy: sum
+		sourceColumn: id_material
+
+		annotation SummarizationSetBy = Automatic
+
+	column vr_acrescimo
+		dataType: double
+		lineageTag: 7e459ab0-e286-4704-83d8-b4f9af8df1e3
+		summarizeBy: sum
+		sourceColumn: vr_acrescimo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nat_operacao
+		dataType: int64
+		formatString: 0
+		lineageTag: c7215836-1a61-484a-8dd3-bf2934d4ca1b
+		summarizeBy: sum
+		sourceColumn: id_nat_operacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrega_cidade
+		dataType: string
+		lineageTag: 84e13c36-1be1-47b1-b302-d507b41d0c59
+		summarizeBy: none
+		sourceColumn: entrega_cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrega_uf
+		dataType: string
+		lineageTag: 9c600af8-531e-4c4d-be4a-db6197242a3a
+		summarizeBy: none
+		sourceColumn: entrega_uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_nota_fiscal_liq
+		dataType: double
+		lineageTag: 17e121f5-2b23-4251-983c-ae92639392f8
+		summarizeBy: sum
+		sourceColumn: total_nota_fiscal_liq
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_transportadora
+		dataType: int64
+		formatString: 0
+		lineageTag: 6eacacf7-2916-4a94-a791-915c141e5795
+		summarizeBy: none
+		sourceColumn: id_transportadora
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_pedido
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f8921964-b855-42b3-9011-8ea9e3cb076a
+		summarizeBy: none
+		sourceColumn: data_pedido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_atendimento
+		dataType: int64
+		formatString: 0
+		lineageTag: 301e96d8-0f93-4626-b4cc-f215a125a80c
+		summarizeBy: none
+		sourceColumn: id_atendimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column parceiro
+		dataType: string
+		lineageTag: e2da8648-3b70-4ef5-b720-f4591972a9fb
+		summarizeBy: none
+		sourceColumn: parceiro
+
+		annotation SummarizationSetBy = Automatic
+
+	column marketplace_pedido
+		dataType: string
+		lineageTag: 82b3c695-a731-44b1-9eef-16830cc183ba
+		summarizeBy: none
+		sourceColumn: marketplace_pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column fulfillment
+		dataType: string
+		lineageTag: 6b8dd0cb-7653-4ba8-9fb9-5e63344e0da7
+		summarizeBy: none
+		sourceColumn: fulfillment
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_logistica
+		dataType: string
+		lineageTag: 925667e7-d74e-40f9-a115-a5046d972b67
+		summarizeBy: none
+		sourceColumn: tipo_logistica
+
+		annotation SummarizationSetBy = Automatic
+
+	column vr_desconto_total
+		dataType: double
+		lineageTag: f96b32e4-c339-428c-b83a-9cb6766ba18a
+		summarizeBy: sum
+		sourceColumn: vr_desconto_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Repasse Rateado' =
+			
+			// -----------------------------------------------------------
+			// MEDIDA: Repasse Rateado
+			// Objetivo: distribuir (ratear) o valor de "Repasse MKT"
+			// proporcionalmente ao valor bruto de cada item do pedido.
+			// ----------------------------------------------------------
+			
+			    // -------------------------------------------------------
+			    // Passo 1: Calcula o valor bruto total do pedido.
+			    // Usa ALLEXCEPT para agrupar pelo identificador
+			    // 'Pedido MKT Final' e ignorar outros filtros.
+			    // Isso garante que o rateio será feito entre os itens
+			    // do mesmo pedido, mesmo que haja filtros na página.
+			    // -------------------------------------------------------
+			    VAR TotalValorBruto =
+			        CALCULATE (
+			            SUM ( 'Base'[valor_total_liquido] ),
+			            ALLEXCEPT ( 'Base', 'Base'[Pedido MKT Final] )
+			        )
+			
+			    // -------------------------------------------------------
+			    // Passo 2: Calcula a proporção individual do item.
+			    // Utiliza DIVIDE para evitar erro de divisão por zero
+			    // ou valores inválidos.
+			    // Exemplo:
+			    // Se o item é 30% do valor bruto total do pedido,
+			    // sua proporção será 0,3.
+			    // -------------------------------------------------------
+			    VAR Proporcao =
+			        DIVIDE ( 'Base'[valor_total_liquido], TotalValorBruto, 0 )
+			
+			    // -------------------------------------------------------
+			    // Passo 3: Aplica o rateio proporcional.
+			    // Multiplica a proporção do item pelo valor total
+			    // de "Repasse MKT" daquele pedido.
+			    // Assim, cada item recebe sua parte proporcional.
+			    // -------------------------------------------------------
+			    RETURN
+			        Proporcao * 'Base'[Repasse MKT]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: fcad70ef-abbf-469f-8a6d-37512338a0d0
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Televendas? =
+			
+			
+			IF(
+			
+			'Base'[id_atendimento] IN {41, 26, 24, 14},
+			
+			1,
+			
+			0
+			
+			)
+		formatString: 0
+		lineageTag: 73e52153-75cc-4fc4-ba34-d564e46e6517
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shopify? =
+			
+			IF(
+			    'Base'[id_atendimento] IN {47,44},
+			    1,
+			    0
+			)
+		formatString: 0
+		lineageTag: 863a1258-faf9-4ecc-97d7-dffaf6dff18d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Meli? =
+			
+			SWITCH(
+			    'Base'[id_atendimento],
+			    20, 1, 7, 1, 32, 1, 27, 1, 8, 1,
+			    0
+			)
+		formatString: 0
+		lineageTag: 902ef94c-bf9a-498e-a55b-71d779190f15
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_entrega =
+			
+			VAR IdUltimaNota =
+			    CALCULATE(
+			        MAX('Base'[id_nota_saida]),
+			        ALLEXCEPT('Base', 'Base'[Pedido MKT Final])
+			    )
+			VAR TransportadoraUltimaNota =
+			    CALCULATE(
+			        MAX('Base'[id_transportadora]),
+			        FILTER(
+			            ALLEXCEPT('Base', 'Base'[Pedido MKT Final]),
+			            'Base'[id_nota_saida] = IdUltimaNota
+			        )
+			    )
+			RETURN
+			IF(
+			    TransportadoraUltimaNota IN {6789, 1413, 9489, 310689, 0, 209106},
+			    "ME2",
+			    "ME1"
+			)
+		lineageTag: 555d9c18-3388-4fff-9a24-f7df0a1535b4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: ded124fa-53d3-41e7-993f-c23051f13941
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_formacao_linha
+		dataType: double
+		lineageTag: 3edc435c-6eff-4748-b7e9-44d75440c897
+		summarizeBy: sum
+		sourceColumn: custo_formacao_linha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Canal Agrupado' =
+			
+			VAR vId = Base[id_atendimento]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vId = 3, "Casas Bahia",
+			    vId = 5, "Magalu",
+			    vId = 6, "Dafiti",
+			    vId IN {7, 8, 27, 32}, "Meli",
+			    vId = 9, "Netshoes",
+			    vId = 10, "Carrefour",
+			    vId IN {12, 39}, "Madeira",
+			    vId = 13, "Ri Happy",
+			    vId = 14, "Padrão",
+			    vId = 17, "Maxi Ferramentas",
+			    vId IN {21, 37}, "Shopee",
+			    vId = 23, "Webcontinenal",
+			    vId = 24, "Olx",
+			    vId = 25, "Manual",
+			    vId = 26, "Balcão",
+			    vId = 29, "Venda Interna",
+			    vId IN {31, 34}, "Americanas",
+			    vId IN {33, 35}, "Magalu",
+			    vId = 36, "Leroy",
+			    vId = 38, "Kabum",
+			    vId = 40, "Aliexpress",
+			    vId = 41, "Televendas",
+			    vId = 42, "Tranfs",
+			    vId IN {43, 44}, "Loja - Maxi Ferramentas",
+			    vId = 47, "Loja - Cozilux",
+			    vId IN {1, 45}, "Amazon",
+			    vId = 46, "Leilão",
+			    BLANK()
+			)
+		lineageTag: c12686d7-98a3-495a-8325-9a1fb1c577c0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'produto.nome_produto'
+		dataType: string
+		lineageTag: cf9db360-fd05-49a5-b7cd-b98b94ca5109
+		summarizeBy: none
+		sourceColumn: produto.nome_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'produto.Marca'
+		dataType: string
+		lineageTag: fe3052b9-f1f9-4c51-bb48-4b6a48542cf0
+		summarizeBy: none
+		sourceColumn: produto.Marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'id Nota e Produto'
+		dataType: string
+		lineageTag: 40160cca-f173-4ef0-9ea4-8bae36bde5fb
+		summarizeBy: none
+		sourceColumn: id Nota e Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Base = m
+		mode: import
+		queryGroup: Base
+		source =
+				let
+				    Fonte = Table.NestedJoin(#"MKT's | 1 - Acrescentar", {"Pedido MKT Final"}, #"NSI Left Join NS + Left Anti NS Devol", {"marketplace_pedido"}, "NSI Left Join NS + Left Anti NS Devol", JoinKind.Inner),
+				    #"NSI Left Join NS + Left Anti NS Devol Expandido" = Table.ExpandTableColumn(Fonte, "NSI Left Join NS + Left Anti NS Devol", {"id_nr_nf", "id_empresa", "id_cliente", "data_emissao", "id_produto", "id Nota e Produto", "item", "ipi_valor", "qtde", "custo_produto", "id_nat_operacao_item", "vr_frete", "id_nota_saida", "valor_total_liquido", "id_vendedor", "id_item_kit", "item_original", "custo_frete", "sku", "mlb", "custo_formacao", "custo_formacao_linha", "codigos_kit", "id_material", "vr_acrescimo", "vr_desconto_total", "id_nat_operacao", "entrega_cidade", "entrega_uf", "total_nota_fiscal_liq", "id_transportadora", "data_pedido", "id_atendimento", "parceiro", "marketplace_pedido", "fulfillment", "tipo_logistica", "Canal"}, {"id_nr_nf", "id_empresa", "id_cliente", "data_emissao", "id_produto", "id Nota e Produto", "item", "ipi_valor", "qtde", "custo_produto", "id_nat_operacao_item", "vr_frete", "id_nota_saida", "valor_total_liquido", "id_vendedor", "id_item_kit", "item_original", "custo_frete", "sku", "mlb", "custo_formacao", "custo_formacao_linha", "codigos_kit", "id_material", "vr_acrescimo", "vr_desconto_total", "id_nat_operacao", "entrega_cidade", "entrega_uf", "total_nota_fiscal_liq", "id_transportadora", "data_pedido", "id_atendimento", "parceiro", "marketplace_pedido", "fulfillment", "tipo_logistica", "Canal"}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"NSI Left Join NS + Left Anti NS Devol Expandido", {"id_produto"}, produto, {"id_produto"}, "produto", JoinKind.LeftOuter),
+				    #"produto Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "produto", {"nome_produto", "Marca"}, {"produto.nome_produto", "produto.Marca"})
+				in
+				    #"produto Expandido"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

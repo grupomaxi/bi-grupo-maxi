@@ -1,0 +1,643 @@
+table log_custo
+	lineageTag: 34ef311d-fd5a-4a1b-9e55-5c47e518675f
+
+	column dthr_alteracao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4f4b7b02-75f2-47fa-8327-a8877aa68898
+		summarizeBy: none
+		sourceColumn: dthr_alteracao
+
+		variation Variation
+			isDefault
+			relationship: f14fadc6-806f-4b52-8b0a-5e248c6a4f7a
+			defaultHierarchy: LocalDateTable_99f966a0-2c75-46e5-94af-743a75cd918a.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: 14d351eb-e5d5-41a0-8cac-b1d08219d4e0
+		summarizeBy: sum
+		sourceColumn: id_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_log
+		dataType: int64
+		formatString: 0
+		lineageTag: 2e735c69-b75f-4639-ab7d-1ebdd54b8f00
+		summarizeBy: sum
+		sourceColumn: id_log
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: e9a13597-b27a-42c1-8efd-50e45c8af702
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_usuario
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cbc07bd-c27b-46d2-a56a-f8a80865e61f
+		summarizeBy: none
+		sourceColumn: id_usuario
+
+		annotation SummarizationSetBy = Automatic
+
+	column new_custo
+		dataType: double
+		lineageTag: 415603ff-c3a3-471b-a177-cb621c6f7891
+		summarizeBy: sum
+		sourceColumn: new_custo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_custo_formacao
+		dataType: double
+		lineageTag: 00832f7e-ba77-40aa-bcd3-b08f37505d00
+		summarizeBy: sum
+		sourceColumn: new_custo_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_custo_medio
+		dataType: double
+		lineageTag: 3f41fdd4-eca3-42d3-921d-66f6783aaa55
+		summarizeBy: sum
+		sourceColumn: new_custo_medio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_custo_medio_formacao
+		dataType: double
+		lineageTag: bfa70cd5-3518-4c56-91ce-67a4ba042916
+		summarizeBy: sum
+		sourceColumn: new_custo_medio_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_custo_medio_produto
+		dataType: double
+		lineageTag: 45e75a2f-6865-48cf-bcfe-f413c86dcae4
+		summarizeBy: sum
+		sourceColumn: new_custo_medio_produto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ulimo_custo_frete
+		dataType: double
+		lineageTag: b42e28de-1723-4322-9535-749f86d20cca
+		summarizeBy: sum
+		sourceColumn: new_ulimo_custo_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_cofins
+		dataType: double
+		lineageTag: 65e693fd-ce1d-46cd-bbc2-8c218eb5302b
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_cofins
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_dificms
+		dataType: double
+		lineageTag: 3334220d-1b55-4268-b1df-923a96436232
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_dificms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_frete
+		dataType: double
+		lineageTag: c78fda34-3c83-493c-a338-91661cfa2f3f
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_icms
+		dataType: double
+		lineageTag: 774d6de8-81ee-4800-8fca-5ca53c539ee7
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_icms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_icmsst
+		dataType: double
+		lineageTag: 3768795f-080a-4e7a-9189-7db6d0e227cd
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_icmsst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_ipi
+		dataType: double
+		lineageTag: 3a8556db-b176-439e-b2d9-f6d7ac0916b7
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_ipi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_outro_acr
+		dataType: double
+		lineageTag: fea7b170-60e4-4e7a-8691-eec55ea01fdc
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_outro_acr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_outros_custos
+		dataType: double
+		lineageTag: 99aae0ca-e6b3-40d3-891d-5a44f0c7e2bc
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_outros_custos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_pis
+		dataType: double
+		lineageTag: 631512a5-3b28-49be-86fa-d9a7441629ed
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_pis
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_prod
+		dataType: double
+		lineageTag: 4ef523c4-13c0-400f-bb85-bee351febb34
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_prod
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_custo_vrpago
+		dataType: double
+		lineageTag: b73d32c3-fe25-4fdb-80ee-86a4b23469a3
+		summarizeBy: sum
+		sourceColumn: new_ultimo_custo_vrpago
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_cofins
+		dataType: double
+		lineageTag: 6d7515e9-94aa-422b-8be1-9b877b633fdc
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_cofins
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_dificms
+		dataType: double
+		lineageTag: a4bc50de-8e3a-4cbf-a353-2f6db92de74c
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_dificms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_frete
+		dataType: double
+		lineageTag: c17919ec-6a45-4519-9d14-29495b6aeb80
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_icms
+		dataType: double
+		lineageTag: 3da8c5f1-ee37-4971-91e3-fbf18e0b4eb2
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_icms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_icmsst
+		dataType: double
+		lineageTag: 99c34a4b-9b35-4321-b6c0-a5e14adde4eb
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_icmsst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_ipi
+		dataType: double
+		lineageTag: 17cc5923-253b-4b4f-ac3f-b699265e5261
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_ipi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_outros_acr
+		dataType: double
+		lineageTag: 18b4dc0c-dcac-44da-a1b0-66e50dff8417
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_outros_acr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_outros_custos
+		dataType: double
+		lineageTag: af620568-40c5-4f5d-b8b4-3c0980a993b4
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_outros_custos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_pis
+		dataType: double
+		lineageTag: cc13c659-708e-4a78-8b56-358481107d22
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_pis
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column new_ultimo_customedio_prod
+		dataType: double
+		lineageTag: e9baf365-fe6f-4b84-9d04-2009e0042cc8
+		summarizeBy: sum
+		sourceColumn: new_ultimo_customedio_prod
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_custo
+		dataType: double
+		lineageTag: 1a936fa5-c011-432c-9af0-1be0aa0fa203
+		summarizeBy: sum
+		sourceColumn: old_custo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_custo_formacao
+		dataType: double
+		lineageTag: 5f4ecd2c-7d2a-4a3d-9057-26f68b124e37
+		summarizeBy: sum
+		sourceColumn: old_custo_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_custo_medio
+		dataType: double
+		lineageTag: fc7631ab-4bd4-4edd-ba34-843e41122037
+		summarizeBy: sum
+		sourceColumn: old_custo_medio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_custo_medio_formacao
+		dataType: double
+		lineageTag: 98e5aa89-703d-421a-bc17-d9c7847e9075
+		summarizeBy: sum
+		sourceColumn: old_custo_medio_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_custo_medio_produto
+		dataType: double
+		lineageTag: 1f0fb6d7-b601-45e5-97ee-35aafe5fba06
+		summarizeBy: sum
+		sourceColumn: old_custo_medio_produto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ulimo_custo_frete
+		dataType: double
+		lineageTag: 6b0f2ca5-ca9d-4c58-8974-bf84e43622c5
+		summarizeBy: sum
+		sourceColumn: old_ulimo_custo_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_cofins
+		dataType: double
+		lineageTag: dbde0003-fc3d-4644-9efb-3544b95f884f
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_cofins
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_dificms
+		dataType: double
+		lineageTag: 510d50a0-0cb8-40ae-a3ac-c4918823286d
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_dificms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_frete
+		dataType: double
+		lineageTag: d59ffa38-f895-4c3c-a511-626c9113d2e3
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_icms
+		dataType: double
+		lineageTag: 3e5f49e8-ce62-4f83-a292-09eb3bf0e8d9
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_icms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_icmsst
+		dataType: double
+		lineageTag: 861aa20d-fac7-446b-862b-452b7d91f651
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_icmsst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_ipi
+		dataType: double
+		lineageTag: d1319558-970a-430f-9ebd-9c0cce937dfc
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_ipi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_outro_acr
+		dataType: double
+		lineageTag: 43ad5c94-d0fa-4b84-91ea-0f8c02bcfbfc
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_outro_acr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_outros_custos
+		dataType: double
+		lineageTag: fb5cf4f9-e9ee-4914-bd2e-80c54d4fe51f
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_outros_custos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_pis
+		dataType: double
+		lineageTag: 80db98d5-f2cc-43d6-984e-d3fe47319dbe
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_pis
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_prod
+		dataType: double
+		lineageTag: b6fba3c0-63e7-4499-838c-ef4d08171ef9
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_prod
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_custo_vrpago
+		dataType: double
+		lineageTag: 2a88934a-891f-4a2c-b0e9-256606cc39fb
+		summarizeBy: sum
+		sourceColumn: old_ultimo_custo_vrpago
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_cofins
+		dataType: double
+		lineageTag: 170e1d9c-c29f-414d-a95b-38700bcab58b
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_cofins
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_dificms
+		dataType: double
+		lineageTag: f17df590-8ddc-49be-b7be-3d91042b10ef
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_dificms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_frete
+		dataType: double
+		lineageTag: 20973b97-a0c1-4326-ae15-c90750493fa2
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_icms
+		dataType: double
+		lineageTag: 36c9df40-7c38-492a-a048-522572ed66c1
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_icms
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_icmsst
+		dataType: double
+		lineageTag: c882c98f-0c19-4635-915d-850ec49af885
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_icmsst
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_ipi
+		dataType: double
+		lineageTag: 71835179-d38d-454d-9129-7cfc3bbed14b
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_ipi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_outros_acr
+		dataType: double
+		lineageTag: 889c0797-375b-453b-b286-f528b4a3dd22
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_outros_acr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_outros_custos
+		dataType: double
+		lineageTag: 5af09bd9-4604-49b0-bb87-09e896f6572b
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_outros_custos
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_pis
+		dataType: double
+		lineageTag: e6108cac-87eb-48d6-98ec-3fd004977dd3
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_pis
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column old_ultimo_customedio_prod
+		dataType: double
+		lineageTag: ef26a238-bcfb-4ef8-a6a7-3242ba45c3dd
+		summarizeBy: sum
+		sourceColumn: old_ultimo_customedio_prod
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'usuario.1'
+		dataType: string
+		lineageTag: 1b3e589d-9241-4e5e-a18e-b2cfb35423bf
+		summarizeBy: none
+		sourceColumn: usuario.1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Alterou o custo ?'
+		dataType: string
+		lineageTag: 64e0713e-9515-473b-a297-363b6582a343
+		summarizeBy: none
+		sourceColumn: Alterou o custo ?
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_alteracao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: eabdfb75-3162-4ff3-824f-c11274c49126
+		summarizeBy: none
+		sourceColumn: dt_alteracao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition log_custo = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "select ""dthr_alteracao"",#(lf)    ""id_empresa"",#(lf)    ""id_log"",#(lf)    ""id_produto"",#(lf)    ""id_usuario"",#(lf)    ""new_custo"",#(lf)    ""new_custo_formacao"",#(lf)    ""new_custo_medio"",#(lf)    ""new_custo_medio_formacao"",#(lf)    ""new_custo_medio_produto"",#(lf)    ""new_ulimo_custo_frete"",#(lf)    ""new_ultimo_custo_cofins"",#(lf)    ""new_ultimo_custo_dificms"",#(lf)    ""new_ultimo_custo_frete"",#(lf)    ""new_ultimo_custo_icms"",#(lf)    ""new_ultimo_custo_icmsst"",#(lf)    ""new_ultimo_custo_ipi"",#(lf)    ""new_ultimo_custo_outro_acr"",#(lf)    ""new_ultimo_custo_outros_custos"",#(lf)    ""new_ultimo_custo_pis"",#(lf)    ""new_ultimo_custo_prod"",#(lf)    ""new_ultimo_custo_vrpago"",#(lf)    ""new_ultimo_customedio_cofins"",#(lf)    ""new_ultimo_customedio_dificms"",#(lf)    ""new_ultimo_customedio_frete"",#(lf)    ""new_ultimo_customedio_icms"",#(lf)    ""new_ultimo_customedio_icmsst"",#(lf)    ""new_ultimo_customedio_ipi"",#(lf)    ""new_ultimo_customedio_outros_acr"",#(lf)    ""new_ultimo_customedio_outros_custos"",#(lf)    ""new_ultimo_customedio_pis"",#(lf)    ""new_ultimo_customedio_prod"",#(lf)    ""old_custo"",#(lf)    ""old_custo_formacao"",#(lf)    ""old_custo_medio"",#(lf)    ""old_custo_medio_formacao"",#(lf)    ""old_custo_medio_produto"",#(lf)    ""old_ulimo_custo_frete"",#(lf)    ""old_ultimo_custo_cofins"",#(lf)    ""old_ultimo_custo_dificms"",#(lf)    ""old_ultimo_custo_frete"",#(lf)    ""old_ultimo_custo_icms"",#(lf)    ""old_ultimo_custo_icmsst"",#(lf)    ""old_ultimo_custo_ipi"",#(lf)    ""old_ultimo_custo_outro_acr"",#(lf)    ""old_ultimo_custo_outros_custos"",#(lf)    ""old_ultimo_custo_pis"",#(lf)    ""old_ultimo_custo_prod"",#(lf)    ""old_ultimo_custo_vrpago"",#(lf)    ""old_ultimo_customedio_cofins"",#(lf)    ""old_ultimo_customedio_dificms"",#(lf)    ""old_ultimo_customedio_frete"",#(lf)    ""old_ultimo_customedio_icms"",#(lf)    ""old_ultimo_customedio_icmsst"",#(lf)    ""old_ultimo_customedio_ipi"",#(lf)    ""old_ultimo_customedio_outros_acr"",#(lf)    ""old_ultimo_customedio_outros_custos"",#(lf)    ""old_ultimo_customedio_pis"",#(lf)    ""old_ultimo_customedio_prod""#(lf)from ""maxiferramentas"".""sysemp"".""log_custo""#(lf)where ""dthr_alteracao"" >= date '01-01-2024'"),
+				    #"Linhas Classificadas" = Table.Sort(Fonte,{{"dthr_alteracao", Order.Descending}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Linhas Classificadas", {"id_usuario"}, usuario, {"id_usuario"}, "usuario", JoinKind.LeftOuter),
+				    #"usuario Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "usuario", {"usuario"}, {"usuario.1"}),
+				    #"Coluna Duplicada" = Table.AddColumn(#"usuario Expandido", "Personalizar", each if [old_custo] <> [new_custo] then "Sim" else "Não"),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Coluna Duplicada",{{"Personalizar", "Alterou o custo ?"}}),
+				    #"Coluna Duplicada1" = Table.DuplicateColumn(#"Colunas Renomeadas", "dthr_alteracao", "dthr_alteracao - Copiar"),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Coluna Duplicada1",{{"dthr_alteracao - Copiar", "dt_alteracao - Copiar"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas1",{{"dt_alteracao - Copiar", type date}}),
+				    #"Colunas Renomeadas2" = Table.RenameColumns(#"Tipo Alterado",{{"dt_alteracao - Copiar", "dt_alteracao"}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Renomeadas2",{{"dthr_alteracao", type datetime}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

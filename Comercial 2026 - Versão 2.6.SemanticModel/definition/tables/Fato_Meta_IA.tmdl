@@ -1,0 +1,150 @@
+table Fato_Meta_IA
+	lineageTag: 9995a946-5f2a-4500-851c-1caf824bd4bb
+
+	column Date
+		formatString: General Date
+		lineageTag: ac4a6c09-57ea-429b-bd3d-cb303a9b16e8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: dCalendario[Date]
+
+		variation Variation
+			isDefault
+			relationship: dd47300e-b8b4-429f-bc29-e862c16a6b35
+			defaultHierarchy: LocalDateTable_09dc7944-b7d3-433c-a933-89c02e7b7405.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		lineageTag: 5c0ae6ed-f0cc-4d58-b202-44a2cfd56d00
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: produto[id_produto]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetaHoje
+		lineageTag: 74f83835-5003-4b2f-a12b-27a86832be79
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MetaHoje]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nome_produto
+		lineageTag: 87c8c053-7513-4e28-8da1-fe1c1d1b20b6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: produto[nome_produto]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		lineageTag: d2b5199e-ac16-4925-8f07-41deeabcb195
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: produto[Marca]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupo
+		lineageTag: 45bd8bdc-3181-4ed6-bf63-e8f92a6f1937
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: produto[Grupo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subgrupo
+		lineageTag: f2dcad3b-1f3a-481d-90b4-30fde8031533
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: produto[Subgrupo]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetaMes
+		lineageTag: 4ffd444f-9c54-413e-a978-2bcb8fff13b8
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MetaMes]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MetaDiaria
+		lineageTag: 92e7af34-b441-491e-a816-8c83752de3d7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MetaDiaria]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TemMeta
+		formatString: 0
+		lineageTag: 63af6410-da85-4390-b956-314ff3a10c4b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [TemMeta]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fato_Meta_IA = calculated
+		mode: import
+		source =
+				
+				FILTER(
+				    ADDCOLUMNS(
+				        CROSSJOIN(
+				            SUMMARIZE(
+				                produto,
+				                produto[id_produto],
+				                produto[nome_produto],
+				                produto[Marca],
+				                produto[Grupo],
+				                produto[Subgrupo]
+				            ),
+				            SUMMARIZE(
+				                dCalendario,
+				                dCalendario[Date]
+				            )
+				        ),
+				        "MetaMes",    CALCULATE(
+				                          SUM(produto[Meta Faturamento]),
+				                          FILTER(
+				                              produto,
+				                              produto[id_produto] = EARLIER(produto[id_produto])
+				                          )
+				                      ),
+				        "MetaHoje",   [Sum Meta Até Ontem],
+				        "MetaDiaria", CALCULATE(
+				                          DIVIDE(
+				                              SUM(produto[Meta Faturamento]),
+				                              MAX(dCalendario[Ultimo dia do mês])
+				                          ),
+				                          FILTER(
+				                              produto,
+				                              produto[id_produto] = EARLIER(produto[id_produto])
+				                          )
+				                      ),
+				        "TemMeta",    IF(
+				                          CALCULATE(
+				                              SUM(produto[Meta Faturamento]),
+				                              FILTER(
+				                                  produto,
+				                                  produto[id_produto] = EARLIER(produto[id_produto])
+				                              )
+				                          ) > 0,
+				                          1, 0
+				                      )
+				    ),
+				    [TemMeta] = 1
+				)
+
+	annotation PBI_Id = 6308976a3753422cb5651a92c12be738
+

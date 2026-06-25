@@ -1,0 +1,73 @@
+table Produtos_com_estoque_custo_formacao
+	lineageTag: b2d44938-59c9-4dad-b157-9f3d74a5ae2b
+
+	column 'Código Interno'
+		dataType: int64
+		formatString: 0
+		lineageTag: 36c37281-5a27-4bdd-ac95-57664e249ad9
+		summarizeBy: sum
+		sourceColumn: Código Interno
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qtde Disponível'
+		dataType: double
+		lineageTag: aded2333-3a69-4de3-ae11-566059d046c7
+		summarizeBy: sum
+		sourceColumn: Qtde Disponível
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custo_formacao
+		dataType: double
+		lineageTag: 8b6b0aeb-0776-41e9-8559-e0ca9e3a8314
+		summarizeBy: sum
+		sourceColumn: custo_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Custo Total'
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: ce671d28-8642-4999-b135-44965739ae55
+		summarizeBy: sum
+		sourceColumn: Custo Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Produtos_com_estoque_custo_formacao = m
+		mode: import
+		queryGroup: Sysemp
+		source = ```
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				            "
+				SELECT 
+				    pi.id_produto AS ""Código Interno"",
+				    SUM(pi.estoque) AS ""Qtde Disponível"",
+				    MAX(pe.custo_formacao) AS custo_formacao,
+				    SUM(pi.estoque) * MAX(pe.custo_formacao) AS ""Custo Total""
+				FROM sysemp.produto_inventario pi
+				JOIN sysemp.produto_estoque pe
+				    ON pe.id_produto = pi.id_produto
+				WHERE pi.id_empresa = 1
+				GROUP BY pi.id_produto
+				HAVING SUM(pi.estoque) > 0
+				"
+				        )
+				in
+				    Fonte
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

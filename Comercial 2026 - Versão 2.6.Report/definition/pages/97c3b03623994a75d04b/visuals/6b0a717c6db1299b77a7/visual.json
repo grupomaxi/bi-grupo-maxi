@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "6b0a717c6db1299b77a7",
+  "position": {
+    "x": 1155.1471898354012,
+    "y": 118.24088014347456,
+    "z": 11000,
+    "height": 57.692307692307693,
+    "width": 190,
+    "tabOrder": 15000
+  },
+  "visualGroup": {
+    "displayName": "CMV",
+    "groupMode": "ScaleMode"
+  }
+}

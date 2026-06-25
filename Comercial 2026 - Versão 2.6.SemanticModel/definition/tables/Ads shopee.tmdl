@@ -1,0 +1,94 @@
+table 'Ads shopee'
+	lineageTag: b72f8592-38dc-4351-908a-667e8ce258e0
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a485f78c-ecbf-4cbb-99e0-1cf34767a66a
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 084e29df-2d25-416a-817f-b3742f94b78b
+			defaultHierarchy: LocalDateTable_e918b0dd-0e37-476a-9b94-a793319ae5f7.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Código do anúncio'
+		dataType: string
+		lineageTag: cad9935e-c403-4318-bcb1-c373fc5254ee
+		summarizeBy: none
+		sourceColumn: Código do anúncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Investimento
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: d25d8d45-98cc-4c2c-80c6-177b67cb3f72
+		summarizeBy: sum
+		sourceColumn: Investimento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Canal
+		dataType: string
+		lineageTag: d9e4ab5d-1465-43c9-bc55-694c0d9df26f
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: c12deaf5-7cda-43ea-b635-b4ce6b24fbed
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Investimento Rateado'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 6ed01406-dcc8-42aa-9baa-1c85717750d5
+		summarizeBy: sum
+		sourceColumn: Investimento Rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Ads shopee' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20shopee.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Cabeçalhos Promovidos",".",",",Replacer.ReplaceText,{"Despesas"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído",{{"Data", type date}, {"Despesas", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"ID do produto", "Código do anúncio"}, {"Despesas", "Investimento"}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Código do anúncio", type text}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Tipo Alterado1", {"Data", "Código do anúncio"}, {{"Investimento", each List.Sum([Investimento]), type nullable number}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Linhas Agrupadas",{{"Investimento", Currency.Type}}),
+				    #"Personalização Adicionada2" = Table.AddColumn(#"Tipo Alterado2", "Canal", each "Shopee"),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Personalização Adicionada2", {"Código do anúncio", "Canal"}, #"Anuncio por produto", {"codigo_produto", "marketplace"}, "Anuncio por produto", JoinKind.LeftOuter),
+				    #"Anuncio por produto Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Anuncio por produto", {"codigo_auxiliar", "codigo_produto"}, {"codigo_auxiliar", "codigo_produto"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Anuncio por produto Expandido"),
+				    #"Linhas Agrupadas1" = Table.Group(#"Duplicatas Removidas", {"Data", "Código do anúncio", "Investimento", "Canal"}, {{"Contagem", each Table.RowCount(Table.Distinct(_)), Int64.Type}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Linhas Agrupadas1", "Investimento Rateado", each [Investimento]/[Contagem]),
+				    #"Tipo Alterado3" = Table.TransformColumnTypes(#"Personalização Adicionada1",{{"Investimento Rateado", Currency.Type}})
+				in
+				    #"Tipo Alterado3"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

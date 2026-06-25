@@ -1,0 +1,196 @@
+table 'Base - Visitas'
+	lineageTag: 55455813-c1dd-467c-87f9-e8fe933910c7
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1ab909d0-dc75-4754-a81e-931c0258de2c
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Anuncio
+		dataType: string
+		lineageTag: f5c4103b-ec79-42b4-b4ae-01a41f6261f2
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: ff15c8a5-cee5-41a7-802e-b69f730c6350
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Canal
+		dataType: string
+		lineageTag: addc3150-ecb8-4a0b-8a26-b923eafc270e
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Visitas Rateadas'
+		dataType: double
+		lineageTag: bf2405d0-bd86-4db9-9f83-df29cbf5513c
+		summarizeBy: sum
+		sourceColumn: Visitas Rateadas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Tipo_Produto
+		dataType: string
+		lineageTag: 68a5bd61-0527-4e2a-a6cb-43cd97fea445
+		summarizeBy: none
+		sourceColumn: Tipo_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qtde Kits'
+		dataType: double
+		formatString: 0
+		lineageTag: 3d9a0027-d518-41d5-99a7-4a9eb48c939e
+		summarizeBy: sum
+		sourceColumn: Qtde Kits
+
+		annotation SummarizationSetBy = Automatic
+
+	column Personalizar
+		dataType: double
+		lineageTag: 767fa1df-009c-4201-bd80-d6f1ca9d7902
+		summarizeBy: sum
+		sourceColumn: Personalizar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column item_composicao
+		dataType: int64
+		formatString: 0
+		lineageTag: 9861ae89-5f2c-402d-b7e7-078dc66e1589
+		summarizeBy: sum
+		sourceColumn: item_composicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Visitas Rateadas 2'
+		dataType: double
+		formatString: 0
+		lineageTag: f241166f-904f-498f-bdd1-468a6aa05e2e
+		summarizeBy: sum
+		sourceColumn: Visitas Rateadas 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto_antigo
+		dataType: int64
+		formatString: 0
+		lineageTag: f294120e-426e-4c81-b8cd-74afc3307f50
+		summarizeBy: sum
+		sourceColumn: id_produto_antigo
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: 545ed652-2004-41f2-ad51-ac40b44699da
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Base - Visitas' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source = ```
+				let
+				    Fonte = Table.Combine({#"Visitas - Shopee", #"Visitas - Meli", #"Visitas - Amazon", #"Visitas - Magalu"}),
+				
+				    #"Colunas Selecionadas" = Table.SelectColumns(Fonte,{"Data", "Anuncio", "Visitas", "Canal", "Visitas Rateadas"}),
+				
+				    // 🔥 LIMPEZA INICIAL
+				    #"Limpeza Inicial" = Table.TransformColumns(
+				        #"Colunas Selecionadas",
+				        {
+				            {"Visitas", each try Number.From(_) otherwise null, type number},
+				            {"Visitas Rateadas", each try Number.From(_) otherwise null, type number},
+				            {"Data", each try Date.From(_) otherwise null, type date},
+				            {"Anuncio", each if _ = "-" then null else _, type text}
+				        }
+				    ),
+				
+				    // 🔗 PRODUTO
+				    #"Merge Produto" = Table.NestedJoin(#"Limpeza Inicial", {"Anuncio"}, produto, {"codigo_auxiliar"}, "produto", JoinKind.LeftOuter),
+				
+				    #"Produto Expandido" = Table.ExpandTableColumn(#"Merge Produto", "produto", {"id_produto", "Tipo_Produto"}, {"id_produto", "Tipo_Produto"}),
+				
+				    // 🔗 FORMULA AGRUPADO
+				    #"Merge Formula Agrupado" = Table.NestedJoin(#"Produto Expandido", {"id_produto"}, #"Formula Agrupado - Item", {"item"}, "Formula Agrupado", JoinKind.LeftOuter),
+				
+				    #"Formula Agrupado Expandido" = Table.ExpandTableColumn(#"Merge Formula Agrupado", "Formula Agrupado", {"Qtde Kits"}, {"Qtde Kits"}),
+				
+				    // 🔥 LIMPEZA CRÍTICA (AQUI ESTAVA O ERRO)
+				    #"Limpeza Qtde Kits" = Table.TransformColumns(
+				        #"Formula Agrupado Expandido",
+				        {
+				            {"Qtde Kits", each try Number.From(_) otherwise null, type number}
+				        }
+				    ),
+				
+				    // 🧮 CÁLCULO SEGURO
+				    #"Personalizar" = Table.AddColumn(
+				        #"Limpeza Qtde Kits",
+				        "Personalizar",
+				        each 
+				            try
+				                if [Qtde Kits] = null or [Qtde Kits] = 0 then 1 
+				                else 1 / [Qtde Kits]
+				            otherwise 1,
+				        type number
+				    ),
+				
+				    // 🔗 FORMULA
+				    #"Merge Formula" = Table.NestedJoin(#"Personalizar", {"id_produto"}, Formula, {"item"}, "Formula", JoinKind.LeftOuter),
+				
+				    #"Formula Expandido" = Table.ExpandTableColumn(#"Merge Formula", "Formula", {"item_composicao"}, {"item_composicao"}),
+				
+				    #"Renomear Produto" = Table.RenameColumns(#"Formula Expandido",{{"id_produto", "id_produto_antigo"}}),
+				
+				    #"Novo Produto" = Table.AddColumn(
+				        #"Renomear Produto",
+				        "id_produto",
+				        each if [item_composicao] = null then [id_produto_antigo] else [item_composicao]
+				    ),
+				
+				    #"Tipo Produto" = Table.TransformColumnTypes(#"Novo Produto",{{"id_produto", Int64.Type}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Tipo Produto",{{"Anuncio", type text}}),
+				
+				    // 🔥 CÁLCULO FINAL SEGURO
+				    #"Visitas Rateadas 2" = Table.AddColumn(
+				        #"Tipo Alterado",
+				        "Visitas Rateadas 2",
+				        each 
+				            try Number.From([Visitas Rateadas]) * Number.From([Personalizar]) 
+				            otherwise null,
+				        type number
+				    )
+				in
+				    #"Visitas Rateadas 2"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

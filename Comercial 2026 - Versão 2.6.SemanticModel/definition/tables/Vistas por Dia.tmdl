@@ -1,0 +1,50 @@
+table 'Vistas por Dia'
+	lineageTag: 7a11072d-c52b-45ea-88c0-866c416b0980
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c1007cc7-1a9c-48fa-9cf1-b001620016a6
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 42d46399-4c17-40b7-88d2-d19f024e0dd5
+			defaultHierarchy: LocalDateTable_2af3fbd3-268c-40fa-a3ff-ce8820fa5905.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Visitas
+		dataType: int64
+		formatString: 0
+		lineageTag: c8ecf6ff-db2e-4163-806d-61cb757b13c9
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 754d9e62-0fa7-43a1-9bcf-4685b16b0c37
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Vistas por Dia' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("dZWxbhwxDET/5WpDFklRFMt8gKuUhosrDrEBJ3bjJl+fzSUFZxbqFngjihzO7j4/X7o89nzUrn55uEh3nXY8fH/9+LzdLi8Ph0CrQKzpWqQwKDGamZJiQI3edLLCoUa0EayYRRHZQoIEUQRL2zKeZNU7dLXlgxRZFKqzmU9USIca0uYUUoChsloE9SHoqJz7EHTUmii5IeBoX+20N3HyPJ32JhNm0dYtSRFwizYNJ0X1NFMX8+ro0QH3oB33HpOsULQzZqceVdGJOTotVSA4/W8HT7f3t3O6V8sxgRpQT6R1B9lyYuXqf7SVBnQiXXg2gKp3oJjjY20CuFou3gxvxgSPIzhQHOPrx1QDsOLd7g4Yg9tmB8cwtUesUwE73j0kAU/Ea+HpwOKa0BrEwOz+ujxdf1zfv85BGPovJQXXwYZ4EB6AcxCGwbQHV4fJhgiXr6N5WidcA+Gj8+kaiBGDMATClidh8E2cRoNA6P+0FFx9O75RTrj6pnH/llZcfbPOO4NAjCHkKgRipvDGYbB5fwO//bz+/vh1DsSRhyQMg6UOwpD0lZ0wBiK5eB1M7f5+VxyAg08vjLIRhp/cSuqcvg88N8SBkO6R7dHYI9+juUexR2uPcovgH0Vo74bu3dC9G7p3Q/du6N4N3buhezd074Zt3Hj5Aw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t, Visitas = _t, Canal = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Visitas", Int64.Type}, {"Data", type date}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,567 @@
+table 'Meli | Legado'
+	isHidden
+	lineageTag: fa58ce87-9517-428f-93c6-4b12bedcfec0
+
+	column 'Data da compra (date_created)'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 0b73cc5c-e741-425b-b30c-8924b9907a16
+		summarizeBy: none
+		sourceColumn: Data da compra (date_created)
+
+		variation Variation
+			isDefault
+			relationship: 1774d54f-8af5-420a-9ce7-5f9e94303417
+			defaultHierarchy: LocalDateTable_5edcf0ff-3ea0-4063-8f2f-743cd195e7c5.'Hierarquia de datas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de creditação (date_approved)'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 75510b14-e943-4a68-aecd-1c740cbb8da3
+		summarizeBy: none
+		sourceColumn: Data de creditação (date_approved)
+
+		variation Variation
+			isDefault
+			relationship: f74efcac-7a0f-4e3f-9316-2c40c44ac587
+			defaultHierarchy: LocalDateTable_4e7239f6-e6ae-4902-9ec7-068ec42ccb97.'Hierarquia de datas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de liberação do dinheiro (date_released)'
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 9db16cec-4dc2-407d-ab43-abac1ea6bb3f
+		summarizeBy: none
+		sourceColumn: Data de liberação do dinheiro (date_released)
+
+		variation Variation
+			isDefault
+			relationship: 27abcc93-17a6-4cd5-929a-b5fd654a1eb3
+			defaultHierarchy: LocalDateTable_cfe09cfb-1409-4f41-b052-375fdab6f601.'Hierarquia de datas'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da contraparte (counterpart_name)'
+		dataType: string
+		isHidden
+		lineageTag: b00fa76c-46ef-48a4-b94d-b940c0366086
+		summarizeBy: none
+		sourceColumn: Nome da contraparte (counterpart_name)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Apelido da contraparte no Mercado Livre (counterpart_nickname)'
+		dataType: string
+		isHidden
+		lineageTag: 08c10245-18b1-4f46-b121-4b0dd5f2fb5e
+		summarizeBy: none
+		sourceColumn: Apelido da contraparte no Mercado Livre (counterpart_nickname)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'E-mail da contraparte (counterpart_email)'
+		dataType: string
+		isHidden
+		lineageTag: 06aa1657-0d22-41bf-b8f5-5b6d97ab7fe0
+		summarizeBy: none
+		sourceColumn: E-mail da contraparte (counterpart_email)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Telefone da contraparte (counterpart_phone_number)'
+		dataType: string
+		isHidden
+		lineageTag: c41228e9-3e10-481e-850c-382e041c459a
+		summarizeBy: none
+		sourceColumn: Telefone da contraparte (counterpart_phone_number)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Documento da contraparte (buyer_document)'
+		dataType: string
+		isHidden
+		lineageTag: 5a652bd3-73fb-4c7b-a5fc-91d9a57eb7e3
+		summarizeBy: none
+		sourceColumn: Documento da contraparte (buyer_document)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código do produto (item_id)'
+		dataType: string
+		isHidden
+		lineageTag: cd4dfb76-0388-4f3a-9e66-f0da89e13a1d
+		summarizeBy: none
+		sourceColumn: Código do produto (item_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrição da operação (reason)'
+		dataType: string
+		isHidden
+		lineageTag: 7534b9c6-6777-4bd7-9048-aa5f489de7d7
+		summarizeBy: none
+		sourceColumn: Descrição da operação (reason)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de referência (external_reference)'
+		dataType: string
+		isHidden
+		lineageTag: 99813aa4-d628-4365-b1e9-736ee2fdf55f
+		summarizeBy: none
+		sourceColumn: Código de referência (external_reference)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU do produto (seller_custom_field)'
+		dataType: string
+		isHidden
+		lineageTag: 35bea5c8-30de-42e2-be3e-a46c5f04b7ee
+		summarizeBy: none
+		sourceColumn: SKU do produto (seller_custom_field)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da transação do Mercado Pago (operation_id)'
+		dataType: string
+		isHidden
+		lineageTag: 71d07e0e-e5cc-4fef-ada3-2a12c96c5eca
+		summarizeBy: none
+		sourceColumn: Número da transação do Mercado Pago (operation_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status da operação (status)'
+		dataType: string
+		isHidden
+		lineageTag: dc384d7f-ae79-42d0-b6b8-4c1a6c73b971
+		summarizeBy: none
+		sourceColumn: Status da operação (status)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Detalhe do status da operação (status_detail)'
+		dataType: string
+		isHidden
+		lineageTag: 20f1b898-7bab-405f-9c28-28226e0c74e9
+		summarizeBy: none
+		sourceColumn: Detalhe do status da operação (status_detail)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de operação (operation_type)'
+		dataType: string
+		isHidden
+		lineageTag: 4b8546de-975f-4953-964b-98c01dcdbf28
+		summarizeBy: none
+		sourceColumn: Tipo de operação (operation_type)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor do produto (transaction_amount)'
+		dataType: string
+		isHidden
+		lineageTag: 69bc8e7d-8d8b-49b0-9f80-3d0b84938ccf
+		summarizeBy: none
+		sourceColumn: Valor do produto (transaction_amount)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tarifa do Mercado Pago (mercadopago_fee)'
+		dataType: string
+		isHidden
+		lineageTag: d3cadae9-230a-4dbe-be4e-211598080d97
+		summarizeBy: none
+		sourceColumn: Tarifa do Mercado Pago (mercadopago_fee)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tarifa pelo uso da plataforma de terceiros (marketplace_fee)'
+		dataType: string
+		isHidden
+		lineageTag: a7c6f1ed-7ad6-40cf-bb37-20bf6bc85cd1
+		summarizeBy: none
+		sourceColumn: Tarifa pelo uso da plataforma de terceiros (marketplace_fee)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Frete (shipping_cost)'
+		dataType: string
+		isHidden
+		lineageTag: 53a35397-bd35-462a-9a7e-8f0b989d55ca
+		summarizeBy: none
+		sourceColumn: Frete (shipping_cost)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto para a sua contraparte (coupon_fee)'
+		dataType: string
+		isHidden
+		lineageTag: 70a3bf42-e9ca-4a51-a917-da76ad0bb182
+		summarizeBy: none
+		sourceColumn: Desconto para a sua contraparte (coupon_fee)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total recebido (net_received_amount)'
+		dataType: string
+		isHidden
+		lineageTag: 5462a99a-2bd5-41b6-bcbc-085c7e41334a
+		summarizeBy: none
+		sourceColumn: Valor total recebido (net_received_amount)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parcelas (installments)'
+		dataType: string
+		isHidden
+		lineageTag: 6de02601-42b9-4dc8-ad0d-6fbc95a64402
+		summarizeBy: none
+		sourceColumn: Parcelas (installments)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meio de pagamento (payment_type)'
+		dataType: string
+		isHidden
+		lineageTag: f689028c-c6a7-4b82-b6c0-a489142941a2
+		summarizeBy: none
+		sourceColumn: Meio de pagamento (payment_type)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor devolvido (amount_refunded)'
+		dataType: string
+		isHidden
+		lineageTag: 4d96c9fc-2729-41d2-a3d6-177ae58e2586
+		summarizeBy: none
+		sourceColumn: Valor devolvido (amount_refunded)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Operador que devolveu o dinheiro (refund_operator)'
+		dataType: string
+		isHidden
+		lineageTag: 41212fc0-d827-412f-a16d-f527a4940cc4
+		summarizeBy: none
+		sourceColumn: Operador que devolveu o dinheiro (refund_operator)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da reclamação (claim_id)'
+		dataType: string
+		isHidden
+		lineageTag: 72939bcd-3f18-4c06-99e2-220253fd75eb
+		summarizeBy: none
+		sourceColumn: Número da reclamação (claim_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da contestação (chargeback_id)'
+		dataType: string
+		isHidden
+		lineageTag: 9dcc93b3-e7c2-4500-be71-584825b6ab55
+		summarizeBy: none
+		sourceColumn: Número da contestação (chargeback_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Plataforma (marketplace)'
+		dataType: string
+		isHidden
+		lineageTag: 64b0c0eb-07e4-4a42-b865-abc0e5e7d46d
+		summarizeBy: none
+		sourceColumn: Plataforma (marketplace)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da venda no Mercado Livre (order_id)'
+		dataType: string
+		isHidden
+		lineageTag: 03c9ae82-5c4a-4587-aef9-c4bd9004665d
+		summarizeBy: none
+		sourceColumn: Número da venda no Mercado Livre (order_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da venda no seu negócio online (merchant_order_id)'
+		dataType: string
+		isHidden
+		lineageTag: b1af366b-f3cb-49c7-91d6-de15790c43eb
+		summarizeBy: none
+		sourceColumn: Número da venda no seu negócio online (merchant_order_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da campanha de desconto (campaign_id)'
+		dataType: string
+		isHidden
+		lineageTag: 20b34f14-97b4-45d9-8ffb-49fb3cf16ad8
+		summarizeBy: none
+		sourceColumn: Número da campanha de desconto (campaign_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da campanha de desconto (campaign_name)'
+		dataType: string
+		isHidden
+		lineageTag: 47f80764-9bab-4e8f-aeef-177b8caa66fe
+		summarizeBy: none
+		sourceColumn: Nome da campanha de desconto (campaign_name)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Detalhe da venda no Mercado Pago (activity_url)'
+		dataType: string
+		isHidden
+		lineageTag: 2e86db85-6031-459d-8999-e15761213f2d
+		summarizeBy: none
+		sourceColumn: Detalhe da venda no Mercado Pago (activity_url)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mercado Pago Point (id)'
+		dataType: string
+		isHidden
+		lineageTag: 5f53e305-7113-49ce-a9e9-dc17ebb251c3
+		summarizeBy: none
+		sourceColumn: Mercado Pago Point (id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status do envio (shipment_status)'
+		dataType: string
+		isHidden
+		lineageTag: decca493-1148-47df-8453-8be7610cf747
+		summarizeBy: none
+		sourceColumn: Status do envio (shipment_status)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Endereço do comprador (buyer_address)'
+		dataType: string
+		isHidden
+		lineageTag: feb49fc9-c832-49e8-b78c-aa87b2924496
+		summarizeBy: none
+		sourceColumn: Endereço do comprador (buyer_address)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de rastreamento (tracking_number)'
+		dataType: string
+		isHidden
+		lineageTag: 4446e961-8b9d-458b-a270-b4336584a0ad
+		summarizeBy: none
+		sourceColumn: Código de rastreamento (tracking_number)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Operador de multibanco (operator_name)'
+		dataType: string
+		isHidden
+		lineageTag: 10fa6caf-89a3-4c5c-a841-518125c5f278
+		summarizeBy: none
+		sourceColumn: Operador de multibanco (operator_name)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da loja (store_id)'
+		dataType: string
+		isHidden
+		lineageTag: 25d49be4-e0ed-4516-8341-188d90b8ee7b
+		summarizeBy: none
+		sourceColumn: Número da loja (store_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da loja (description)'
+		dataType: string
+		isHidden
+		lineageTag: aa460861-d39b-46fb-932b-30134f2277a9
+		summarizeBy: none
+		sourceColumn: Nome da loja (description)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número do caixa (pos_id)'
+		dataType: string
+		isHidden
+		lineageTag: 40069938-a852-4fb5-ae83-efad27dff102
+		summarizeBy: none
+		sourceColumn: Número do caixa (pos_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de caixa externa (external_id)'
+		dataType: string
+		isHidden
+		lineageTag: 96a6787c-a06f-4c35-a300-032179fbfcd2
+		summarizeBy: none
+		sourceColumn: Número de caixa externa (external_id)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Custos de parcelamento (financing_fee)'
+		dataType: string
+		isHidden
+		lineageTag: a987c29e-02df-4e0a-9a17-16194dc28f5f
+		summarizeBy: none
+		sourceColumn: Custos de parcelamento (financing_fee)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número do ticket (ticket_number)'
+		dataType: string
+		isHidden
+		lineageTag: 86c9afd3-442a-41b3-af40-665c9596a144
+		summarizeBy: none
+		sourceColumn: Número do ticket (ticket_number)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Canal de venda (business_unit)'
+		dataType: string
+		isHidden
+		lineageTag: 5a7d7f5d-aba8-4383-bac4-ab6b9aca50c6
+		summarizeBy: none
+		sourceColumn: Canal de venda (business_unit)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Plataforma de pagamento (sub_unit)'
+		dataType: string
+		isHidden
+		lineageTag: e4e9cbc3-2972-4709-9795-a47a4cf01322
+		summarizeBy: none
+		sourceColumn: Plataforma de pagamento (sub_unit)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Motivos de recusa (rejection_causes)'
+		dataType: string
+		isHidden
+		lineageTag: d715f41f-57c1-4b28-9db9-d6098c266a36
+		summarizeBy: none
+		sourceColumn: Motivos de recusa (rejection_causes)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Meli | Legado' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repasse - Legado'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Meli%20-%202024.xlsx"), null, true),
+				    #"export-activities_Sheet" = Fonte{[Item="export-activities",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"export-activities_Sheet", [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data da compra (date_created)", type datetime}, {"Data de creditação (date_approved)", type datetime}, {"Data de liberação do dinheiro (date_released)", type datetime}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Tipo Alterado", each [#"Data da compra (date_created)"] > #datetime(2024, 12, 31, 0, 0, 0))
+				in
+				    #"Linhas Filtradas"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

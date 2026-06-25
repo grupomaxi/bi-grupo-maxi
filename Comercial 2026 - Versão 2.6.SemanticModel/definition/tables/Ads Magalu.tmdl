@@ -1,0 +1,92 @@
+table 'Ads Magalu'
+	lineageTag: ea12da5e-75d2-4085-a6e4-72fe31da37d6
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 95b42c35-b39a-44b5-8e2d-ba432624fe08
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: b709c93f-f201-476d-a80f-53effed0705a
+			defaultHierarchy: LocalDateTable_0f5df81d-8552-4a4c-91ea-b70da998ba9d.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Investimento Rateado'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b0a6feb4-cee6-4bd4-b15f-5b26d4002967
+		summarizeBy: sum
+		sourceColumn: Investimento Rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Canal
+		dataType: string
+		lineageTag: 58b7b8fa-a241-4454-b364-e6369d2b1fcd
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: f281dfcc-2564-470f-8ddf-7a6a18da70ec
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ads Magalu' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Url = "https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20Magalu.xlsx",
+				    Fonte = Excel.Workbook(Web.Contents(Url), null, true),
+				    Base = Fonte{[Item="Base",Kind="Sheet"]}[Data],
+				
+				    // Remove erros antes de promover cabeçalho (ok manter)
+				    SemErros = Table.RemoveRowsWithErrors(Base, {"Column1"}),
+				    Cabec = Table.PromoteHeaders(SemErros, [PromoteAllScalars=true]),
+				
+				    // Renomeia só o que realmente usa
+				    Renomear = Table.RenameColumns(Cabec, {{"SKU", "Código do anúncio"}}),
+				
+				    // Mantém só colunas que impactam o resultado final (não traga "Consumo (R$)" se você remove depois)
+				    Mantidas = Table.SelectColumns(Renomear, {"Cod. Aux.", "Data", "Investimento Rateado"}),
+				
+				    // Tipos essenciais (Cod. Aux. como texto, Data como date)
+				    Tipos = Table.TransformColumnTypes(Mantidas, {{"Cod. Aux.", type text}, {"Data", type date}}),
+				
+				    // Canal constante
+				    Canal = Table.AddColumn(Tipos, "Canal", each "Magalu", type text),
+				
+				    // Converte Investimento Rateado sem Replace (mais leve e mais robusto)
+				    InvestimentoNum = Table.TransformColumns(
+				        Canal,
+				        {{"Investimento Rateado", each try Number.FromText(Text.From(_), "pt-BR") otherwise null, Currency.Type}}
+				    ),
+				
+				    // Merge só com o que precisa da tabela produto
+				    ProdBase = Table.SelectColumns(produto, {"codigo_auxiliar", "id_produto"}),
+				    Mesclar = Table.NestedJoin(InvestimentoNum, {"Cod. Aux."}, ProdBase, {"codigo_auxiliar"}, "produto", JoinKind.LeftOuter),
+				    Expandir = Table.ExpandTableColumn(Mesclar, "produto", {"id_produto"}, {"id_produto"}),
+				
+				    // Resultado final (equivalente ao seu: remove Cod. Aux. e outros campos)
+				    Final = Table.SelectColumns(Expandir, {"Data", "Investimento Rateado", "Canal", "id_produto"})
+				in
+				    Final
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

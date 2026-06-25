@@ -1,0 +1,55 @@
+table 'Via Boleto | Mescla'
+	lineageTag: b3298b37-d9c0-4965-b97c-9adda4d4335b
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 2eab46fb-1387-4210-a907-71d51cb33a6f
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 1c722060-f6d5-44cd-af62-beb142307507
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 9969367c-3e12-4635-8b6d-7c43579b2ee1
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Via Boleto | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Via Boleto | Legado", #"Via Boleto | Last 2M"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Número Pedido", "Id Entrega", "Tipo da Transação", "Data do Pedido Incluído", "SKU Marketplace", "SKU Lojista", "Valor do Produto sem desconto", "Desconto Ônus Via", "Desconto Ônus Lojista", "Valor do Frete", "Tipo do Frete", "Frete Promocional Ônus Via", "Frete Promocional Ônus Lojista", "Valor da Transação", "Comissão Aplicada R$", "Número de Parcelas", "Parcela Atual", "Valor Parcela", "Valor Bruto de Repasse", "Valor da Antecipação", "Taxa de Antecipação", "Valor Líquido de Repasse", "Motivo do Ajuste", "Descrição do produto"}),
+				    #"Linhas Agrupadas1" = Table.Group(#"Outras Colunas Removidas", {"Número Pedido"}, {{"Transações", each _, type table [Número Pedido=number, Id Entrega=number, Tipo da Transação=text, Data do Pedido Incluído=nullable date, SKU Marketplace=nullable number, SKU Lojista=any, Valor do Produto sem desconto=number, Desconto Ônus Via=nullable number, Desconto Ônus Lojista=nullable number, Valor do Frete=number, Tipo do Frete=nullable text, Frete Promocional Ônus Via=any, Frete Promocional Ônus Lojista=any, Valor da Transação=number, #"Comissão Aplicada R$"=number, Número de Parcelas=nullable number, Parcela Atual=nullable number, Valor Parcela=number, Valor Bruto de Repasse=number, Valor da Antecipação=any, Taxa de Antecipação=any, Valor Líquido de Repasse=number, Motivo do Ajuste=nullable text, Descrição do produto=nullable text]}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Linhas Agrupadas1", "ContemVenda", each List.Contains([Transações][Tipo da Transação], "VENDA")),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Personalização Adicionada1", each ([ContemVenda] = true)),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Linhas Filtradas",{"ContemVenda"}),
+				    #"Transações Expandido" = Table.ExpandTableColumn(#"Colunas Removidas", "Transações", {"Número Pedido", "Id Entrega", "Tipo da Transação", "Data do Pedido Incluído", "SKU Marketplace", "SKU Lojista", "Valor do Produto sem desconto", "Desconto Ônus Via", "Desconto Ônus Lojista", "Valor do Frete", "Tipo do Frete", "Frete Promocional Ônus Via", "Frete Promocional Ônus Lojista", "Valor da Transação", "Comissão Aplicada R$", "Número de Parcelas", "Parcela Atual", "Valor Parcela", "Valor Bruto de Repasse", "Valor da Antecipação", "Taxa de Antecipação", "Valor Líquido de Repasse", "Motivo do Ajuste", "Descrição do produto"}, {"Número Pedido.1", "Id Entrega", "Tipo da Transação", "Data do Pedido Incluído", "SKU Marketplace", "SKU Lojista", "Valor do Produto sem desconto", "Desconto Ônus Via", "Desconto Ônus Lojista", "Valor do Frete", "Tipo do Frete", "Frete Promocional Ônus Via", "Frete Promocional Ônus Lojista", "Valor da Transação", "Comissão Aplicada R$", "Número de Parcelas", "Parcela Atual", "Valor Parcela", "Valor Bruto de Repasse", "Valor da Antecipação", "Taxa de Antecipação", "Valor Líquido de Repasse", "Motivo do Ajuste", "Descrição do produto"}),
+				    #"Linhas Agrupadas" = Table.Group(#"Transações Expandido", {"Número Pedido"}, {{"Repasse", each List.Sum([Valor Líquido de Repasse]), type number}}),
+				    #"Primeiros caracteres extraídos" = Table.TransformColumns(#"Linhas Agrupadas", {{"Número Pedido", each Text.Start(Text.From(_, "pt-BR"), 9), type text}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Primeiros caracteres extraídos", "Status MKT", each "status único via"),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Personalização Adicionada",{{"Número Pedido", "Pedido MKT"}, {"Repasse", "Repasse MKT"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Repasse MKT", Currency.Type}}),
+				    #"Erros Removidos" = Table.RemoveRowsWithErrors(#"Tipo Alterado")
+				in
+				    #"Erros Removidos"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

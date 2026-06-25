@@ -1,0 +1,45 @@
+table 'Rede + Cielo'
+	lineageTag: eacfff56-828b-4e6c-be3c-b9a3ac9dcb13
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 628475b4-98c4-4249-923f-57240945dcaf
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: dd7226df-d323-43d6-b8cb-b5e950ba8be7
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: fe066204-f0aa-4410-b45f-64f4f0ed3650
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Rede + Cielo' = m
+		mode: import
+		queryGroup: Marketplaces\Televendas
+		source =
+				let
+				    Fonte = Table.Combine({Rede, Cielo}),
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([Status MKT] <> "negada")),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Filtradas",{{"Pedido MKT", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

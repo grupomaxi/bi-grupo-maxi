@@ -1,0 +1,26 @@
+
+FILTER(
+    ADDCOLUMNS(
+        SUMMARIZE(
+            Base,
+            dCalendario[Date],
+            Base[id_produto],
+            Base[Canal Agrupado],
+            Base[produto.nome_produto],
+            Base[produto.Marca]
+        ),
+        "Qtd",            SUM(Base[qtde]),
+        "Faturamento",    [Faturamento],
+        "MargemRS",       [Margem R$],
+        "MargemPct",      [Margem %],
+        "AdsMKT",         [Ads Rateado MKT 2],
+        "AdsLoja",        [Ads Rateado Loja],
+        "Repasse",        COALESCE([Repasse Rateado $], 0),
+        "QtdKits",        CALCULATE(
+                              COUNTROWS(Base),
+                              NOT ISBLANK(Base[codigos_kit])
+                          ),
+        "MargemNegativa", IF([Margem R$] < 0, 1, 0)
+    ),
+    [Qtd] > 0
+)

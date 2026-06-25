@@ -1,0 +1,372 @@
+table 'NSI Left Join NS + Left Anti NS Devol'
+	lineageTag: a0ecd6eb-af9e-4d07-ac9d-d8849e4e10fc
+
+	column id_nr_nf
+		dataType: int64
+		formatString: 0
+		lineageTag: a3c255bc-de16-4c87-8372-522c824e5127
+		summarizeBy: sum
+		sourceColumn: id_nr_nf
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: f42948f8-2781-4215-ad60-4052126dcd03
+		summarizeBy: sum
+		sourceColumn: id_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_cliente
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e26df58-7c66-46f3-9e3a-95a83db4f1b1
+		summarizeBy: sum
+		sourceColumn: id_cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_emissao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 71544e8f-e242-4c94-9160-3a01ee185604
+		summarizeBy: none
+		sourceColumn: data_emissao
+
+		variation Variation
+			isDefault
+			relationship: ea64c24e-ae4b-4587-888b-b069c8c15021
+			defaultHierarchy: LocalDateTable_869dc869-dce6-4955-ae65-a389ad40b5e9.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: afb7ea89-387a-475f-980e-68047ff8eede
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column item
+		dataType: int64
+		formatString: 0
+		lineageTag: 384e5b49-07b7-43ff-b2b5-b1a1dbc19f76
+		summarizeBy: sum
+		sourceColumn: item
+
+		annotation SummarizationSetBy = Automatic
+
+	column ipi_valor
+		dataType: double
+		lineageTag: d1dcdd84-e893-458a-91b9-c1522de85825
+		summarizeBy: sum
+		sourceColumn: ipi_valor
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtde
+		dataType: double
+		lineageTag: 072faa9d-ddb4-46b2-b0e8-b416a8dbfc4d
+		summarizeBy: sum
+		sourceColumn: qtde
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custo_produto
+		dataType: double
+		lineageTag: 04d49674-20d1-497a-9bd0-dc7f572b2d45
+		summarizeBy: sum
+		sourceColumn: custo_produto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nat_operacao_item
+		dataType: int64
+		formatString: 0
+		lineageTag: 7b40791e-b98f-4f37-8eca-193b1b9dadef
+		summarizeBy: sum
+		sourceColumn: id_nat_operacao_item
+
+		annotation SummarizationSetBy = Automatic
+
+	column vr_frete
+		dataType: double
+		lineageTag: 6c72a720-36f0-464b-bcf5-f2b1d19bc69f
+		summarizeBy: sum
+		sourceColumn: vr_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nota_saida
+		dataType: int64
+		formatString: 0
+		lineageTag: ffb3186b-cece-44a6-8eeb-590e081bfea6
+		summarizeBy: sum
+		sourceColumn: id_nota_saida
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_total_liquido
+		dataType: double
+		lineageTag: c698933b-4184-4564-af38-9caf83a80cfd
+		summarizeBy: sum
+		sourceColumn: valor_total_liquido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_vendedor
+		dataType: int64
+		formatString: 0
+		lineageTag: 98921ccc-8360-4596-8995-9e8788b35677
+		summarizeBy: sum
+		sourceColumn: id_vendedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_item_kit
+		dataType: int64
+		formatString: 0
+		lineageTag: f8098c6a-21ea-4160-8d8d-5b0750bb5e3e
+		summarizeBy: sum
+		sourceColumn: id_item_kit
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_original
+		dataType: int64
+		formatString: 0
+		lineageTag: 95fc3ff9-6e9c-4827-83a3-d2e5527884f3
+		summarizeBy: sum
+		sourceColumn: item_original
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_frete
+		dataType: double
+		lineageTag: 39e4874e-bf6f-4aaa-bc58-b727b88661a4
+		summarizeBy: sum
+		sourceColumn: custo_frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sku
+		dataType: string
+		lineageTag: 9ae91c03-976a-4bd2-9b99-2fcb9dd5e739
+		summarizeBy: none
+		sourceColumn: sku
+
+		annotation SummarizationSetBy = Automatic
+
+	column mlb
+		dataType: string
+		lineageTag: cec433df-a739-44ec-b337-f0e1ad0df05b
+		summarizeBy: none
+		sourceColumn: mlb
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_formacao
+		dataType: double
+		lineageTag: 13f6802a-ba68-48c7-8a75-cef14a076891
+		summarizeBy: sum
+		sourceColumn: custo_formacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigos_kit
+		dataType: string
+		lineageTag: 3fc342c3-60ad-485d-ba94-670cc34fc8a3
+		summarizeBy: none
+		sourceColumn: codigos_kit
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_material
+		dataType: int64
+		formatString: 0
+		lineageTag: e8751e29-d7a7-4001-983a-a9f4413dd2c5
+		summarizeBy: sum
+		sourceColumn: id_material
+
+		annotation SummarizationSetBy = Automatic
+
+	column vr_acrescimo
+		dataType: double
+		lineageTag: f337d7bd-def1-454f-8e06-e54d940ec263
+		summarizeBy: sum
+		sourceColumn: vr_acrescimo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nat_operacao
+		dataType: int64
+		formatString: 0
+		lineageTag: 3844241f-b588-4214-a1e7-3c0cc5706155
+		summarizeBy: sum
+		sourceColumn: id_nat_operacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrega_cidade
+		dataType: string
+		lineageTag: d2f59a63-e9b3-435b-a5a9-d42cb2de91f7
+		summarizeBy: none
+		sourceColumn: entrega_cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrega_uf
+		dataType: string
+		lineageTag: ee4b7277-7040-49e8-a9ac-ac2333f679f2
+		summarizeBy: none
+		sourceColumn: entrega_uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_nota_fiscal_liq
+		dataType: double
+		lineageTag: 2f64b04a-882e-4140-bb6f-2a754baa9567
+		summarizeBy: sum
+		sourceColumn: total_nota_fiscal_liq
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_transportadora
+		dataType: int64
+		formatString: 0
+		lineageTag: b57b98c7-3138-42bb-87ed-c37c106b6819
+		summarizeBy: sum
+		sourceColumn: id_transportadora
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_pedido
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 86b7eb25-9d93-451f-9e4b-077802adb787
+		summarizeBy: none
+		sourceColumn: data_pedido
+
+		variation Variation
+			isDefault
+			relationship: b86470d9-8b80-4381-a689-52f84ab56cd6
+			defaultHierarchy: LocalDateTable_a92a6794-87d1-463c-8803-cfad237f3aa9.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_atendimento
+		dataType: int64
+		formatString: 0
+		lineageTag: 5258f029-31ca-44c9-ab26-331eef197fa4
+		summarizeBy: sum
+		sourceColumn: id_atendimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column parceiro
+		dataType: string
+		lineageTag: f0d143a6-0657-4fb6-a1ea-4c2180237bca
+		summarizeBy: none
+		sourceColumn: parceiro
+
+		annotation SummarizationSetBy = Automatic
+
+	column marketplace_pedido
+		dataType: string
+		lineageTag: faf436cf-b6fa-4755-9ad4-60c525645a7e
+		summarizeBy: none
+		sourceColumn: marketplace_pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column fulfillment
+		dataType: string
+		lineageTag: 2f7741c4-d96e-4f18-ab56-a263de5632e7
+		summarizeBy: none
+		sourceColumn: fulfillment
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_logistica
+		dataType: string
+		lineageTag: 6688ba19-ed98-4edb-a640-689e97de1011
+		summarizeBy: none
+		sourceColumn: tipo_logistica
+
+		annotation SummarizationSetBy = Automatic
+
+	column vr_desconto_total
+		dataType: double
+		lineageTag: 7b05235b-9b60-4193-ac0e-aa432a3dd8b5
+		summarizeBy: sum
+		sourceColumn: vr_desconto_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Canal
+		dataType: string
+		lineageTag: 9f04e013-f4e9-41f7-b7b2-45f6b7796b37
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column custo_formacao_linha
+		dataType: double
+		lineageTag: 5b046f23-f8a1-4fbb-9ede-1e3d576abf73
+		summarizeBy: sum
+		sourceColumn: custo_formacao_linha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'id Nota e Produto'
+		dataType: string
+		lineageTag: e64e4ebb-e3e1-4c2d-8c5a-05e6ec1db698
+		summarizeBy: none
+		sourceColumn: id Nota e Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'NSI Left Join NS + Left Anti NS Devol' = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "WITH base AS (#(lf)#(lf)    SELECT#(lf)        id_nr_nf,#(lf)        id_empresa,#(lf)        id_cliente,#(lf)        data_emissao,#(lf)        id_produto,#(lf)        item,#(lf)        ipi_valor,#(lf)        qtde,#(lf)        valor_bruto,#(lf)        valor_liquido,#(lf)        custo_produto,#(lf)        id_nat_operacao_item,#(lf)        vr_frete,#(lf)        id_nota_saida,#(lf)        valor_total_liquido,#(lf)        id_vendedor,#(lf)        id_item_kit,#(lf)        item_original,#(lf)        custo_frete,#(lf)        sku,#(lf)        mlb,#(lf)        custo_formacao,#(lf)        codigos_kit,#(lf)        id_material,#(lf)        vr_acrescimo,#(lf)        vr_desconto_total#(lf)    FROM sysemp.nota_saida_itens#(lf)    WHERE#(lf)        data_emissao >= '2024-01-01'#(lf)        AND id_nat_operacao_item IN (#(lf)            1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)        )#(lf)        AND id_nota_saida NOT IN (1604288,1609721,1520316)#(lf)),#(lf)#(lf)rateio AS (#(lf)#(lf)    SELECT#(lf)        *,#(lf)#(lf)        SUM(#(lf)            CASE #(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN valor_bruto#(lf)                ELSE 0#(lf)            END#(lf)        ) OVER (PARTITION BY id_nota_saida) AS valor_transferencia_nota,#(lf)#(lf)        SUM(#(lf)            CASE #(lf)                WHEN id_produto NOT IN (90315682,79020,90316150)#(lf)                THEN valor_bruto#(lf)                ELSE 0#(lf)            END#(lf)        ) OVER (PARTITION BY id_nota_saida) AS base_rateio#(lf)#(lf)    FROM base#(lf)),#(lf)#(lf)consulta_esquerda AS (#(lf)#(lf)    SELECT#(lf)        id_nr_nf,#(lf)        id_empresa,#(lf)        id_cliente,#(lf)        data_emissao,#(lf)        id_produto,#(lf)#(lf)        id_nota_saida || '_' || id_produto#(lf)            AS ""id Nota e Produto"",#(lf)#(lf)        item,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE ipi_valor#(lf)            END#(lf)        AS DECIMAL(18,2)) AS ipi_valor,#(lf)#(lf)        qtde,#(lf)#(lf)        CAST(custo_produto AS DECIMAL(18,2)) AS custo_produto,#(lf)#(lf)        id_nat_operacao_item,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE vr_frete#(lf)            END#(lf)        AS DECIMAL(18,2)) AS vr_frete,#(lf)#(lf)        id_nota_saida,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                WHEN valor_transferencia_nota = 0#(lf)                THEN valor_total_liquido#(lf)                ELSE valor_total_liquido +#(lf)                    (valor_total_liquido / NULLIF(base_rateio,0)) * valor_transferencia_nota#(lf)            END#(lf)        AS DECIMAL(18,2)) AS valor_total_liquido,#(lf)#(lf)        id_vendedor,#(lf)        id_item_kit,#(lf)        item_original,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE custo_frete#(lf)            END#(lf)        AS DECIMAL(18,2)) AS custo_frete,#(lf)#(lf)        sku,#(lf)        mlb,#(lf)#(lf)        CAST(#(lf)            CASE #(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE custo_formacao#(lf)            END#(lf)        AS DECIMAL(18,2)) AS custo_formacao,#(lf)#(lf)        CAST(#(lf)            CASE #(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE COALESCE(custo_formacao,0) * COALESCE(qtde,0)#(lf)            END#(lf)        AS DECIMAL(18,2)) AS custo_formacao_linha,#(lf)#(lf)        codigos_kit,#(lf)        id_material,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE vr_acrescimo#(lf)            END#(lf)        AS DECIMAL(18,2)) AS vr_acrescimo,#(lf)#(lf)        CAST(#(lf)            CASE#(lf)                WHEN id_produto IN (90315682,79020,90316150)#(lf)                THEN 0#(lf)                ELSE vr_desconto_total#(lf)            END#(lf)        AS DECIMAL(18,2)) AS vr_desconto_total#(lf)#(lf)    FROM rateio#(lf)),#(lf)#(lf)consulta_direita AS (#(lf)#(lf)    SELECT#(lf)        ns.id_nota_saida,#(lf)        ns.id_nat_operacao,#(lf)        ns.entrega_cidade,#(lf)        ns.entrega_uf,#(lf)        CAST(ns.total_nota_fiscal_liq AS DECIMAL(18,2)) AS total_nota_fiscal_liq,#(lf)        ns.id_transportadora,#(lf)        ns.data_pedido,#(lf)        ns.id_atendimento,#(lf)        ns.parceiro,#(lf)#(lf)        CASE#(lf)            WHEN (#(lf)                ns.id_atendimento IN (24,26,41)#(lf)                OR (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)            )#(lf)                THEN ns.id_nota_saida::varchar#(lf)#(lf)            WHEN ns.id_atendimento = 45#(lf)                THEN regexp_replace(ns.marketplace_pedido, '-[^-]*$', '')#(lf)#(lf)            WHEN ns.id_atendimento = 5#(lf)                 AND ns.data_pedido >= '2025-08-18'#(lf)                THEN regexp_replace('LU-' || ns.marketplace_pedido, '^LU-LU-', 'LU-')#(lf)#(lf)            ELSE ns.marketplace_pedido#(lf)        END AS marketplace_pedido,#(lf)#(lf)        ns.fulfillment,#(lf)        ns.tipo_logistica,#(lf)#(lf)        a.nome_atendimento AS ""Canal""#(lf)#(lf)    FROM sysemp.nota_saida ns#(lf)#(lf)    LEFT JOIN sysemp.atendimento a#(lf)        ON ns.id_atendimento = a.id_sequencia#(lf)#(lf)    WHERE#(lf)        ns.tipo_documento = 'NF'#(lf)        AND ns.data_pedido >= '2024-01-01'#(lf)        AND (#(lf)            (ns.id_empresa IN (1,5,7,12,13,14,15) AND ns.nfe_cstat = '100')#(lf)            OR#(lf)            (ns.id_empresa IN (7,5,13,14,15) AND (ns.nfe_cstat IS NULL OR ns.nfe_cstat = ''))#(lf)        )#(lf)        AND ns.id_nat_operacao IN (#(lf)            1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)        )#(lf)),#(lf)#(lf)devolucoes AS (#(lf)#(lf)    SELECT DISTINCT#(lf)        ref_numero_docfiscal#(lf)    FROM sysemp.nota_saida#(lf)    WHERE#(lf)        data_pedido >= '2024-01-01'#(lf)        AND ref_numero_docfiscal <> 0#(lf)        AND (ref_numero_docfiscal IS NOT NULL OR id_nota_saida_fatura <> '0')#(lf)        AND id_nat_operacao IN (#(lf)            8,11,12,29,32,42,44,47,59,60,72,75,76,87,88,89,91,93,104,123#(lf)        )#(lf))#(lf)#(lf)SELECT#(lf)    L.*,#(lf)    R.id_nat_operacao,#(lf)    R.entrega_cidade,#(lf)    R.entrega_uf,#(lf)    R.total_nota_fiscal_liq,#(lf)    R.id_transportadora,#(lf)    R.data_pedido,#(lf)    R.id_atendimento,#(lf)    R.parceiro,#(lf)    R.marketplace_pedido,#(lf)    R.fulfillment,#(lf)    R.tipo_logistica,#(lf)    R.""Canal""#(lf)#(lf)FROM consulta_esquerda L#(lf)#(lf)LEFT JOIN consulta_direita R#(lf)    ON L.id_nota_saida = R.id_nota_saida#(lf)#(lf)LEFT JOIN devolucoes D#(lf)    ON L.id_nr_nf = D.ref_numero_docfiscal#(lf)#(lf)WHERE D.ref_numero_docfiscal IS NULL")
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

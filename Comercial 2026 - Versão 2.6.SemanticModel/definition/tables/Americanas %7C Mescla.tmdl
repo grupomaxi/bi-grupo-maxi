@@ -1,0 +1,44 @@
+table 'Americanas | Mescla'
+	lineageTag: b4806475-3676-4b28-bfa9-3e438b27a3f5
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: b66cd6f1-7772-4549-9a14-a3591624af8f
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: c60846c2-2c10-40ef-88ad-28b36c411bcf
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: double
+		lineageTag: 14def0fd-4566-4ff9-beac-c61f655ee770
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Americanas | Mescla' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Americanas | Legado", #"Americanas | Last 2 M"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Entrega", type text}, {"Status", type text}, {"Valor", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Entrega", "Pedido MKT"}, {"Status", "Status MKT"}, {"Valor", "Repasse MKT"}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Colunas Renomeadas", each ([Ref. Pedido] <> null)),
+				    #"Linhas Agrupadas" = Table.Group(#"Linhas Filtradas", {"Pedido MKT", "Status MKT"}, {{"Repasse MKT", each List.Sum([Repasse MKT]), type nullable number}})
+				in
+				    #"Linhas Agrupadas"
+
+	annotation PBI_ResultType = Table
+

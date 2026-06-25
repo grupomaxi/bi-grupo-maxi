@@ -1,0 +1,706 @@
+table 'Shopee | Legado'
+	isHidden
+	lineageTag: abb3645b-d00d-46ba-b7cd-6efa8557d9fd
+
+	column 'ID do pedido'
+		dataType: string
+		isHidden
+		lineageTag: 7bfc6941-b740-4624-9377-48d10b69ea9a
+		summarizeBy: none
+		sourceColumn: ID do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status do pedido'
+		dataType: string
+		isHidden
+		lineageTag: f9cd72ce-2160-44c3-be29-86b5b65e3867
+		summarizeBy: none
+		sourceColumn: Status do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hot Listing'
+		dataType: string
+		isHidden
+		lineageTag: f76ec045-a98e-46b5-9834-d1622244c123
+		summarizeBy: none
+		sourceColumn: Hot Listing
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cancelar Motivo'
+		dataType: string
+		isHidden
+		lineageTag: 48fefb25-322f-4a4a-9bde-9fa5cc5640c8
+		summarizeBy: none
+		sourceColumn: Cancelar Motivo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status da Devolução / Reembolso'
+		dataType: string
+		isHidden
+		lineageTag: cecda2c0-2d42-4e00-953d-5d3445c20501
+		summarizeBy: none
+		sourceColumn: Status da Devolução / Reembolso
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de rastreamento'
+		dataType: string
+		isHidden
+		lineageTag: 22360c83-1c2e-4f8c-95e4-3c586d8962dc
+		summarizeBy: none
+		sourceColumn: Número de rastreamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Opção de envio'
+		dataType: string
+		isHidden
+		lineageTag: fe699dc0-4226-4dcb-9bbf-421c93d6085a
+		summarizeBy: none
+		sourceColumn: Opção de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Método de envio'
+		dataType: string
+		isHidden
+		lineageTag: a3cdc25d-8009-4d9f-889e-3209f33ae8fd
+		summarizeBy: none
+		sourceColumn: Método de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data prevista de envio'
+		dataType: string
+		isHidden
+		lineageTag: 98965522-12f5-4fce-ba04-80ca4a641b8b
+		summarizeBy: none
+		sourceColumn: Data prevista de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tempo de Envio'
+		dataType: string
+		isHidden
+		lineageTag: 739f862f-3931-4a98-98fd-3efdfea45019
+		summarizeBy: none
+		sourceColumn: Tempo de Envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de criação do pedido'
+		dataType: string
+		isHidden
+		lineageTag: bef54e1d-9333-4211-980a-3b4e8e46996c
+		summarizeBy: none
+		sourceColumn: Data de criação do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hora do pagamento do pedido'
+		dataType: string
+		isHidden
+		lineageTag: 4bd93bc1-58ff-4180-a8a2-b9566ae2fd82
+		summarizeBy: none
+		sourceColumn: Hora do pagamento do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nº de referência do SKU principal'
+		dataType: string
+		isHidden
+		lineageTag: 50da38b8-2f49-46f1-b334-e2f2b53b6df7
+		summarizeBy: none
+		sourceColumn: Nº de referência do SKU principal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do Produto'
+		dataType: string
+		isHidden
+		lineageTag: a46f2239-ee10-433c-84e9-11a7e4e01a64
+		summarizeBy: none
+		sourceColumn: Nome do Produto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de referência SKU'
+		dataType: string
+		isHidden
+		lineageTag: b61886d6-0960-4f9d-8acd-acf480c91b79
+		summarizeBy: none
+		sourceColumn: Número de referência SKU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da variação'
+		dataType: string
+		isHidden
+		lineageTag: bfe8a700-dd40-415f-b154-a14f632088d4
+		summarizeBy: none
+		sourceColumn: Nome da variação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço original'
+		dataType: string
+		isHidden
+		lineageTag: ad32268b-0d07-45e4-a7bb-cdfb6500d868
+		summarizeBy: none
+		sourceColumn: Preço original
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço acordado'
+		dataType: string
+		isHidden
+		lineageTag: 4e671c17-6fdb-4fe5-b0ea-289f6c0ae722
+		summarizeBy: none
+		sourceColumn: Preço acordado
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantidade
+		dataType: string
+		isHidden
+		lineageTag: 4d0d3bb9-f6f4-47ea-b2e2-bb556b77463b
+		summarizeBy: none
+		sourceColumn: Quantidade
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Subtotal do produto'
+		dataType: string
+		isHidden
+		lineageTag: b4c87eda-8ad5-46b8-9c23-32e5f81086c6
+		summarizeBy: none
+		sourceColumn: Subtotal do produto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto do vendedor'
+		dataType: string
+		isHidden
+		lineageTag: 70c8a398-c8f5-4b66-8b9f-7e2f7adbfd17
+		summarizeBy: none
+		sourceColumn: Desconto do vendedor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto do vendedor_1'
+		dataType: string
+		isHidden
+		lineageTag: 00d0d8d3-c565-4bd9-9fa3-1c2b1b01bdcb
+		summarizeBy: none
+		sourceColumn: Desconto do vendedor_1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Incentivo Shopee para ação comercial'
+		dataType: string
+		isHidden
+		lineageTag: 474a6d14-f488-40b4-9a21-3a7035de0c4c
+		summarizeBy: none
+		sourceColumn: Incentivo Shopee para ação comercial
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ajuste por participação em ação comercial'
+		dataType: string
+		isHidden
+		lineageTag: 05a323ac-1223-4012-9286-5414d9745aec
+		summarizeBy: none
+		sourceColumn: Ajuste por participação em ação comercial
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Peso total SKU'
+		dataType: string
+		isHidden
+		lineageTag: 94b2f5c2-265e-49c4-bed9-890e9a20b10a
+		summarizeBy: none
+		sourceColumn: Peso total SKU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de produtos pedidos'
+		dataType: string
+		isHidden
+		lineageTag: d7007ca2-e019-4e89-9982-a215b858d546
+		summarizeBy: none
+		sourceColumn: Número de produtos pedidos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Peso total do pedido'
+		dataType: string
+		isHidden
+		lineageTag: 196f0124-140f-4bb7-a0e1-bdf58aaa23e0
+		summarizeBy: none
+		sourceColumn: Peso total do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código do Cupom'
+		dataType: string
+		isHidden
+		lineageTag: d0cbc6fb-5441-4619-85f6-b364c6a71ccf
+		summarizeBy: none
+		sourceColumn: Código do Cupom
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cupom do vendedor'
+		dataType: string
+		isHidden
+		lineageTag: 0037e42d-486f-4523-828b-c3e5cad1d0e7
+		summarizeBy: none
+		sourceColumn: Cupom do vendedor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Indicador da Leve Mais por Menos'
+		dataType: string
+		isHidden
+		lineageTag: ac9d3a3d-3171-412d-af7b-1aef51d82eb7
+		summarizeBy: none
+		sourceColumn: Indicador da Leve Mais por Menos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto Shopee da Leve Mais por Menos'
+		dataType: string
+		isHidden
+		lineageTag: 20eb1d78-8ad5-4b04-ae6f-a05420dbe065
+		summarizeBy: none
+		sourceColumn: Desconto Shopee da Leve Mais por Menos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto da Leve Mais por Menos do vendedor'
+		dataType: string
+		isHidden
+		lineageTag: 8fc31cbd-9a7f-43f3-a2e0-95a10e4b3dda
+		summarizeBy: none
+		sourceColumn: Desconto da Leve Mais por Menos do vendedor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Compensar Moedas Shopee'
+		dataType: string
+		isHidden
+		lineageTag: 64026eec-9251-4cea-8018-26dbd93e587e
+		summarizeBy: none
+		sourceColumn: Compensar Moedas Shopee
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total descontado Cartão de Crédito'
+		dataType: string
+		isHidden
+		lineageTag: 810959de-00b9-43ef-958e-d7721f376c33
+		summarizeBy: none
+		sourceColumn: Total descontado Cartão de Crédito
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Total'
+		dataType: string
+		isHidden
+		lineageTag: 3f00acf2-24c1-4a3a-8813-c2065a0789f5
+		summarizeBy: none
+		sourceColumn: Valor Total
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de envio pagas pelo comprador'
+		dataType: string
+		isHidden
+		lineageTag: 03ae77b2-4d38-4ca4-a97b-178a62c1ea9e
+		summarizeBy: none
+		sourceColumn: Taxa de envio pagas pelo comprador
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de Envio Reversa'
+		dataType: string
+		isHidden
+		lineageTag: 95980e55-3758-443d-a278-878ac07a819f
+		summarizeBy: none
+		sourceColumn: Taxa de Envio Reversa
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de transação'
+		dataType: string
+		isHidden
+		lineageTag: 681c3195-ad14-466a-b64b-41de30b965c1
+		summarizeBy: none
+		sourceColumn: Taxa de transação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de comissão bruta'
+		dataType: string
+		isHidden
+		lineageTag: 589aa289-17ee-472f-843f-ec8edf24035d
+		summarizeBy: none
+		sourceColumn: Taxa de comissão bruta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de serviço bruta'
+		dataType: string
+		isHidden
+		lineageTag: e939cde4-1432-48c0-b374-bb640be5d4f4
+		summarizeBy: none
+		sourceColumn: Taxa de serviço bruta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total global'
+		dataType: string
+		isHidden
+		lineageTag: fbc302af-a4d6-4a1b-9660-d847bef146d0
+		summarizeBy: none
+		sourceColumn: Total global
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor estimado do frete'
+		dataType: string
+		isHidden
+		lineageTag: 9c62bb55-c8a4-426c-b8bf-404e9d21421a
+		summarizeBy: none
+		sourceColumn: Valor estimado do frete
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome de usuário (comprador)'
+		dataType: string
+		isHidden
+		lineageTag: ea920b3c-ea14-42a4-9d9a-0db0f5f8f520
+		summarizeBy: none
+		sourceColumn: Nome de usuário (comprador)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do destinatário'
+		dataType: string
+		isHidden
+		lineageTag: 3d077630-2e16-44d7-8939-547da11cb4c6
+		summarizeBy: none
+		sourceColumn: Nome do destinatário
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Telefone
+		dataType: string
+		isHidden
+		lineageTag: f4df818b-b08e-4143-85d1-08eb15776d0d
+		summarizeBy: none
+		sourceColumn: Telefone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 09f2a7c0-37ab-4fb2-af17-9b213e604c22
+		summarizeBy: none
+		sourceColumn: Endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		isHidden
+		lineageTag: 0b949396-dfc9-456e-a90d-fc14547d7d7b
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bairro
+		dataType: string
+		isHidden
+		lineageTag: a060be06-ae54-4e11-8d9f-9953c45772e5
+		summarizeBy: none
+		sourceColumn: Bairro
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade_2
+		dataType: string
+		isHidden
+		lineageTag: 693df104-8e4a-4a51-95af-de07e43b0c11
+		summarizeBy: none
+		sourceColumn: Cidade_2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		isHidden
+		lineageTag: c12b0793-a9ac-4733-9bb6-eb8c491d6004
+		summarizeBy: none
+		sourceColumn: UF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column País
+		dataType: string
+		isHidden
+		lineageTag: de72b440-a86a-41f6-b46f-242f789bc5ac
+		summarizeBy: none
+		sourceColumn: País
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CEP
+		dataType: string
+		isHidden
+		lineageTag: 169dc1b9-610f-4406-8017-61e26e82d897
+		summarizeBy: none
+		sourceColumn: CEP
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Observação do comprador'
+		dataType: string
+		isHidden
+		lineageTag: 8cb024d8-90e7-4676-952f-9ae50d20edf9
+		summarizeBy: none
+		sourceColumn: Observação do comprador
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hora completa do pedido'
+		dataType: string
+		isHidden
+		lineageTag: e5f9fb73-532a-4bc1-aa8e-039139dc8685
+		summarizeBy: none
+		sourceColumn: Hora completa do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nota
+		dataType: string
+		isHidden
+		lineageTag: 4441954d-e711-4f50-80ec-01846da935a0
+		summarizeBy: none
+		sourceColumn: Nota
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Domestic Delivered Date'
+		dataType: string
+		lineageTag: 8d8650b7-ef12-481c-ad85-81553aec8ed9
+		summarizeBy: none
+		sourceColumn: Domestic Delivered Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data da Finalização do Cancelamento'
+		dataType: string
+		lineageTag: d9430d38-c678-429e-a8f0-7a3740924d20
+		summarizeBy: none
+		sourceColumn: Data da Finalização do Cancelamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido FBS'
+		dataType: string
+		lineageTag: dec6921c-d207-4a79-b660-554f192410d5
+		summarizeBy: none
+		sourceColumn: Pedido FBS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shopee Owned'
+		dataType: string
+		lineageTag: 8f0872d7-a94f-45ef-ba16-8008dcf574a7
+		summarizeBy: none
+		sourceColumn: Shopee Owned
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Coin Cashback Voucher Amount Sponsored by Seller'
+		dataType: string
+		lineageTag: 3e5b8f1b-1f12-4789-ae9a-98d6d061c331
+		summarizeBy: none
+		sourceColumn: Coin Cashback Voucher Amount Sponsored by Seller
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de comissão líquida'
+		dataType: string
+		lineageTag: 70856fa5-1998-410d-9693-06243f5de281
+		summarizeBy: none
+		sourceColumn: Taxa de comissão líquida
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Taxa de serviço líquida'
+		dataType: string
+		lineageTag: 217bfa92-5e6c-47d7-928c-ca91e680aff6
+		summarizeBy: none
+		sourceColumn: Taxa de serviço líquida
+
+		annotation SummarizationSetBy = Automatic
+
+	column ps_csv_shopee_voucher_price_BR
+		dataType: string
+		lineageTag: 774a71ec-c53c-4357-a748-15004d9cd76c
+		summarizeBy: none
+		sourceColumn: ps_csv_shopee_voucher_price_BR
+
+		annotation SummarizationSetBy = Automatic
+
+	column ps_csv_shopee_net_voucher_price_BR
+		dataType: string
+		lineageTag: e29e7ce5-b5e7-4def-9daf-4bcd1273c64d
+		summarizeBy: none
+		sourceColumn: ps_csv_shopee_net_voucher_price_BR
+
+		annotation SummarizationSetBy = Automatic
+
+	column ps_csv_pix_discount_br
+		dataType: string
+		lineageTag: d20cea6f-3a22-4ad0-b622-49e33cd97308
+		summarizeBy: none
+		sourceColumn: ps_csv_pix_discount_br
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shopee | Legado' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repasse - Legado'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/shopee%20-%202024.xlsx" ), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true])
+				in
+				    #"Cabeçalhos Promovidos"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

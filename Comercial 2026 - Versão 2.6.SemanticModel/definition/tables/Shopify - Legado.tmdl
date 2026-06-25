@@ -1,0 +1,103 @@
+table 'Shopify - Legado'
+	lineageTag: 42992ac4-84aa-4ccc-bbea-2bb1137f8982
+
+	column Orders
+		dataType: string
+		lineageTag: fe621b8d-13e5-4aa6-b300-35ef050c1139
+		summarizeBy: none
+		sourceColumn: Orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 01eb7f0c-0380-4397-9546-9ae08d607717
+		summarizeBy: count
+		sourceColumn: Transaction: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: Authorization'
+		dataType: string
+		lineageTag: 8338bc38-b601-4d75-9d9a-e09637f90554
+		summarizeBy: none
+		sourceColumn: Transaction: Authorization
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: Payment ID'
+		dataType: string
+		lineageTag: 96b86b6c-1562-4d64-a661-a1284d879a54
+		summarizeBy: none
+		sourceColumn: Transaction: Payment ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: Gateway'
+		dataType: string
+		lineageTag: 34045a60-f451-420e-b677-117e0459936e
+		summarizeBy: none
+		sourceColumn: Transaction: Gateway
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 462f43ec-1570-4da9-bde5-63f74697a9cf
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Number
+		dataType: int64
+		formatString: 0
+		lineageTag: 10a3999a-1366-4142-bbf1-556585ae9439
+		summarizeBy: sum
+		sourceColumn: Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orders_1
+		dataType: string
+		lineageTag: 4d8af31a-1770-42a7-9c0b-f0c35171476d
+		summarizeBy: none
+		sourceColumn: Orders_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sheet
+		dataType: string
+		lineageTag: 692ce924-e3bc-4afc-ac1d-018c4281e526
+		summarizeBy: none
+		sourceColumn: Sheet
+
+		annotation SummarizationSetBy = Automatic
+
+	column false
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 294b5af0-d5c0-4730-9105-ef830d6a9372
+		summarizeBy: none
+		sourceColumn: false
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shopify - Legado' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Shopify
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Shopify%20-%20Legado.xlsx"), null, true),
+				    #"Data Expandido" = Table.ExpandTableColumn(Fonte, "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Data.Column1", "Data.Column2", "Data.Column3", "Data.Column4", "Data.Column5", "Data.Column6"}),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Data Expandido", [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Orders", type text}, {"Transaction: ID", Int64.Type}, {"Transaction: Authorization", type text}, {"Transaction: Payment ID", type text}, {"Transaction: Gateway", type text}, {"ID", Int64.Type}, {"Number", Int64.Type}, {"Orders_1", type text}, {"Sheet", type text}, {"false", type logical}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

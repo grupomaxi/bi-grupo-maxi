@@ -1,0 +1,55 @@
+table 'Base - Ads'
+	lineageTag: a255ad79-c314-499b-bca9-b767c7576cb3
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 97d07215-9354-4f3c-b00c-1a2c9cdec172
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Canal
+		dataType: string
+		lineageTag: eaa0504c-165f-4041-a5ba-b97011dfca45
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: string
+		lineageTag: 857fdd3a-9fe7-4c88-9575-5390a41640fa
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Investimento Rateado'
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 1dcf4d59-9197-44fd-abe3-0781be438916
+		summarizeBy: sum
+		sourceColumn: Investimento Rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Base - Ads' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Fonte = Table.Combine({#"Ads Meli", #"Ads Amazon", #"Ads Magalu"}),
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each true)
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

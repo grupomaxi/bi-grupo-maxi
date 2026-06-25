@@ -1,0 +1,70 @@
+table 'Visitas - Amazon - Contagem'
+	lineageTag: 67ee517e-dbeb-45d7-af7b-3bec35a256f3
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5b97a00d-f4c6-40d5-a602-a7920fb68c6d
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 579533aa-8259-44c0-a05e-684182bdb516
+			defaultHierarchy: LocalDateTable_870bf840-6a4f-47e6-a31e-97c6bc7f45f3.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Anuncio
+		dataType: string
+		lineageTag: fe194c0b-a03f-463f-96c3-6c135948796e
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: a5fa8d4e-8cf5-4c56-9c87-8daecaf1f25f
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: e4ac307a-61a5-4de6-bddc-1acc09ac10ff
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Visitas - Amazon - Contagem' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"), null, true),
+				    Amazon_Sheet = Fonte{[Item="Amazon",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Amazon_Sheet, [PromoteAllScalars=true]),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Cabeçalhos Promovidos",{"DATA", "ASIN (parent)", "Sessões - Total"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Outras Colunas Removidas", "Canal", each "Amazon"),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Personalização Adicionada", {"ASIN (parent)", "Canal"}, #"Anuncio por produto", {"codigo_produto", "marketplace"}, "Anuncio por produto", JoinKind.LeftOuter),
+				    #"Anuncio por produto Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Anuncio por produto", {"codigo_auxiliar"}, {"codigo_auxiliar"}),
+				    #"Outras Colunas Removidas1" = Table.SelectColumns(#"Anuncio por produto Expandido",{"DATA", "ASIN (parent)", "Sessões - Total"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Outras Colunas Removidas1",{{"DATA", type date}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"ASIN (parent)", "Anuncio"}, {"Sessões - Total", "Visitas"}, {"DATA", "Data"}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Visitas", Int64.Type}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Tipo Alterado1", {"Data", "Anuncio"}, {{"Contagem", each Table.RowCount(_), Int64.Type}, {"Visitas", each List.Sum([Visitas]), type nullable number}})
+				in
+				    #"Linhas Agrupadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

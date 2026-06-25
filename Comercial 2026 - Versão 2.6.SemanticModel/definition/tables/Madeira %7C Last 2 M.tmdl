@@ -1,0 +1,470 @@
+table 'Madeira | Last 2 M'
+	isHidden
+	lineageTag: 6604098e-5d2d-454d-b276-b3d3074dec30
+
+	column 'ID do Seller'
+		dataType: string
+		isHidden
+		lineageTag: c02759eb-7d45-43a6-8690-51e61ca6c19d
+		summarizeBy: none
+		sourceColumn: ID do Seller
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do Seller'
+		dataType: string
+		isHidden
+		lineageTag: cee02c6d-59ed-4cc4-b876-e81a5374fd1b
+		summarizeBy: none
+		sourceColumn: Nome do Seller
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pedido
+		dataType: string
+		isHidden
+		lineageTag: 3099db44-ca06-4ceb-9f9b-9d3176314977
+		summarizeBy: none
+		sourceColumn: Pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido Site MM'
+		dataType: string
+		isHidden
+		lineageTag: 8cb3245b-a95f-443a-a2b6-7383b0d2b40d
+		summarizeBy: none
+		sourceColumn: Pedido Site MM
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'CPF do Cliente'
+		dataType: string
+		isHidden
+		lineageTag: fd292c1d-6c8e-4fdd-b401-2cedbde4aeea
+		summarizeBy: none
+		sourceColumn: CPF do Cliente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		isHidden
+		lineageTag: f72f5804-9fea-49d9-8be9-b5f022cc27c5
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Telefone
+		dataType: string
+		isHidden
+		lineageTag: f134f202-e418-4414-b992-cc1762fc3d33
+		summarizeBy: none
+		sourceColumn: Telefone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Pedido'
+		dataType: string
+		isHidden
+		lineageTag: c8016ae7-702a-4ef6-ac24-95f4174ee7de
+		summarizeBy: none
+		sourceColumn: Data Pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Aprovação'
+		dataType: string
+		isHidden
+		lineageTag: c52ead52-6fd7-4403-a456-e970d31a59ef
+		summarizeBy: none
+		sourceColumn: Data Aprovação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Prometida'
+		dataType: string
+		isHidden
+		lineageTag: 5c47c67e-3b6a-4f73-942f-25ed88eebe20
+		summarizeBy: none
+		sourceColumn: Data Prometida
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nova Data Prometida'
+		dataType: string
+		isHidden
+		lineageTag: 50c82abf-b152-4873-9f31-6eecace4324d
+		summarizeBy: none
+		sourceColumn: Nova Data Prometida
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Última atualização'
+		dataType: string
+		isHidden
+		lineageTag: 39d0eed4-0abc-44ac-8483-60c1ef76dceb
+		summarizeBy: none
+		sourceColumn: Última atualização
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Pedido'
+		dataType: string
+		isHidden
+		lineageTag: 3eeec3de-0d9c-4a43-984d-6c6f9a3eb73f
+		summarizeBy: none
+		sourceColumn: Valor Pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comissão
+		dataType: string
+		isHidden
+		lineageTag: 86232295-7b2b-4b32-85d0-fd6ee07c0c90
+		summarizeBy: none
+		sourceColumn: Comissão
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Pagamento'
+		dataType: string
+		isHidden
+		lineageTag: 9c4308c8-c883-48b2-b6b0-5ecdad113e9d
+		summarizeBy: none
+		sourceColumn: Tipo Pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		isHidden
+		lineageTag: cd4cd5a8-34ac-48c0-8d62-1531eaf56345
+		summarizeBy: none
+		sourceColumn: Status
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Endereço
+		dataType: string
+		isHidden
+		lineageTag: 11c2730a-048d-4e69-8e64-07b7aa1715ec
+		summarizeBy: none
+		sourceColumn: Endereço
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		isHidden
+		lineageTag: f3017891-2477-4814-9c72-4753fdd0d1b5
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UF
+		dataType: string
+		isHidden
+		lineageTag: 64d85af1-5061-4886-946d-f22046c29e63
+		summarizeBy: none
+		sourceColumn: UF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Satisfação
+		dataType: string
+		isHidden
+		lineageTag: 1c8a6380-1d81-4c77-a688-ce8f2189b71e
+		summarizeBy: none
+		sourceColumn: Satisfação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		isHidden
+		lineageTag: 5843542d-91e8-4501-99ea-e6abbf0e3536
+		summarizeBy: none
+		sourceColumn: SKU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produto
+		dataType: string
+		isHidden
+		lineageTag: 69d0152e-57b6-48eb-b749-9c9afe2663d3
+		summarizeBy: none
+		sourceColumn: Produto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EAN
+		dataType: string
+		isHidden
+		lineageTag: 65e74229-29e3-4218-a4b4-dc64df8d5ec2
+		summarizeBy: none
+		sourceColumn: EAN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantidade
+		dataType: string
+		isHidden
+		lineageTag: cf961336-97cf-4976-830d-22f3960b7f7d
+		summarizeBy: none
+		sourceColumn: Quantidade
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Original'
+		dataType: string
+		isHidden
+		lineageTag: 9e74562d-cc75-4e1a-aef1-261bfec3f765
+		summarizeBy: none
+		sourceColumn: Valor Original
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column '% Desconto'
+		dataType: string
+		isHidden
+		lineageTag: 65b6a03d-3abf-4e60-8ca7-99b6e6abd57c
+		summarizeBy: none
+		sourceColumn: % Desconto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valor
+		dataType: string
+		isHidden
+		lineageTag: 85a1eef7-2fc0-49ec-b3b4-455d7482a927
+		summarizeBy: none
+		sourceColumn: Valor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'URL Rastreio'
+		dataType: string
+		isHidden
+		lineageTag: 7417d84d-8fd2-4bda-86b8-db72fa572a62
+		summarizeBy: none
+		sourceColumn: URL Rastreio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Codigo Rastreio'
+		dataType: string
+		isHidden
+		lineageTag: 0ebfac78-e4f3-40a9-8ddc-acefc21153ab
+		summarizeBy: none
+		sourceColumn: Codigo Rastreio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chave de Acesso'
+		dataType: string
+		isHidden
+		lineageTag: 9b505205-4240-4585-bf9f-b7ae852da5fc
+		summarizeBy: none
+		sourceColumn: Chave de Acesso
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número NF'
+		dataType: string
+		isHidden
+		lineageTag: d141685c-7dd8-43bd-8f5c-3c79759a1190
+		summarizeBy: none
+		sourceColumn: Número NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Emissão'
+		dataType: string
+		isHidden
+		lineageTag: 84077a06-4515-41ba-853d-b81f6bf9ef17
+		summarizeBy: none
+		sourceColumn: Data Emissão
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da Transportadora'
+		dataType: string
+		isHidden
+		lineageTag: e36db7dc-7bb0-4319-9d0e-f9fbe25bee66
+		summarizeBy: none
+		sourceColumn: Nome da Transportadora
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data/Hora Entrega'
+		dataType: string
+		isHidden
+		lineageTag: 84982137-b7f6-4b6a-8237-b22787178fb3
+		summarizeBy: none
+		sourceColumn: Data/Hora Entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Previsão Faturamento'
+		dataType: string
+		isHidden
+		lineageTag: e563e8bb-0343-4c27-be6c-f9d16f0427b8
+		summarizeBy: none
+		sourceColumn: Data Previsão Faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Faturamento Seller'
+		dataType: string
+		isHidden
+		lineageTag: 601734f4-824e-4a53-bae5-bf9c27295025
+		summarizeBy: none
+		sourceColumn: Data Faturamento Seller
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Previsão Rastreamento'
+		dataType: string
+		isHidden
+		lineageTag: 4bbace49-345c-477e-9ad0-741fe0e0d4fb
+		summarizeBy: none
+		sourceColumn: Data Previsão Rastreamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Rastreamento Seller'
+		dataType: string
+		isHidden
+		lineageTag: f5797846-651d-41c8-9f32-9f0067debc68
+		summarizeBy: none
+		sourceColumn: Data Rastreamento Seller
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Entrega Seller'
+		dataType: string
+		isHidden
+		lineageTag: 914c4b4d-04f9-4f41-af7c-dfb09db6ca9c
+		summarizeBy: none
+		sourceColumn: Data Entrega Seller
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Cliente Entrega'
+		dataType: string
+		isHidden
+		lineageTag: f4e0ac49-5d2b-4e49-8a6e-83e081c48977
+		summarizeBy: none
+		sourceColumn: Status Cliente Entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Parcelas
+		dataType: string
+		isHidden
+		lineageTag: 6117dc67-65f6-45f7-9841-f6b00c90e37e
+		summarizeBy: none
+		sourceColumn: Parcelas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Madeira | Last 2 M' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repase - 2M'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Madeira%20-%20Last%202%20M.xlsx"), null, true),
+				    #"55308621-report_pedido_3b8a5e51_Sheet" = Fonte{[Item="55308621-report_pedido_3b8a5e51",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"55308621-report_pedido_3b8a5e51_Sheet", [PromoteAllScalars=true])
+				in
+				    #"Cabeçalhos Promovidos"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

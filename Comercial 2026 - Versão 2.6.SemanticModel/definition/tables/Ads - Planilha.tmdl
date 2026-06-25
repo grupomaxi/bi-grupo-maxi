@@ -1,0 +1,102 @@
+table 'Ads - Planilha'
+	lineageTag: 25d70de2-5851-4c68-8b9c-e2573b1d03ee
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8e045f57-c9a7-463c-9408-95b5d9a3a9e2
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Canal Agrupado'
+		dataType: string
+		lineageTag: 0d308304-972a-4a9a-aeac-5a4e452cbebc
+		summarizeBy: none
+		sourceColumn: Canal Agrupado
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Ads'
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 1ac91a0d-668f-44e4-83e5-ce28c4fa4ab3
+		summarizeBy: sum
+		sourceColumn: Valor Ads
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Soma de Receita'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 5e43f858-b164-4055-9204-6d72867d0882
+		summarizeBy: sum
+		sourceColumn: Soma de Receita
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column '% Ads Dia'
+		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1f3fcb3a-79c2-4823-9bd9-57f7cebbc2b1
+		summarizeBy: sum
+		sourceColumn: % Ads Dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Soma de Receita s/ Frete'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 4499fda5-12ea-4b73-9017-0f7959a0a418
+		summarizeBy: sum
+		sourceColumn: Soma de Receita s/ Frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column '% Ads apenas Prod'
+		dataType: double
+		lineageTag: 9dc7c51e-30bd-439d-9a9b-ebab87822b4b
+		summarizeBy: sum
+		sourceColumn: % Ads apenas Prod
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Ads - Planilha' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Relat%C3%B3rio%20Ads.xlsx"), null, true),
+				    Página1_Sheet = Fonte{[Item="Página1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Página1_Sheet, [PromoteAllScalars=true]),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Cabeçalhos Promovidos",{"Column4"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas",null,0,Replacer.ReplaceValue,{"Valor"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",null,"",Replacer.ReplaceValue,{"Canal"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído1",{{"Data", type date}, {"Valor", Currency.Type}, {"Canal", type text}}),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Tipo Alterado", "Canal Agrupado", each if Text.Contains([Canal], "Loja") then "Loja - Maxi Ferramentas" else if Text.Contains([Canal], "Cozilux") then "Loja - Cozilux" else if [Canal] = "Meta Ads" then "Loja - Maxi Ferramentas" else if [Canal] = "Google Ads" then "Loja - Maxi Ferramentas" else [Canal]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"Canal Agrupado", type text}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Tipo Alterado1", {"Data", "Canal Agrupado"}, {{"Valor Ads", each List.Sum([Valor]), type nullable number}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Linhas Agrupadas", {"Data", "Canal Agrupado"}, #"NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)", {"data_pedido", "canal_agrupado"}, "NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)", JoinKind.LeftOuter),
+				    #"NSI Left Join NS + Left Anti NS Devol (Faturamento Dia) Agregado" = Table.AggregateTableColumn(#"Consultas Mescladas", "NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)", {{"Receita", List.Sum, "Soma de Receita"}, {"Receita s/ Frete", List.Sum, "Soma de Receita s/ Frete"}}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"NSI Left Join NS + Left Anti NS Devol (Faturamento Dia) Agregado",{{"Soma de Receita", Currency.Type}, {"Soma de Receita s/ Frete", Currency.Type}}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado2", "% Ads Dia", each [Valor Ads] / [Soma de Receita]),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Personalização Adicionada", "% Ads apenas Prod", each [Valor Ads] / [#"Soma de Receita s/ Frete"]),
+				    #"Tipo Alterado3" = Table.TransformColumnTypes(#"Personalização Adicionada1",{{"% Ads Dia", Percentage.Type}, {"% Ads apenas Prod", Percentage.Type}})
+				in
+				    #"Tipo Alterado3"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

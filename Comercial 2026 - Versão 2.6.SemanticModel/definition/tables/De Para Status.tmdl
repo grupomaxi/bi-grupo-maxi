@@ -1,0 +1,49 @@
+table 'De Para Status'
+	lineageTag: e6a83e9f-904b-4856-a9d9-64141e03da63
+
+	column 'Status Parceiro'
+		dataType: string
+		lineageTag: 00f54949-7655-4738-a7af-b15b3dbd43ae
+		summarizeBy: none
+		sourceColumn: Status Parceiro
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status Maxi'
+		dataType: string
+		lineageTag: 6c5b09ea-60a7-4f6c-a44f-b552039592d5
+		summarizeBy: none
+		sourceColumn: Status Maxi
+
+		annotation SummarizationSetBy = Automatic
+
+	column Detalhe
+		dataType: string
+		lineageTag: a1c5b2ae-1ad2-445f-b468-499c4da03f36
+		summarizeBy: none
+		sourceColumn: Detalhe
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 01ab0910-799a-45e0-94a5-70a3e5952e7c
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'De Para Status' = m
+		mode: import
+		queryGroup: Base
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("jZVLbtswEECvQnid9g6uaqMBEsdoigBFEAQjcSwzpTjCiBLa3KbooqtcoFtdrBRlR9TP9srU8M1/OH58XECeM1UoF1eLLaTkfpaNAGRzvEWtFk9Xj4scjVQmdaJN/YfEgdw6KRqLIcn4gon19kI0PL+zCZgEtR7BkZcPQmDclc7dkH0ATSwkVqQrJUkAiUirJiqROxviFn6GVqC0e2L1GiYc3ivznKFUYBWZjlhlwkvrv85zL4M9cIryOYbkR4dHXio+tcJ3OExr7ny/pxzR42tGX9qDUf8pIop5RC7FylQKuIO3wNAJAzQik+iyfpMUZGcsY1pin5zrnj/vSB2/A5V7C7YshOvC1lVLDjVt/WZLTRNu8rGbPtXaE9hFGvQOUtBliCUzxZ2EJRY5uD6GFemDn7GwyoCtf7Mi4b4SMntM1LzGMdxMuLeUYFE0bo5hZS4L+ngytA1ZEDtVJKBFiq7hIFBA+y7hjFPGBONTsbmjD+FocJZcTt0vM3h1T8PfpyWwBOMbU7nSfBA3yPSrx7eS3vgH3KAEHdxFmR+WzBnrXw9pn8XQxKQLOEtOZBcBuy1EJfdUOukwy5AfZNpX8i91pDLn4tq42fMlgRjZXqoWVOgyPKzUJRo3KkYezwuycpMPxckd6CdPomI4rqmd4mw8nB2ymt4FIeCLOnu/dstqFG4IbKia2EoTLs5MUtGuxfqfUQkJp9HjHlRr644lsmiapKrBv1Nvf2e5RjsEvtxtr9ffjy+nn9I31Fi5R9R04Ok/", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Status Parceiro" = _t, #"Status Maxi" = _t, Detalhe = _t, Canal = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Status Parceiro", type text}, {"Status Maxi", type text}, {"Detalhe", type text}, {"Canal", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

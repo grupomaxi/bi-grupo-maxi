@@ -1,0 +1,54 @@
+table 'Meli |  Acrescentar'
+	lineageTag: 14916b95-d16d-4d99-8180-74b0f4fe40d9
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: b0549c6a-6bc3-4f36-8d0a-b3847905f9f0
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 18b67236-7f46-4848-ab9c-da2637d9d506
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 59f0f162-6d80-4d16-a375-8ae7f8590a9a
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Meli |  Acrescentar' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Meli | Legado", #"Meli | Last 2 M", #"Meli | FDS"}),
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([#"Data da compra (date_created)"] <> true)),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Linhas Filtradas",",","",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",".",",",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído1",{{"Data da compra (date_created)", type datetime}, {"Valor total recebido (net_received_amount)", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Data da compra (date_created)", "Data Pedido"}}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Colunas Renomeadas",{{"Status da operação (status)", "Status MKT"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas1", {"Código de referência (external_reference)"}, #"Meli | Mescla", {"Código de referência (external_reference)"}, "Meli | Mescla", JoinKind.LeftOuter),
+				    #"Meli | Mescla Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Meli | Mescla", {"Número da venda no Mercado Livre (order_id)"}, {"Número da venda no Mercado Livre (order_id).1"}),
+				    #"Colunas Renomeadas3" = Table.RenameColumns(#"Meli | Mescla Expandido",{{"Número da venda no Mercado Livre (order_id).1", "Pedido MKT"}}),
+				    #"Linhas Agrupadas" = Table.Group(#"Colunas Renomeadas3", {"Pedido MKT", "Status MKT"}, {{"Repasse MKT", each List.Sum([#"Valor total recebido (net_received_amount)"]), type nullable number}}),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Linhas Agrupadas",{{"Repasse MKT", Currency.Type}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

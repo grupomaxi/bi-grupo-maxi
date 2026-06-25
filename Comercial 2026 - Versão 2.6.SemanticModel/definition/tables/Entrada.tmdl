@@ -1,0 +1,46 @@
+table Entrada
+	lineageTag: 15054024-5fbd-4182-872c-808ce55ed546
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: d841ece1-614b-4ddb-8efb-45498758a329
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column dt_entrada
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 05f172c4-77a5-4e41-87e8-57e01f6ea05a
+		summarizeBy: none
+		sourceColumn: dt_entrada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column qtde_entrada
+		dataType: double
+		lineageTag: 2f5801f9-96fb-47c9-ba82-e046944cb524
+		summarizeBy: sum
+		sourceColumn: qtde_entrada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Entrada = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT#(lf)    id_produto, #(lf)    dt_entrada,#(lf)    qtde_entrada#(lf)FROM sysemp.entrada_nf_itens#(lf)WHERE dt_entrada > '2024-01-01'#(lf)")
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "75e325569a9c77adfea5",
+  "position": {
+    "x": 10.126582278481012,
+    "y": 264.55696202531647,
+    "z": 9000,
+    "height": 722.78481012658222,
+    "width": 505.0632911392405,
+    "tabOrder": 30000
+  },
+  "visualGroup": {
+    "displayName": "Queimao",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

@@ -1,0 +1,1252 @@
+table 'Leroy | Legado'
+	isHidden
+	lineageTag: bd138df4-6a16-4800-b18e-2810964b390b
+
+	column 'Data de criação'
+		dataType: string
+		isHidden
+		lineageTag: 1962e688-73d9-4acf-bee5-588e0aee56f5
+		summarizeBy: none
+		sourceColumn: Data de criação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N° do pedido'
+		dataType: string
+		isHidden
+		lineageTag: eeecf64d-fae4-474e-9afb-bce5f5ff661e
+		summarizeBy: none
+		sourceColumn: N° do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantidade
+		dataType: string
+		isHidden
+		lineageTag: d7ccad26-883e-4519-a074-66fe510897c6
+		summarizeBy: none
+		sourceColumn: Quantidade
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Detalhes
+		dataType: string
+		isHidden
+		lineageTag: a695106a-a7c2-445e-b354-3330b70b8637
+		summarizeBy: none
+		sourceColumn: Detalhes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		isHidden
+		lineageTag: 0818f6de-75ee-4b17-b0ae-8449804f5f48
+		summarizeBy: none
+		sourceColumn: Status
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Valor
+		dataType: string
+		isHidden
+		lineageTag: 1c6951d9-fbcb-442f-bf2f-1b349d32ad1d
+		summarizeBy: none
+		sourceColumn: Valor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Moeda
+		dataType: string
+		isHidden
+		lineageTag: 0161f1c2-ef0d-4d10-b5d6-743dbf7d68cd
+		summarizeBy: none
+		sourceColumn: Moeda
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Método de envio'
+		dataType: string
+		isHidden
+		lineageTag: 36a35505-dd4f-43f6-af1d-0411b3d1cd80
+		summarizeBy: none
+		sourceColumn: Método de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de débito do cliente'
+		dataType: string
+		isHidden
+		lineageTag: f8b911eb-d380-400e-aa4b-cfa76b5c8399
+		summarizeBy: none
+		sourceColumn: Data de débito do cliente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fluxo de pagamento'
+		dataType: string
+		isHidden
+		lineageTag: 53a33006-2642-44a6-828b-6137d27d21cb
+		summarizeBy: none
+		sourceColumn: Fluxo de pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		isHidden
+		lineageTag: 57b6813d-f2a5-4951-a794-7d12e59d6a58
+		summarizeBy: none
+		sourceColumn: Canal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU do produto'
+		dataType: string
+		isHidden
+		lineageTag: 2093a665-d126-4e71-ac2b-481666acfbb7
+		summarizeBy: none
+		sourceColumn: SKU do produto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU de Loja'
+		dataType: string
+		isHidden
+		lineageTag: 88ab358f-89f0-4096-8667-b264b90f3cd3
+		summarizeBy: none
+		sourceColumn: SKU de Loja
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Motivo
+		dataType: string
+		isHidden
+		lineageTag: 62f26657-9c02-4dba-b74e-202c0cf4c054
+		summarizeBy: none
+		sourceColumn: Motivo
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU da oferta'
+		dataType: string
+		isHidden
+		lineageTag: e12de8cf-1ac9-4c4d-91cf-ac62bfbd2f31
+		summarizeBy: none
+		sourceColumn: SKU da oferta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		dataType: string
+		isHidden
+		lineageTag: 2b3cc5ab-bd2c-49ca-a572-385b9e2f156f
+		summarizeBy: none
+		sourceColumn: Marca
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código da categoria'
+		dataType: string
+		isHidden
+		lineageTag: 9dc70cf0-f59c-4fd8-9d5c-7225122bbef9
+		summarizeBy: none
+		sourceColumn: Código da categoria
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Etiqueta de categoria'
+		dataType: string
+		isHidden
+		lineageTag: fa6f3c6e-5724-4096-bcbb-544b57dffe2b
+		summarizeBy: none
+		sourceColumn: Etiqueta de categoria
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código do produto'
+		dataType: string
+		isHidden
+		lineageTag: b7f55a68-a558-46ae-9e27-1b3ecca25e49
+		summarizeBy: none
+		sourceColumn: Código do produto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status da oferta'
+		dataType: string
+		isHidden
+		lineageTag: 30488342-3cfd-41e6-819f-f1140872a373
+		summarizeBy: none
+		sourceColumn: Status da oferta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'N° da linha de pedido'
+		dataType: string
+		isHidden
+		lineageTag: e3d64196-9ae3-43ad-9d23-bb83c53917ef
+		summarizeBy: none
+		sourceColumn: N° da linha de pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço unitário'
+		dataType: string
+		isHidden
+		lineageTag: c59458de-49bf-4c76-956c-207ce4e376f7
+		summarizeBy: none
+		sourceColumn: Preço unitário
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço de envio'
+		dataType: string
+		isHidden
+		lineageTag: 1fddfeab-e2b8-4a03-a707-2840aeeb5fd3
+		summarizeBy: none
+		sourceColumn: Preço de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total do envio'
+		dataType: string
+		isHidden
+		lineageTag: eba6ae50-79c4-4afd-8b39-e91b2e5acb32
+		summarizeBy: none
+		sourceColumn: Valor total do envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total das taxas do pedido'
+		dataType: string
+		isHidden
+		lineageTag: 461487ca-a793-4229-a71b-aec1d883691f
+		summarizeBy: none
+		sourceColumn: Valor total das taxas do pedido
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total do pedido sem impostos (incluindo despesas de envio)'
+		dataType: string
+		isHidden
+		lineageTag: d255a357-4345-494d-8bab-5f1f53563243
+		summarizeBy: none
+		sourceColumn: Valor total do pedido sem impostos (incluindo despesas de envio)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total do pedido (incluindo IVA e despesas de envio)'
+		dataType: string
+		isHidden
+		lineageTag: 53e3b1f1-1a7d-4f60-9ea1-f6eaf2fe199f
+		summarizeBy: none
+		sourceColumn: Valor total do pedido (incluindo IVA e despesas de envio)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da regra de comissão'
+		dataType: string
+		isHidden
+		lineageTag: c2a663f7-2642-42b4-adfe-89e3e22b6a19
+		summarizeBy: none
+		sourceColumn: Nome da regra de comissão
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Comissão (sem impostos)'
+		dataType: string
+		isHidden
+		lineageTag: ce440ed7-0be2-468e-8457-074cc6671da9
+		summarizeBy: none
+		sourceColumn: Comissão (sem impostos)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor da comissão (incluindo impostos)'
+		dataType: string
+		isHidden
+		lineageTag: 62df7349-7b9a-4275-9e36-00d976c62bb9
+		summarizeBy: none
+		sourceColumn: Valor da comissão (incluindo impostos)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor transferido para loja (incluindo impostos)'
+		dataType: string
+		isHidden
+		lineageTag: 68e417a5-f19a-4997-8ba9-2b2b73232540
+		summarizeBy: none
+		sourceColumn: Valor transferido para loja (incluindo impostos)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Informações adicionais do preço'
+		dataType: string
+		isHidden
+		lineageTag: 2d3abcaa-014f-4c25-a2d3-7e731c5da0c9
+		summarizeBy: none
+		sourceColumn: Informações adicionais do preço
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Excluído das estatísticas de loja'
+		dataType: string
+		isHidden
+		lineageTag: 79ea712b-88db-4cd3-a39f-9cf979bf6d66
+		summarizeBy: none
+		sourceColumn: Excluído das estatísticas de loja
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido com fatura'
+		dataType: string
+		isHidden
+		lineageTag: 027658f2-beba-443b-9d43-7bc15ab4e834
+		summarizeBy: none
+		sourceColumn: Pedido com fatura
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Alíquota de imposto sobre comissão'
+		dataType: string
+		isHidden
+		lineageTag: f7d7e11b-d159-4f1d-aea7-7f5ef76f83a1
+		summarizeBy: none
+		sourceColumn: Alíquota de imposto sobre comissão
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Linha de pedido com cancelamentos'
+		dataType: string
+		isHidden
+		lineageTag: 4c00835e-b37e-46b8-8302-6d6ca81e9ec2
+		summarizeBy: none
+		sourceColumn: Linha de pedido com cancelamentos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total cancelado (incluindo impostos)'
+		dataType: string
+		isHidden
+		lineageTag: 2abdf33f-7b9b-4729-8fe7-cce37122fe97
+		summarizeBy: none
+		sourceColumn: Valor total cancelado (incluindo impostos)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Linha de pedido com reembolsos'
+		dataType: string
+		isHidden
+		lineageTag: 953b7301-2b21-404c-80ab-ecd1f55064a5
+		summarizeBy: none
+		sourceColumn: Linha de pedido com reembolsos
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total reembolsado (incluindo impostos)'
+		dataType: string
+		isHidden
+		lineageTag: 1e66d52b-5ba2-4c6c-8616-7b6c45738dc8
+		summarizeBy: none
+		sourceColumn: Valor total reembolsado (incluindo impostos)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Linha de pedido com incidentes'
+		dataType: string
+		isHidden
+		lineageTag: e8e711be-4e5e-4af9-af7f-ca8f825bca1f
+		summarizeBy: none
+		sourceColumn: Linha de pedido com incidentes
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de aceitação'
+		dataType: string
+		isHidden
+		lineageTag: 85927751-fc51-4d6b-9978-5ab65247b67c
+		summarizeBy: none
+		sourceColumn: Data de aceitação
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prazo de envio'
+		dataType: string
+		isHidden
+		lineageTag: 58aef9ac-26ff-4830-93f3-2fcbd49c657d
+		summarizeBy: none
+		sourceColumn: Prazo de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de envio'
+		dataType: string
+		isHidden
+		lineageTag: 86e248ac-ee85-42f1-acac-95aa4b4ff4d3
+		summarizeBy: none
+		sourceColumn: Data de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de recebimento'
+		dataType: string
+		isHidden
+		lineageTag: 8abda650-0666-48f2-954d-4a26f233b0e1
+		summarizeBy: none
+		sourceColumn: Data de recebimento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Previsão de entrega mais próxima'
+		dataType: string
+		isHidden
+		lineageTag: 72848d26-9462-47d0-884d-18cf5b5bc543
+		summarizeBy: none
+		sourceColumn: Previsão de entrega mais próxima
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Última previsão de entrega'
+		dataType: string
+		isHidden
+		lineageTag: e477b9bb-8a26-4607-a5de-5a19a4f8d0af
+		summarizeBy: none
+		sourceColumn: Última previsão de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Empresa de envio'
+		dataType: string
+		isHidden
+		lineageTag: 1c9d51ab-65d2-4ff9-9b55-11b09bf384d4
+		summarizeBy: none
+		sourceColumn: Empresa de envio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de rastreio'
+		dataType: string
+		isHidden
+		lineageTag: c00a2269-ee0f-4f0e-ac5b-b4465fe11824
+		summarizeBy: none
+		sourceColumn: Código de rastreio
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'URL de rastreamento'
+		dataType: string
+		isHidden
+		lineageTag: 94787541-6e13-4ca2-a710-96c5055010b7
+		summarizeBy: none
+		sourceColumn: URL de rastreamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forma de tratamento no endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 1fc13fe9-0fc6-41f6-8316-18167e0fd01b
+		summarizeBy: none
+		sourceColumn: Forma de tratamento no endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'E-mail do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 65165712-5523-4da1-8d5a-97d5cf11f21d
+		summarizeBy: none
+		sourceColumn: E-mail do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome no endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: b20e3d0b-4e42-4e53-98b1-4795aaa09a50
+		summarizeBy: none
+		sourceColumn: Nome no endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sobrenome no endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 1c399b48-4d12-4d9d-8553-6256dc2cd7b4
+		summarizeBy: none
+		sourceColumn: Sobrenome no endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Empresa do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 269cf686-9bf2-4292-a42d-be371deee7e8
+		summarizeBy: none
+		sourceColumn: Empresa do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rua do endereço de entrega (linha 1)'
+		dataType: string
+		isHidden
+		lineageTag: eee58fc4-62ff-43bd-8eee-84a1c64ea003
+		summarizeBy: none
+		sourceColumn: Rua do endereço de entrega (linha 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rua do endereço de entrega (linha 2)'
+		dataType: string
+		isHidden
+		lineageTag: 47b49607-3a19-407b-893b-74005a3debca
+		summarizeBy: none
+		sourceColumn: Rua do endereço de entrega (linha 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código postal do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: dfaa0dfd-3283-42f5-98b8-abda66abb626
+		summarizeBy: none
+		sourceColumn: Código postal do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cidade do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: e17e4a68-b4d2-456e-acd5-f18c39ee2dd7
+		summarizeBy: none
+		sourceColumn: Cidade do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estado do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: fc051a22-19a5-4934-9646-76aedf60e139
+		summarizeBy: none
+		sourceColumn: Estado do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'País do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 58767cbf-6648-4b30-a8fe-b00ca20ddf51
+		summarizeBy: none
+		sourceColumn: País do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Telefone do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 0c2b6411-bddc-498c-9107-1149a2ba6090
+		summarizeBy: none
+		sourceColumn: Telefone do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Telefone 2 do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 2b3a359e-f3ef-4978-9fa6-f4994aca088e
+		summarizeBy: none
+		sourceColumn: Telefone 2 do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Informações adicionais do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 5c4d37dd-8684-4814-b868-027290a848ea
+		summarizeBy: none
+		sourceColumn: Informações adicionais do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Informações adicionais internas do endereço de entrega'
+		dataType: string
+		isHidden
+		lineageTag: 6e6b49e2-acca-4e3e-b3b1-44c4972e5deb
+		summarizeBy: none
+		sourceColumn: Informações adicionais internas do endereço de entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forma de tratamento no endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 15f72296-a71f-4cbd-9f8c-8c77d67eefa6
+		summarizeBy: none
+		sourceColumn: Forma de tratamento no endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome no endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 4ce9fcf9-ffa8-46ed-b88c-76a1a0200f7a
+		summarizeBy: none
+		sourceColumn: Nome no endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sobrenome no endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 6e647daf-ab82-4397-bd3c-24bf4f11a70f
+		summarizeBy: none
+		sourceColumn: Sobrenome no endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Empresa do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 7d979eac-c19b-43c3-80fe-405fccaff390
+		summarizeBy: none
+		sourceColumn: Empresa do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rua do endereço de faturamento (linha 1)'
+		dataType: string
+		isHidden
+		lineageTag: 0a9b7985-3061-4135-a5c0-1027e100ff94
+		summarizeBy: none
+		sourceColumn: Rua do endereço de faturamento (linha 1)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rua do endereço de faturamento (linha 2)'
+		dataType: string
+		isHidden
+		lineageTag: a7f97372-989e-419f-ab4c-91c5970c0b1a
+		summarizeBy: none
+		sourceColumn: Rua do endereço de faturamento (linha 2)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código postal do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: da789bc8-fa9f-4aa0-8dc9-750a58fada43
+		summarizeBy: none
+		sourceColumn: Código postal do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cidade do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 947837b8-364e-4804-a261-ed75a8381b15
+		summarizeBy: none
+		sourceColumn: Cidade do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estado do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: b2da4aa2-b2d5-4a3d-acc1-4e9d64876d9d
+		summarizeBy: none
+		sourceColumn: Estado do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'País do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: e1b4493e-e4fa-4fae-b1ac-fc9d727397e6
+		summarizeBy: none
+		sourceColumn: País do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Telefone do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 1a9f7714-e5df-4f8f-8bfa-d8c9a30dc3f7
+		summarizeBy: none
+		sourceColumn: Telefone do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Telefone 2 do endereço de faturamento'
+		dataType: string
+		isHidden
+		lineageTag: 08e84fde-2626-4fba-9ec5-3cd848f47a17
+		summarizeBy: none
+		sourceColumn: Telefone 2 do endereço de faturamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Forma de pagamento'
+		dataType: string
+		isHidden
+		lineageTag: 23c4faad-7198-49ef-ab0a-8112a8248d84
+		summarizeBy: none
+		sourceColumn: Forma de pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prazo de envio_1'
+		dataType: string
+		isHidden
+		lineageTag: c252cb0b-8a42-4efd-ae51-7568b2b2982a
+		summarizeBy: none
+		sourceColumn: Prazo de envio_1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ID do ponto de entrega e coleta'
+		dataType: string
+		isHidden
+		lineageTag: 29a478a0-ec4a-4790-aba7-e3a2abf52a47
+		summarizeBy: none
+		sourceColumn: ID do ponto de entrega e coleta
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'País de envio de Loja'
+		dataType: string
+		isHidden
+		lineageTag: 7902064e-a9ee-4c51-86a0-3384ab6dca7a
+		summarizeBy: none
+		sourceColumn: País de envio de Loja
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código do depósito de envio de Loja'
+		dataType: string
+		isHidden
+		lineageTag: 930bb620-66f5-435c-9b32-73a4303a4094
+		summarizeBy: none
+		sourceColumn: Código do depósito de envio de Loja
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Referência do pedido do cliente'
+		dataType: string
+		isHidden
+		lineageTag: e3c60f11-eb5a-4365-b60b-dac5592b28f3
+		summarizeBy: none
+		sourceColumn: Referência do pedido do cliente
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Referência do pedido de Loja'
+		dataType: string
+		isHidden
+		lineageTag: 8789f28a-44e8-43ca-8795-d2a7afd36c7c
+		summarizeBy: none
+		sourceColumn: Referência do pedido de Loja
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da NF'
+		dataType: string
+		isHidden
+		lineageTag: 28501f9c-8a86-47f3-aef2-d1b849e123c3
+		summarizeBy: none
+		sourceColumn: Número da NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chave da NF'
+		dataType: string
+		isHidden
+		lineageTag: 0bc2bfe8-6010-4c2f-92a3-cebdb38743d3
+		summarizeBy: none
+		sourceColumn: Chave da NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Série da NF'
+		dataType: string
+		isHidden
+		lineageTag: 78936c02-b63c-4984-847b-a2cd0d5b66e6
+		summarizeBy: none
+		sourceColumn: Série da NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de Emissão da NF'
+		dataType: string
+		isHidden
+		lineageTag: 50204281-85b7-4118-9cf1-c67b590394cb
+		summarizeBy: none
+		sourceColumn: Data de Emissão da NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de Entrega'
+		dataType: string
+		isHidden
+		lineageTag: b330e742-a269-40f0-9903-e5535c4e91ce
+		summarizeBy: none
+		sourceColumn: Data de Entrega
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CPF/CNPJ
+		dataType: string
+		isHidden
+		lineageTag: 46f261ad-8ec0-46e2-a739-f0d80f0a6dfc
+		summarizeBy: none
+		sourceColumn: CPF/CNPJ
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nome
+		dataType: string
+		isHidden
+		lineageTag: 291bb47c-f6ab-4740-b9ff-058ae47346db
+		summarizeBy: none
+		sourceColumn: Nome
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sobrenome
+		dataType: string
+		isHidden
+		lineageTag: 35433c9d-b551-4987-9476-31f4651a855d
+		summarizeBy: none
+		sourceColumn: Sobrenome
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Razão Social'
+		dataType: string
+		isHidden
+		lineageTag: 586f8cb3-41d6-441a-a0d9-77f93b03ed34
+		summarizeBy: none
+		sourceColumn: Razão Social
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Inscrição Estadual'
+		dataType: string
+		isHidden
+		lineageTag: 7475da46-0b7e-4516-81a6-3b744d568c38
+		summarizeBy: none
+		sourceColumn: Inscrição Estadual
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Telefone
+		dataType: string
+		isHidden
+		lineageTag: edc10e66-0b91-4c93-997e-3b7974680370
+		summarizeBy: none
+		sourceColumn: Telefone
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Endereço 1'
+		dataType: string
+		isHidden
+		lineageTag: d6bde584-6d73-480a-aeaf-52c1f9ec099e
+		summarizeBy: none
+		sourceColumn: Endereço 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Endereço 2'
+		dataType: string
+		isHidden
+		lineageTag: 70839c2e-a5d8-4146-bfb7-7d71bec9ed86
+		summarizeBy: none
+		sourceColumn: Endereço 2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CEP
+		dataType: string
+		isHidden
+		lineageTag: b3ab4781-f588-43e9-838c-15facb75c2eb
+		summarizeBy: none
+		sourceColumn: CEP
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		isHidden
+		lineageTag: 97ff1b83-c5f2-4526-89cf-ae1cc2b2defe
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		isHidden
+		lineageTag: db0749c6-9ab8-4d28-b100-9d74b6d4fd84
+		summarizeBy: none
+		sourceColumn: Estado
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column País
+		dataType: string
+		isHidden
+		lineageTag: 3ac9ec2d-35e6-4cab-93b9-95849cab9ece
+		summarizeBy: none
+		sourceColumn: País
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Intermediador da Venda'
+		dataType: string
+		isHidden
+		lineageTag: 9a8b1be9-1d6c-46b3-bc45-f54eeeb4a6fd
+		summarizeBy: none
+		sourceColumn: Intermediador da Venda
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Intermediador do Pagamento'
+		dataType: string
+		isHidden
+		lineageTag: 891d8ff3-90e1-4c45-8003-1cbd924d307d
+		summarizeBy: none
+		sourceColumn: Intermediador do Pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Shop ID'
+		dataType: string
+		isHidden
+		lineageTag: 0473cd76-5852-4ee7-a8f1-6dc6a2dbbfcb
+		summarizeBy: none
+		sourceColumn: Shop ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Alteração Método Pagamento'
+		dataType: string
+		isHidden
+		lineageTag: 219821cb-ad24-45d6-b95c-d1c9b3a0ac08
+		summarizeBy: none
+		sourceColumn: Alteração Método Pagamento
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NT - Descrição do Meio de Pagamento (xPag)'
+		dataType: string
+		isHidden
+		lineageTag: 92e26031-a0b3-4a04-b19c-983b5cbec4ef
+		summarizeBy: none
+		sourceColumn: NT - Descrição do Meio de Pagamento (xPag)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NT - Meio de Pagamento (tPag)'
+		dataType: string
+		isHidden
+		lineageTag: 667ac14f-5661-4e42-9897-ee3b300edd9c
+		summarizeBy: none
+		sourceColumn: NT - Meio de Pagamento (tPag)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NT - Indicador de Presença do Comprador (indPress)'
+		dataType: string
+		isHidden
+		lineageTag: 6edd0d16-e5f2-4ea2-ad2b-e8daaba87ee5
+		summarizeBy: none
+		sourceColumn: NT - Indicador de Presença do Comprador (indPress)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'NT - Indicador de Intermediador/Marketplace (indIntermed)'
+		dataType: string
+		isHidden
+		lineageTag: 6aa2131a-9c04-4b12-819b-fa870d295b18
+		summarizeBy: none
+		sourceColumn: NT - Indicador de Intermediador/Marketplace (indIntermed)
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tempo de Entrega em dias úteis'
+		dataType: string
+		isHidden
+		lineageTag: c96dc591-6b60-4d50-b63a-cb25ea57e1a5
+		summarizeBy: none
+		sourceColumn: Tempo de Entrega em dias úteis
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da Transportadora'
+		dataType: string
+		isHidden
+		lineageTag: 0cc7cdb2-d854-4c74-b996-b93a1499df97
+		summarizeBy: none
+		sourceColumn: Nome da Transportadora
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor Desconto'
+		dataType: string
+		isHidden
+		lineageTag: 24a8f077-eafe-4e7b-b7c4-bf38e8661cbe
+		summarizeBy: none
+		sourceColumn: Valor Desconto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Motivo Desconto'
+		dataType: string
+		isHidden
+		lineageTag: 281f83f5-6196-46d4-9961-6e2a48e2543b
+		summarizeBy: none
+		sourceColumn: Motivo Desconto
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Leroy | Legado' = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repasse - Legado'
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Leroy%20-%202024.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Cabeçalhos Promovidos", each not Text.Contains([Data de criação], "2024"))
+				in
+				    #"Linhas Filtradas"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

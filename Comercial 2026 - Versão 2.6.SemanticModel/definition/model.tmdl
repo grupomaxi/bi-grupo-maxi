@@ -1,0 +1,210 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Marketplaces
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup Marketplaces\ADS
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Marketplaces\Visitas
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup Sysemp
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Marketplaces\Mkts - Afiliados'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup Base
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup Medidas
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Marketplaces\Repasses
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Marketplaces\Repasses\Repasse - Legado'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Marketplaces\Repasses\Repase - 2M'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Marketplaces\Repasses\Shopify
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup Marketplaces\Repasses\Mesclas
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Supa Base'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Marketplaces\Repasses\FDS
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup Marketplaces\Televendas
+
+	annotation PBI_QueryGroupOrder = 5
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["NSI Left Join NS + Left Anti NS Devol","NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)","NSI Left Join NS + Left Anti NS Devol (Outros Canais)","NSI Left Join NS  - Id nota e id Produto","Atendimento","produto","produto (somente kits)","produto - somente metas","Formula","Ads - Planilha","Ads Meli","Ads Meli - Sem Match","Ads Amazon","Ads Amazon - Sem Match","Ads shopee","Ads Magalu","Ads Magalu - Sem Match","Base - Ads","Report de produtos","Meli | Legado","Shopee | Legado","Magalu | Legado","Amazon | Legado","Leroy | Legado","Carrefour | Legado","Americanas | Legado","Madeira | Legado","Via Boleto | Legado","Meli | Last 2 M","Shopee | Last 2 M","Magalu |  Last 2 M","Amazon |  Last 2 M","Leroy | Last 2 M","Carrefour | Last 2 M","Americanas | Last 2 M","Madeira | Last 2 M","Via Boleto | Last 2M","Shopee | Afiliados","Meli | Mescla","Meli |  Acrescentar","Meli | Acresc - para verificação","Shopee | Mescla","Magalu | Mescla","Amazon | Mescla","Leroy | Mescla","Carrefour | Mescla","Americanas | Mescla","Madeira | Mescla","Via Boleto | Mescla","Via Cartão | 2M","Amazon | Simnulado | Agrupado","Amazon | Simnulado","Metas por Período","Over por Período","Base","MKT's | 1 - Acrescentar","De Para Status","Medidas","Transportadoras","Estoque","Anuncio por produto","Formula Agrupado - Item","Acrescentar - ID Transação Shopify","pag-brasil","Histórico Metas","Meli | FDS","Shopee | FDS","Rede + Cielo","Rede","Cielo","sysemp_televenas_formpag","sysemp_televenas_somente_cartao","Meli |  Televendas","Filtro Margem - Tab Aux","Produtos_com_estoque_custo_formacao","Visitas - Shopee","Visitas - Shopee - Contagem","Visitas - Amazon - Contagem","Visitas - Amazon","Visitas - Magalu","Visitas - Meli - Contagem","Visitas - Meli","Vistas por Dia","Base - Visitas","Entrada","log_custo","usuario","Shopify - Legado","Shopify - Last 2 M"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table 'NSI Left Join NS + Left Anti NS Devol'
+ref table DateTableTemplate_ebf0e339-4045-441a-96bb-5d7012a019bf
+ref table LocalDateTable_869dc869-dce6-4955-ae65-a389ad40b5e9
+ref table LocalDateTable_a92a6794-87d1-463c-8803-cfad237f3aa9
+ref table Atendimento
+ref table 'Ads - Planilha'
+ref table 'Ads shopee'
+ref table LocalDateTable_e918b0dd-0e37-476a-9b94-a793319ae5f7
+ref table 'Ads Amazon'
+ref table LocalDateTable_6c502058-1e53-49e7-bb19-2ee13efd9ddc
+ref table 'Ads Meli'
+ref table LocalDateTable_4fc362e2-e2cb-42f6-8aae-2cc54743b9c1
+ref table 'Ads Magalu'
+ref table 'Report de produtos'
+ref table LocalDateTable_92553340-64c1-4216-9f44-493cc4760b91
+ref table 'Meli | Legado'
+ref table LocalDateTable_5edcf0ff-3ea0-4063-8f2f-743cd195e7c5
+ref table LocalDateTable_4e7239f6-e6ae-4902-9ec7-068ec42ccb97
+ref table LocalDateTable_cfe09cfb-1409-4f41-b052-375fdab6f601
+ref table 'Shopee | Legado'
+ref table 'Magalu | Legado'
+ref table 'Amazon | Legado'
+ref table 'Leroy | Legado'
+ref table 'Carrefour | Legado'
+ref table 'Americanas | Legado'
+ref table 'Madeira | Legado'
+ref table 'Via Boleto | Legado'
+ref table 'Meli | Last 2 M'
+ref table LocalDateTable_fbb3b7c4-2f7e-4494-a901-79b9006befe6
+ref table LocalDateTable_196180df-7538-4dfd-a00f-b552c2499b26
+ref table LocalDateTable_e376c44b-52b9-4b65-94e9-fe2e6c8c1285
+ref table 'Shopee | Last 2 M'
+ref table 'Magalu |  Last 2 M'
+ref table 'Amazon |  Last 2 M'
+ref table 'Leroy | Last 2 M'
+ref table 'Carrefour | Last 2 M'
+ref table 'Americanas | Last 2 M'
+ref table 'Madeira | Last 2 M'
+ref table 'Via Boleto | Last 2M'
+ref table 'Shopee | Afiliados'
+ref table 'Meli | Mescla'
+ref table 'Meli |  Acrescentar'
+ref table 'Meli | Acresc - para verificação'
+ref table LocalDateTable_45aea64c-5153-43d1-826e-c719e1781f06
+ref table LocalDateTable_5fca5fec-c041-4f61-9503-e39308d0feb8
+ref table LocalDateTable_1a3e58c3-4bcd-4faa-89df-10e6d1260568
+ref table 'Shopee | Mescla'
+ref table 'Magalu | Mescla'
+ref table 'Amazon | Mescla'
+ref table 'Leroy | Mescla'
+ref table 'Carrefour | Mescla'
+ref table 'Americanas | Mescla'
+ref table 'Madeira | Mescla'
+ref table 'Via Boleto | Mescla'
+ref table 'Via Cartão | 2M'
+ref table 'Amazon | Simnulado | Agrupado'
+ref table 'Amazon | Simnulado'
+ref table 'Anuncio por produto'
+ref table produto
+ref table LocalDateTable_a3740993-0f3a-447c-8b5a-32b8843c3eb3
+ref table 'Formula Agrupado - Item'
+ref table Formula
+ref table 'MKT''s | 1 - Acrescentar'
+ref table 'De Para Status'
+ref table Base
+ref table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
+ref table LocalDateTable_1657fd49-8b49-4e23-afab-3de57fb9cb73
+ref table LocalDateTable_1e42cb1d-d9c1-4c99-964e-c082e9f77441
+ref table dCalendario
+ref table Medidas
+ref table Transportadoras
+ref table 'produto (somente kits)'
+ref table Estoque
+ref table 'Ads Meli - Sem Match'
+ref table 'Ads Amazon - Sem Match'
+ref table 'Ads Magalu - Sem Match'
+ref table 'Base - Ads'
+ref table LocalDateTable_0f5df81d-8552-4a4c-91ea-b70da998ba9d
+ref table 'Acrescentar - ID Transação Shopify'
+ref table pag-brasil
+ref table 'Histórico Metas'
+ref table LocalDateTable_42e90c90-aff3-4630-b0c3-77c883fe250e
+ref table 'Metas por Período'
+ref table 'produto - somente metas'
+ref table LocalDateTable_74b1212d-536d-4348-9f08-ab4b717f95f2
+ref table 'Shopee | FDS'
+ref table 'Meli | FDS'
+ref table LocalDateTable_4f167cf5-9763-41f0-96b2-0466be127a81
+ref table LocalDateTable_9e146f87-81ff-4229-83b6-1227a2970881
+ref table LocalDateTable_b356b443-4919-476e-969e-2ce35c06d992
+ref table Rede
+ref table 'Meli |  Televendas'
+ref table sysemp_televenas_formpag
+ref table 'Filtro Margem - Tab Aux'
+ref table Produtos_com_estoque_custo_formacao
+ref table 'Vistas por Dia'
+ref table LocalDateTable_2af3fbd3-268c-40fa-a3ff-ce8820fa5905
+ref table 'Visitas - Shopee'
+ref table LocalDateTable_adbb1c84-34e6-4710-96eb-7c7fa976c834
+ref table 'Visitas - Shopee - Contagem'
+ref table LocalDateTable_27fc56b1-6c35-4fb3-9606-f265ff6f7e0a
+ref table 'Visitas - Magalu'
+ref table LocalDateTable_d265e847-2a64-4057-9930-cea511849014
+ref table 'Visitas - Amazon - Contagem'
+ref table LocalDateTable_870bf840-6a4f-47e6-a31e-97c6bc7f45f3
+ref table 'Visitas - Amazon'
+ref table LocalDateTable_09797fc4-b658-4573-ab6c-2a241f08380b
+ref table 'Visitas - Meli - Contagem'
+ref table 'Visitas - Meli'
+ref table LocalDateTable_7cfd1f5f-389a-4588-a7e9-6e31d86b34bb
+ref table 'Base - Visitas'
+ref table Entrada
+ref table log_custo
+ref table LocalDateTable_99f966a0-2c75-46e5-94af-743a75cd918a
+ref table usuario
+ref table LocalDateTable_cae80f9d-648c-42f8-a0a4-2bf2ab23f347
+ref table LocalDateTable_791b5f22-936d-4ed6-96d5-e556ad1b541c
+ref table LocalDateTable_7a9b3363-7c9e-4d0f-918c-377fc1ab04c3
+ref table LocalDateTable_5d100d3a-5c06-4eba-8c8b-2f43cf2d7234
+ref table 'Shopify - Legado'
+ref table 'Shopify - Last 2 M'
+ref table Fato_Vendas_IA
+ref table Fato_Meta_IA
+ref table LocalDateTable_06480e03-06ff-447f-87f3-03c2461726b7
+ref table LocalDateTable_09dc7944-b7d3-433c-a933-89c02e7b7405
+ref table 'Over por Período'
+ref table 'NSI Left Join NS  - Id nota e id Produto'
+ref table LocalDateTable_fa6dae1c-59c4-4c36-9bdc-b7dedc660fc5
+ref table LocalDateTable_2419117b-5553-42b7-bc9f-ef0c2e262f01
+ref table sysemp_televenas_somente_cartao
+ref table 'Rede + Cielo'
+ref table Cielo
+
+ref cultureInfo pt-BR
+

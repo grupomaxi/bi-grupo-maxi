@@ -1,0 +1,137 @@
+table 'Ads Meli'
+	lineageTag: 6406629e-f639-4ff9-9a40-83dfe88348e9
+
+	column Data
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 830f0f83-3bc0-4860-9a36-52c211da728b
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: ccb4e043-5bfa-4677-b9c1-90ffd0aed397
+			defaultHierarchy: LocalDateTable_4fc362e2-e2cb-42f6-8aae-2cc54743b9c1.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Canal
+		dataType: string
+		lineageTag: 5e245c1d-e137-4ee0-9f12-c2c2675ea082
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Investimento Rateado'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 050ebf1a-136e-4f09-bd41-5a2cb15ad8bb
+		summarizeBy: sum
+		sourceColumn: Investimento Rateado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column id_produto
+		dataType: string
+		lineageTag: 6e8258cd-5fba-4ad2-ab2b-07b7290eebcc
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ads Meli' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Url = "https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20Meli.xlsx",
+				    Fonte = Excel.Workbook(Web.Contents(Url), null, true),
+				    Planilha = Fonte{[Item="Planilha1", Kind="Sheet"]}[Data],
+				    Cabec = Table.PromoteHeaders(Planilha, [PromoteAllScalars=true]),
+				
+				    // Renomeia e tipa só o que importa
+				    Renomear = Table.RenameColumns(
+				        Cabec,
+				        {{"Investimento#(lf)(Moeda local)", "Investimento"}}
+				    ),
+				
+				    Tipos = Table.TransformColumnTypes(
+				        Renomear,
+				        {
+				            {"Data", type date},
+				            {"Investimento", type number},
+				            {"Código do anúncio", type text}
+				        }
+				    ),
+				
+				    // Mantém só as colunas necessárias e filtra cedo
+				    Mantidas = Table.SelectColumns(Tipos, {"Data", "Código do anúncio", "Investimento"}),
+				    Filtrado = Table.SelectRows(Mantidas, each [Investimento] <> 0 and [Código do anúncio] <> null),
+				
+				    Canal = Table.AddColumn(Filtrado, "Canal", each "Meli", type text),
+				
+				    // Soma investimento por dia/anúncio/canal
+				    InvAgr = Table.Group(
+				        Canal,
+				        {"Data", "Código do anúncio", "Canal"},
+				        {{"Investimento", each List.Sum([Investimento]), type number}}
+				    ),
+				
+				    // Mapeamento enxuto: anúncio + marketplace -> id_produto (distinto)
+				    MapBase = Table.SelectColumns(#"Anuncio por produto", {"codigo_produto", "marketplace", "id_produto"}),
+				    MapDistinct = Table.Distinct(MapBase, {"codigo_produto", "marketplace", "id_produto"}),
+				
+				    // Agrupa para ter lista de produtos + contagem por anúncio/canal
+				    MapAgr = Table.Group(
+				        MapDistinct,
+				        {"codigo_produto", "marketplace"},
+				        {
+				            {"Produtos", each [id_produto], type list},
+				            {"Contagem", each Table.RowCount(_), Int64.Type}
+				        }
+				    ),
+				
+				    // INNER JOIN: mantém apenas o que existe nas duas tabelas
+				    Mesclar = Table.NestedJoin(
+				        InvAgr,
+				        {"Código do anúncio", "Canal"},
+				        MapAgr,
+				        {"codigo_produto", "marketplace"},
+				        "Map",
+				        JoinKind.Inner
+				    ),
+				
+				    ExpandirMap = Table.ExpandTableColumn(
+				        Mesclar,
+				        "Map",
+				        {"Produtos", "Contagem"},
+				        {"Produtos", "Contagem"}
+				    ),
+				
+				    // Rateio
+				    Rateio = Table.AddColumn(
+				        ExpandirMap,
+				        "Investimento Rateado",
+				        each if [Contagem] = null or [Contagem] = 0 then null else [Investimento] / [Contagem],
+				        type number
+				    ),
+				
+				    RateioMoeda = Table.TransformColumnTypes(Rateio, {{"Investimento Rateado", Currency.Type}}),
+				
+				    // Explode a lista de produtos em linhas (uma linha por id_produto)
+				    ExpandirLista = Table.ExpandListColumn(RateioMoeda, "Produtos"),
+				    RenomearProduto = Table.RenameColumns(ExpandirLista, {{"Produtos", "id_produto"}}),
+				
+				    Final = Table.SelectColumns(RenomearProduto, {"Data", "Canal", "id_produto", "Investimento Rateado"})
+				in
+				    Final
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

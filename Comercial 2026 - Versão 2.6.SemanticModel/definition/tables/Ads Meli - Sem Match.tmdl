@@ -1,0 +1,59 @@
+table 'Ads Meli - Sem Match'
+	lineageTag: e1b87e20-18fd-466b-bcbc-d6b17198dffa
+
+	column 'Código do anúncio'
+		dataType: string
+		lineageTag: 43861bff-ef1d-4400-8309-a137ed7816d0
+		summarizeBy: none
+		sourceColumn: Código do anúncio
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Ads Meli - Sem Match' = m
+		mode: import
+		queryGroup: Marketplaces\ADS
+		source =
+				let
+				    Url = "https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Ads%20Meli.xlsx",
+				    Fonte = Excel.Workbook(Web.Contents(Url), null, true),
+				    Planilha = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    Cabec = Table.PromoteHeaders(Planilha, [PromoteAllScalars=true]),
+				
+				    // Renomeia antes e já tipa a coluna que importa
+				    Renomear = Table.RenameColumns(Cabec, {{"Investimento#(lf)(Moeda local)", "Investimento"}}),
+				    Tipos = Table.TransformColumnTypes(Renomear, {{"Data", type date}, {"Investimento", type number}}),
+				
+				    // Mantém só o que você usa (bem mais leve do que remover um monte depois)
+				    Mantidas = Table.SelectColumns(Tipos, {"Código do anúncio", "Investimento"}),
+				
+				    // Filtra cedo
+				    Filtrado = Table.SelectRows(Mantidas, each [Investimento] <> 0),
+				
+				    // Canal constante
+				    Canal = Table.AddColumn(Filtrado, "Canal", each "Meli", type text),
+				
+				    // Reduz o "Anuncio por produto" só ao necessário para o anti-join
+				    Map = Table.Distinct(
+				        Table.SelectColumns(#"Anuncio por produto", {"codigo_produto", "marketplace"}),
+				        {"codigo_produto", "marketplace"}
+				    ),
+				
+				    // Anti join: só anúncios que não estão no mapeamento
+				    Anti = Table.NestedJoin(
+				        Canal,
+				        {"Código do anúncio", "Canal"},
+				        Map,
+				        {"codigo_produto", "marketplace"},
+				        "Map",
+				        JoinKind.LeftAnti
+				    ),
+				
+				    // Resultado final: só lista distinta de anúncios
+				    Final = Table.Distinct(Table.SelectColumns(Anti, {"Código do anúncio"}), {"Código do anúncio"})
+				in
+				    Final
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

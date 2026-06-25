@@ -1,0 +1,66 @@
+table 'Visitas - Shopee - Contagem'
+	lineageTag: 577836f6-d831-4235-b7f6-e1e0c9a0b324
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7ef21f2f-98bc-49d7-af1a-62a5d8cf4867
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: f2d422f4-783e-4c72-898e-205375f35398
+			defaultHierarchy: LocalDateTable_27fc56b1-6c35-4fb3-9606-f265ff6f7e0a.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'ID do Item'
+		dataType: string
+		lineageTag: 9247b5fc-3a40-441a-858f-33a1cfba1830
+		summarizeBy: none
+		sourceColumn: ID do Item
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: 91a1139c-8b20-4740-8d6f-dfa7a44f66f3
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Visitas
+		dataType: double
+		lineageTag: ff1f2ac0-2d5b-4ed0-9d62-b3cd8b939c60
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Visitas - Shopee - Contagem' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Visitas.xlsx"), null, true),
+				    #"Shopee _Sheet" = Fonte{[Item="Shopee ",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Shopee _Sheet", [PromoteAllScalars=true]),
+				    #"Tipo Alterado3" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data", type date}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado3",{"Column2"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Colunas Removidas","-",0,Replacer.ReplaceValue,{"Visualizações da Página do Produto"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído1",{{"Visualizações da Página do Produto", Int64.Type}}),
+				    #"Linhas Agrupadas1" = Table.Group(#"Tipo Alterado", {"Data", "ID do Item"}, {{"Contagem", each Table.RowCount(_), Int64.Type}, {"Visitas", each List.Sum([Visualizações da Página do Produto]), type nullable number}})
+				in
+				    #"Linhas Agrupadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

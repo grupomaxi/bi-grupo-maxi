@@ -1,0 +1,436 @@
+table 'Meli | Acresc - para verificação'
+	lineageTag: 2f2ac7e9-e9ad-4dbc-a29a-8f194c92879a
+
+	column 'Data Pedido'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6d2b73cb-dedc-4094-8849-d3c3f87b38a7
+		summarizeBy: none
+		sourceColumn: Data Pedido
+
+		variation Variation
+			isDefault
+			relationship: c2d7c9cf-0e03-427e-9fae-e666ed509381
+			defaultHierarchy: LocalDateTable_45aea64c-5153-43d1-826e-c719e1781f06.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de creditação (date_approved)'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 256dfb30-8202-43b5-befc-b7990aff2c27
+		summarizeBy: none
+		sourceColumn: Data de creditação (date_approved)
+
+		variation Variation
+			isDefault
+			relationship: c6176351-a86b-459e-912f-41dcb060d3b5
+			defaultHierarchy: LocalDateTable_5fca5fec-c041-4f61-9503-e39308d0feb8.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data de liberação do dinheiro (date_released)'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f762afd1-0be0-4448-8975-3ebc98e95027
+		summarizeBy: none
+		sourceColumn: Data de liberação do dinheiro (date_released)
+
+		variation Variation
+			isDefault
+			relationship: 6fa929cd-ea8c-47cb-9956-48c31d6a3576
+			defaultHierarchy: LocalDateTable_1a3e58c3-4bcd-4faa-89df-10e6d1260568.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da contraparte (counterpart_name)'
+		dataType: string
+		lineageTag: 8e8517fd-f56a-4612-a45e-531f3cfcaca9
+		summarizeBy: none
+		sourceColumn: Nome da contraparte (counterpart_name)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Apelido da contraparte no Mercado Livre (counterpart_nickname)'
+		dataType: string
+		lineageTag: 9e61dd05-69cc-4b0d-8324-61da4e657998
+		summarizeBy: none
+		sourceColumn: Apelido da contraparte no Mercado Livre (counterpart_nickname)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'E-mail da contraparte (counterpart_email)'
+		dataType: string
+		lineageTag: 6588f815-5203-4fe1-bf4a-265ce4daa8ba
+		summarizeBy: none
+		sourceColumn: E-mail da contraparte (counterpart_email)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Telefone da contraparte (counterpart_phone_number)'
+		dataType: string
+		lineageTag: 747d8dbb-718b-4940-b0c8-d3540eeea102
+		summarizeBy: none
+		sourceColumn: Telefone da contraparte (counterpart_phone_number)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Documento da contraparte (buyer_document)'
+		dataType: string
+		lineageTag: 25412e4f-99a2-409f-ad3b-99e10ea91b8e
+		summarizeBy: none
+		sourceColumn: Documento da contraparte (buyer_document)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código do produto (item_id)'
+		dataType: string
+		lineageTag: 3bc729f3-5df6-4819-a20c-92b8f8cc82bb
+		summarizeBy: none
+		sourceColumn: Código do produto (item_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Descrição da operação (reason)'
+		dataType: string
+		lineageTag: b52b5fb2-5135-4a54-a07a-9e826c7c5b32
+		summarizeBy: none
+		sourceColumn: Descrição da operação (reason)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de referência (external_reference)'
+		dataType: string
+		lineageTag: 111df132-5e35-432d-9415-519dc6523995
+		summarizeBy: none
+		sourceColumn: Código de referência (external_reference)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU do produto (seller_custom_field)'
+		dataType: string
+		lineageTag: 9ceda427-8852-42a7-9b09-6490a6000d00
+		summarizeBy: none
+		sourceColumn: SKU do produto (seller_custom_field)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da transação do Mercado Pago (operation_id)'
+		dataType: string
+		lineageTag: 126e3340-7675-4f5c-b4ff-ef1775a551e6
+		summarizeBy: none
+		sourceColumn: Número da transação do Mercado Pago (operation_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: 6beda048-c42f-4fab-b013-4430e95ff5e6
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Detalhe do status da operação (status_detail)'
+		dataType: string
+		lineageTag: efffbe73-2ba0-4cef-b014-9065e2c7ba7d
+		summarizeBy: none
+		sourceColumn: Detalhe do status da operação (status_detail)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de operação (operation_type)'
+		dataType: string
+		lineageTag: 16341aab-db13-4a86-8e72-2fdcd154d55b
+		summarizeBy: none
+		sourceColumn: Tipo de operação (operation_type)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor do produto (transaction_amount)'
+		dataType: string
+		lineageTag: 2ad990f7-b415-4340-87bf-73a5d5a15189
+		summarizeBy: none
+		sourceColumn: Valor do produto (transaction_amount)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tarifa do Mercado Pago (mercadopago_fee)'
+		dataType: string
+		lineageTag: 0bc8fb24-ffd1-4efe-864b-ac63fd32de68
+		summarizeBy: none
+		sourceColumn: Tarifa do Mercado Pago (mercadopago_fee)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tarifa pelo uso da plataforma de terceiros (marketplace_fee)'
+		dataType: string
+		lineageTag: 2daa8d76-3a72-4060-85b0-fdf15eecff5b
+		summarizeBy: none
+		sourceColumn: Tarifa pelo uso da plataforma de terceiros (marketplace_fee)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Frete (shipping_cost)'
+		dataType: string
+		lineageTag: 016ca9bb-c131-433e-8cc8-f8224dca1454
+		summarizeBy: none
+		sourceColumn: Frete (shipping_cost)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto para a sua contraparte (coupon_fee)'
+		dataType: string
+		lineageTag: 332dc9ea-d2f6-4035-811f-c3750124b367
+		summarizeBy: none
+		sourceColumn: Desconto para a sua contraparte (coupon_fee)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor total recebido (net_received_amount)'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: a1a6ba1a-5ed1-4596-98b6-01e0f6eadf83
+		summarizeBy: sum
+		sourceColumn: Valor total recebido (net_received_amount)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Parcelas (installments)'
+		dataType: string
+		lineageTag: d9129dfc-1585-4f72-85fa-549e0c940e37
+		summarizeBy: none
+		sourceColumn: Parcelas (installments)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Meio de pagamento (payment_type)'
+		dataType: string
+		lineageTag: bd4e5f9d-82f7-4f46-833a-9d707df1f1fa
+		summarizeBy: none
+		sourceColumn: Meio de pagamento (payment_type)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Valor devolvido (amount_refunded)'
+		dataType: string
+		lineageTag: f2dc72a6-54a8-4937-a7c4-4cd93f49a0cb
+		summarizeBy: none
+		sourceColumn: Valor devolvido (amount_refunded)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Operador que devolveu o dinheiro (refund_operator)'
+		dataType: string
+		lineageTag: c6ab99c2-c7ec-4105-8ca4-7563dc56ebe4
+		summarizeBy: none
+		sourceColumn: Operador que devolveu o dinheiro (refund_operator)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da reclamação (claim_id)'
+		dataType: string
+		lineageTag: 5f9b8282-d2fc-4675-9d6e-c2ff66415303
+		summarizeBy: none
+		sourceColumn: Número da reclamação (claim_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da contestação (chargeback_id)'
+		dataType: string
+		lineageTag: cf1131e5-508c-45b9-bd0a-616c58e97bdf
+		summarizeBy: none
+		sourceColumn: Número da contestação (chargeback_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Plataforma (marketplace)'
+		dataType: string
+		lineageTag: 7cb0fcba-1d82-4ce8-b6ab-7a09dfc95310
+		summarizeBy: none
+		sourceColumn: Plataforma (marketplace)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da venda no Mercado Livre (order_id)'
+		dataType: string
+		lineageTag: a628a2ba-13e9-4237-bc84-b3233a10e399
+		summarizeBy: none
+		sourceColumn: Número da venda no Mercado Livre (order_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da venda no seu negócio online (merchant_order_id)'
+		dataType: string
+		lineageTag: aa9681f7-d2a5-4533-9b60-590955f123ef
+		summarizeBy: none
+		sourceColumn: Número da venda no seu negócio online (merchant_order_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da campanha de desconto (campaign_id)'
+		dataType: string
+		lineageTag: da61447f-9c74-4163-8932-0770100fd1eb
+		summarizeBy: none
+		sourceColumn: Número da campanha de desconto (campaign_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da campanha de desconto (campaign_name)'
+		dataType: string
+		lineageTag: 798c7726-9061-469b-9a13-99f1f25ad936
+		summarizeBy: none
+		sourceColumn: Nome da campanha de desconto (campaign_name)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Detalhe da venda no Mercado Pago (activity_url)'
+		dataType: string
+		lineageTag: a606cbf5-687a-4657-936e-70cc3491aa82
+		summarizeBy: none
+		sourceColumn: Detalhe da venda no Mercado Pago (activity_url)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mercado Pago Point (id)'
+		dataType: string
+		lineageTag: 974b88a2-b025-4f91-a89e-37ead44e93ae
+		summarizeBy: none
+		sourceColumn: Mercado Pago Point (id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status do envio (shipment_status)'
+		dataType: string
+		lineageTag: ffee876d-7d80-4f8d-82c8-a9c4ce362d98
+		summarizeBy: none
+		sourceColumn: Status do envio (shipment_status)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Endereço do comprador (buyer_address)'
+		dataType: string
+		lineageTag: 5c029428-179c-4547-bbd3-dcccc452dedc
+		summarizeBy: none
+		sourceColumn: Endereço do comprador (buyer_address)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Código de rastreamento (tracking_number)'
+		dataType: string
+		lineageTag: bf5e9006-74df-482b-bc44-653315240a24
+		summarizeBy: none
+		sourceColumn: Código de rastreamento (tracking_number)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Operador de multibanco (operator_name)'
+		dataType: string
+		lineageTag: 004a3999-8c27-46bd-ba1d-df5ec4d0c8da
+		summarizeBy: none
+		sourceColumn: Operador de multibanco (operator_name)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número da loja (store_id)'
+		dataType: string
+		lineageTag: 357d4f93-add6-4bea-b545-0215b24b090f
+		summarizeBy: none
+		sourceColumn: Número da loja (store_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome da loja (description)'
+		dataType: string
+		lineageTag: 7607899e-3d0e-4aea-b26a-ae10051066c0
+		summarizeBy: none
+		sourceColumn: Nome da loja (description)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número do caixa (pos_id)'
+		dataType: string
+		lineageTag: e5c3be99-ce91-4b23-a0ee-515132485e4a
+		summarizeBy: none
+		sourceColumn: Número do caixa (pos_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número de caixa externa (external_id)'
+		dataType: string
+		lineageTag: a8fc78e3-5277-4ea6-87ee-b88f41e59b49
+		summarizeBy: none
+		sourceColumn: Número de caixa externa (external_id)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Custos de parcelamento (financing_fee)'
+		dataType: string
+		lineageTag: 526f7f93-f9d9-4087-b08a-1a75e731c2d3
+		summarizeBy: none
+		sourceColumn: Custos de parcelamento (financing_fee)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Número do ticket (ticket_number)'
+		dataType: string
+		lineageTag: 718cdf97-f629-4c04-a576-79fd0992d5ca
+		summarizeBy: none
+		sourceColumn: Número do ticket (ticket_number)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Canal de venda (business_unit)'
+		dataType: string
+		lineageTag: ead37406-d240-4292-a7f0-fc3cb27a19f1
+		summarizeBy: none
+		sourceColumn: Canal de venda (business_unit)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Plataforma de pagamento (sub_unit)'
+		dataType: string
+		lineageTag: e7e6722d-63ae-4281-88e3-67a0634ea847
+		summarizeBy: none
+		sourceColumn: Plataforma de pagamento (sub_unit)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Motivos de recusa (rejection_causes)'
+		dataType: string
+		lineageTag: 7cd8f77f-d626-4adc-a943-5a070c0dcd1a
+		summarizeBy: none
+		sourceColumn: Motivos de recusa (rejection_causes)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 117debf2-1e02-4b3d-b36b-28e6c9107cab
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Meli | Acresc - para verificação' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = Table.Combine({#"Meli | Legado", #"Meli | Last 2 M"}),
+				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([#"Data da compra (date_created)"] <> true)),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Linhas Filtradas",",","",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",".",",",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído1",{{"Data da compra (date_created)", type datetime}, {"Valor total recebido (net_received_amount)", Currency.Type}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Data da compra (date_created)", "Data Pedido"}}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Colunas Renomeadas",{{"Status da operação (status)", "Status MKT"}}),
+				    #"Personalização Adicionada1" = Table.AddColumn(#"Colunas Renomeadas1", "Pedido MKT", each [#"Número da venda no Mercado Livre (order_id)"])
+				in
+				    #"Personalização Adicionada1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

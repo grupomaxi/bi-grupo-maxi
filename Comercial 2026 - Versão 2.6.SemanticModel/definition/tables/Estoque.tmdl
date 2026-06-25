@@ -1,0 +1,58 @@
+table Estoque
+	lineageTag: 873893d0-0a47-4a9d-a837-c3e0c7fdabd6
+
+	column id_produto
+		dataType: string
+		lineageTag: 71851e7f-36a1-4538-8c21-cb707ab394b3
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column estoque
+		dataType: double
+		lineageTag: 82524810-6533-42f5-a5a9-1e91b0f75081
+		summarizeBy: sum
+		sourceColumn: estoque
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_empresa
+		dataType: int64
+		formatString: 0
+		lineageTag: 9db70cb4-36bb-428a-8c7a-71786077457a
+		summarizeBy: sum
+		sourceColumn: id_empresa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Estoque = m
+		mode: import
+		queryGroup: Sysemp
+		source =
+				let
+				    Fonte =
+				        Odbc.Query(
+				            "driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas",
+				            "
+				SELECT
+				    pi.id_produto,
+				    pi.estoque,
+				    pi.id_empresa
+				
+				FROM sysemp.produto_inventario pi
+				
+				WHERE pi.estoque > 0
+				"
+				        )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "ff589d835242793568b0",
+  "position": {
+    "x": 864.44444444444446,
+    "y": 212.22222222222223,
+    "z": 12000,
+    "height": 61.111111111111107,
+    "width": 192.22222222222223,
+    "tabOrder": 56000
+  },
+  "visualGroup": {
+    "displayName": "Repasse",
+    "groupMode": "ScaleMode"
+  }
+}

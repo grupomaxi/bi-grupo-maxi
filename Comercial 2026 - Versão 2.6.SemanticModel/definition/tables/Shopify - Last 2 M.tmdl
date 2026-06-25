@@ -1,0 +1,103 @@
+table 'Shopify - Last 2 M'
+	lineageTag: ab453eb3-3b83-4fe6-8da5-5a0f85b12c14
+
+	column Orders
+		dataType: string
+		lineageTag: ae831ce0-5b7d-4f4e-bc75-2daf8783aca6
+		summarizeBy: none
+		sourceColumn: Orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 98c57677-197b-44f8-9c88-fc4640a4f4d2
+		summarizeBy: count
+		sourceColumn: Transaction: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: Authorization'
+		dataType: string
+		lineageTag: c4313583-9111-48ae-805d-211c5fb658f1
+		summarizeBy: none
+		sourceColumn: Transaction: Authorization
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: Payment ID'
+		dataType: string
+		lineageTag: e0ea3a5d-fb0e-495a-a247-ae40e9adb473
+		summarizeBy: none
+		sourceColumn: Transaction: Payment ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Transaction: Gateway'
+		dataType: string
+		lineageTag: 9608d565-d5d7-48fd-a68e-0e4d0ffd546f
+		summarizeBy: none
+		sourceColumn: Transaction: Gateway
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: adc6f3ea-d6f3-4af4-9ab3-10c75db8fe4b
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Number
+		dataType: int64
+		formatString: 0
+		lineageTag: 300789c0-f5e0-45d9-b928-b8112e297bff
+		summarizeBy: sum
+		sourceColumn: Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orders_1
+		dataType: string
+		lineageTag: 1f94e368-d024-41c9-bf98-21d11c8e7d1e
+		summarizeBy: none
+		sourceColumn: Orders_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sheet
+		dataType: string
+		lineageTag: de44bf42-4976-4bc2-b6cb-e0544d24e740
+		summarizeBy: none
+		sourceColumn: Sheet
+
+		annotation SummarizationSetBy = Automatic
+
+	column false
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ce48778b-338b-4d4b-8330-161c3a50e2fe
+		summarizeBy: none
+		sourceColumn: false
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Shopify - Last 2 M' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Shopify
+		source =
+				let
+				    Fonte = Excel.Workbook(Web.Contents("https://maxiferramentasltda.sharepoint.com/sites/PowerBi/Documentos%20Compartilhados/Planilhas%20-%20BI/Shopify%20-%20Last%202%20M.xlsx"), null, true),
+				    #"Data Expandido" = Table.ExpandTableColumn(Fonte, "Data", {"Column1", "Column2", "Column3", "Column4", "Column5", "Column6"}, {"Data.Column1", "Data.Column2", "Data.Column3", "Data.Column4", "Data.Column5", "Data.Column6"}),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Data Expandido", [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Orders", type text}, {"Transaction: ID", Int64.Type}, {"Transaction: Authorization", type text}, {"Transaction: Payment ID", type text}, {"Transaction: Gateway", type text}, {"ID", Int64.Type}, {"Number", Int64.Type}, {"Orders_1", type text}, {"Sheet", type text}, {"false", type logical}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
