@@ -2,30 +2,36 @@ table 'Over por Período'
 	lineageTag: 05716d35-3c36-4842-a81b-4a1369669075
 
 	column id_produto
-		dataType: string
+		dataType: int64
+		formatString: 0
 		lineageTag: 1863b1d2-1da0-44b1-8556-52c49269e318
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: id_produto
 
 		annotation SummarizationSetBy = Automatic
 
-	column Período
+	column data
 		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 2bc447e0-5947-4010-aac2-ead58c0a4cb4
+		formatString: Short Date
+		lineageTag: 35eaae90-83d6-4fd3-8c89-b057348c027f
 		summarizeBy: none
-		sourceColumn: Período
+		sourceColumn: data
+
+		variation Variation
+			isDefault
+			relationship: bc38d4e2-a299-4c72-98de-64d279d758d4
+			defaultHierarchy: LocalDateTable_9fe98b23-3630-4941-9a0c-89896458f4eb.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column 'Over Frete'
+	column over_frete
 		dataType: decimal
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
-		lineageTag: 4f2f4e7c-61b2-4336-a96b-4071533b289d
+		lineageTag: cdbfb860-55b8-4cb7-a774-d895e279db0b
 		summarizeBy: sum
-		sourceColumn: Over Frete
+		sourceColumn: over_frete
 
 		annotation SummarizationSetBy = Automatic
 
@@ -33,31 +39,41 @@ table 'Over por Período'
 
 	partition 'Over por Período' = m
 		mode: import
-		queryGroup: Base
+		queryGroup: SupaBase
 		source =
-				let Fonte = Table.Combine({#"Histórico Metas", #"produto - somente metas"}),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Período", type date}, {"Meta Faturamento", type number}, {"produto_carteira_marca", type text}, {"produto_carteira_por_produto", type text}}),
-				    #"Personalização Adicionada" = Table.AddColumn(#"Tipo Alterado", "Carteira Definitivo", each let
-				    Hoje = Date.From(DateTime.LocalNow()),
-				    MesAtual = Date.Month(Hoje),
-				    AnoAtual = Date.Year(Hoje),
-				    MesLinha = Date.Month([Período]),
-				    AnoLinha = Date.Year([Período])
+				let
+				    BaseUrl  = "https://mxsdrojeuyuuokfxhjyb.supabase.co",
+				    ApiKey   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14c2Ryb2pldXl1dW9rZnhoanliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MTEwNzEsImV4cCI6MjA4MjM4NzA3MX0.loxFGXbJVk3xwSHb8U5STG6QxoISFtlB6qcQLxowRs8",
+				    PageSize = 1000,
+				
+				    BuscarPagina = (Offset as number) as list =>
+				        Json.Document(Web.Contents(BaseUrl, [
+				            RelativePath = "rest/v1/vw_historico_over_frete",
+				            Headers      = [apikey = ApiKey, Authorization = "Bearer " & ApiKey],
+				            Query        = [select="*", limit=Text.From(PageSize), offset=Text.From(Offset)]
+				        ])),
+				
+				    TodasPaginas = List.Generate(
+				        () => [Pagina = BuscarPagina(0), Offset = 0],
+				        each List.Count([Pagina]) > 0,
+				        each [Pagina = BuscarPagina([Offset] + PageSize), Offset = [Offset] + PageSize],
+				        each [Pagina]
+				    ),
+				
+				    TodosRegistros = List.Combine(TodasPaginas),
+				    Tabela         = Table.FromList(TodosRegistros, Splitter.SplitByNothing(), {"Row"}),
+				
+				    Expandido = Table.ExpandRecordColumn(Tabela, "Row",
+				        {"data", "id_produto", "over_frete"},
+				        {"data", "id_produto", "over_frete"}),
+				
+				    TiposAjustados = Table.TransformColumnTypes(Expandido, {
+				        {"data", type date},
+				        {"id_produto", Int64.Type},
+				        {"over_frete", Currency.Type}
+				    })
 				in
-				    if MesLinha = MesAtual and AnoLinha = AnoAtual then
-				        if [produto_carteira_por_produto] <> null and [produto_carteira_por_produto] <> ""
-				        then [produto_carteira_por_produto]
-				        else [produto_carteira_marca]
-				    else
-				        [Carteira]),
-				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Personalização Adicionada",{{"Carteira Definitivo", type text}}), #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado1",{"Carteira", "produto_carteira_marca", "produto_carteira_por_produto", "Meta Faturamento", "Meta Margem", "Carteira Definitivo"}),
-				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas",null,0,Replacer.ReplaceValue,{"Over Frete", "produto_overfrete"}), #"Colunas Renomeadas1" = Table.RenameColumns(#"Valor Substituído",{{"Período", "Período"}}),
-				    #"Personalização Adicionada1" = Table.AddColumn(#"Colunas Renomeadas1", "Over Frete.1", each [Over Frete] + [produto_overfrete]),
-				    #"Colunas Removidas1" = Table.RemoveColumns(#"Personalização Adicionada1",{"Over Frete", "produto_overfrete"}),
-				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas1",{{"Over Frete.1", "Over Frete"}}),
-				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Over Frete", Currency.Type}})
-				in
-				    #"Tipo Alterado2"
+				    TiposAjustados
 
 	annotation PBI_NavigationStepName = Navegação
 

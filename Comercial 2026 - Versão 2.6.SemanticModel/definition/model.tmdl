@@ -55,10 +55,6 @@ queryGroup Marketplaces\Repasses\Mesclas
 
 	annotation PBI_QueryGroupOrder = 4
 
-queryGroup 'Supa Base'
-
-	annotation PBI_QueryGroupOrder = 2
-
 queryGroup Marketplaces\Repasses\FDS
 
 	annotation PBI_QueryGroupOrder = 5
@@ -67,9 +63,13 @@ queryGroup Marketplaces\Televendas
 
 	annotation PBI_QueryGroupOrder = 5
 
+queryGroup SupaBase
+
+	annotation PBI_QueryGroupOrder = 2
+
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["NSI Left Join NS + Left Anti NS Devol","NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)","NSI Left Join NS + Left Anti NS Devol (Outros Canais)","NSI Left Join NS  - Id nota e id Produto","Atendimento","produto","produto (somente kits)","produto - somente metas","Formula","Ads - Planilha","Ads Meli","Ads Meli - Sem Match","Ads Amazon","Ads Amazon - Sem Match","Ads shopee","Ads Magalu","Ads Magalu - Sem Match","Base - Ads","Report de produtos","Meli | Legado","Shopee | Legado","Magalu | Legado","Amazon | Legado","Leroy | Legado","Carrefour | Legado","Americanas | Legado","Madeira | Legado","Via Boleto | Legado","Meli | Last 2 M","Shopee | Last 2 M","Magalu |  Last 2 M","Amazon |  Last 2 M","Leroy | Last 2 M","Carrefour | Last 2 M","Americanas | Last 2 M","Madeira | Last 2 M","Via Boleto | Last 2M","Shopee | Afiliados","Meli | Mescla","Meli |  Acrescentar","Meli | Acresc - para verificação","Shopee | Mescla","Magalu | Mescla","Amazon | Mescla","Leroy | Mescla","Carrefour | Mescla","Americanas | Mescla","Madeira | Mescla","Via Boleto | Mescla","Via Cartão | 2M","Amazon | Simnulado | Agrupado","Amazon | Simnulado","Metas por Período","Over por Período","Base","MKT's | 1 - Acrescentar","De Para Status","Medidas","Transportadoras","Estoque","Anuncio por produto","Formula Agrupado - Item","Acrescentar - ID Transação Shopify","pag-brasil","Histórico Metas","Meli | FDS","Shopee | FDS","Rede + Cielo","Rede","Cielo","sysemp_televenas_formpag","sysemp_televenas_somente_cartao","Meli |  Televendas","Filtro Margem - Tab Aux","Produtos_com_estoque_custo_formacao","Visitas - Shopee","Visitas - Shopee - Contagem","Visitas - Amazon - Contagem","Visitas - Amazon","Visitas - Magalu","Visitas - Meli - Contagem","Visitas - Meli","Vistas por Dia","Base - Visitas","Entrada","log_custo","usuario","Shopify - Legado","Shopify - Last 2 M"]
+annotation PBI_QueryOrder = ["NSI Left Join NS + Left Anti NS Devol","NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)","NSI Left Join NS + Left Anti NS Devol (Outros Canais)","NSI Left Join NS  - Id nota e id Produto","Over por Período","Atendimento","produto","produto (somente kits)","produto - somente metas","Formula","Ads - Planilha","Ads Meli","Ads Meli - Sem Match","Ads Amazon","Ads Amazon - Sem Match","Ads shopee","Ads Magalu","Ads Magalu - Sem Match","Base - Ads","Report de produtos","Meli | Legado","Shopee | Legado","Magalu | Legado","Amazon | Legado","Leroy | Legado","Carrefour | Legado","Americanas | Legado","Madeira | Legado","Via Boleto | Legado","Meli | Last 2 M","Shopee | Last 2 M","Magalu |  Last 2 M","Amazon |  Last 2 M","Leroy | Last 2 M","Carrefour | Last 2 M","Americanas | Last 2 M","Madeira | Last 2 M","Via Boleto | Last 2M","Shopee | Afiliados","Meli | Mescla","Meli |  Acrescentar","Meli | Acresc - para verificação","Shopee | Mescla","Magalu | Mescla","Amazon | Mescla","Leroy | Mescla","Carrefour | Mescla","Americanas | Mescla","Madeira | Mescla","Via Boleto | Mescla","Via Cartão | 2M","Amazon | Simnulado | Agrupado","Amazon | Simnulado","Metas por Período","Base","MKT's | 1 - Acrescentar","De Para Status","Medidas","Transportadoras","Estoque","Anuncio por produto","Formula Agrupado - Item","Acrescentar - ID Transação Shopify","pag-brasil","Histórico Metas","Meli | FDS","Shopee | FDS","Rede + Cielo","Rede","Cielo","sysemp_televenas_formpag","sysemp_televenas_somente_cartao","Meli |  Televendas","Filtro Margem - Tab Aux","Produtos_com_estoque_custo_formacao","Visitas - Shopee","Visitas - Shopee - Contagem","Visitas - Amazon - Contagem","Visitas - Amazon","Visitas - Magalu","Visitas - Meli - Contagem","Visitas - Meli","Vistas por Dia","Base - Visitas","Entrada","log_custo","usuario","Shopify - Legado","Shopify - Last 2 M"]
 
 annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
 
@@ -205,6 +205,7 @@ ref table LocalDateTable_2419117b-5553-42b7-bc9f-ef0c2e262f01
 ref table sysemp_televenas_somente_cartao
 ref table 'Rede + Cielo'
 ref table Cielo
+ref table LocalDateTable_9fe98b23-3630-4941-9a0c-89896458f4eb
 
 ref cultureInfo pt-BR
 

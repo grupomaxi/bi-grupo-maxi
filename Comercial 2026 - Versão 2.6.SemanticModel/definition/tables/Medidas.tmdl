@@ -1328,6 +1328,32 @@ table Medidas
 		formatString: 0%;-0%;0%
 		lineageTag: 241cb30a-ff1d-41fe-af41-03604d71a79e
 
+	measure 'Over Frete Ajustado' =
+			
+			SUMX(
+			    SUMMARIZE(
+			        Base,
+			        Base[id_produto],
+			        Base[id_nota_saida],
+			        Base[id_atendimento],
+			        Base[item]
+			    ),
+			    CALCULATE(
+			        VAR OverFrete = [Over Frete]
+			        VAR idtransportadora = MAX(Base[id_transportadora])
+			        VAR EhME1 =
+			            NOT (
+			                idtransportadora IN {310689, 626883, 210148, 197034, 500723, 1413, 391010, 209106, 6789, 9489, 209106, 209105, 0}
+			            )
+			        RETURN
+			            IF(EhME1, OverFrete, 0)
+			    )
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 5a557a20-9721-4d24-ae65-b1e064bcaa77
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
 	column Medidas
 		dataType: string
 		lineageTag: 6a6d6c19-44ea-4af1-bdf0-fdbee10f772a

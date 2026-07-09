@@ -298,11 +298,6 @@ relationship dd47300e-b8b4-429f-bc29-e862c16a6b35
 	fromColumn: Fato_Meta_IA.Date
 	toColumn: LocalDateTable_09dc7944-b7d3-433c-a933-89c02e7b7405.Date
 
-relationship f936ce36-999a-a7df-e244-cc45dea87f97
-	toCardinality: many
-	fromColumn: 'Over por Período'.Período
-	toColumn: dCalendario.'Mês - Ano'
-
 relationship f9a0598b-67e4-4e7b-be07-91f7427b21d0
 	joinOnDateBehavior: datePartOnly
 	fromColumn: 'NSI Left Join NS  - Id nota e id Produto'.data_pedido
@@ -322,4 +317,9 @@ relationship 3681643f-a5f0-c6dd-3c5b-8340e3b895b2
 relationship efcbbbba-541e-5f8c-4f20-6dc1128c0a62
 	fromColumn: sysemp_televenas_somente_cartao.data_pedido
 	toColumn: dCalendario.Date
+
+relationship bc38d4e2-a299-4c72-98de-64d279d758d4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Over por Período'.data
+	toColumn: LocalDateTable_9fe98b23-3630-4941-9a0c-89896458f4eb.Date
 

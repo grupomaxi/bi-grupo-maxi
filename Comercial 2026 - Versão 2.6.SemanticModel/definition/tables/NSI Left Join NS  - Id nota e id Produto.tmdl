@@ -61,13 +61,14 @@ table 'NSI Left Join NS  - Id nota e id Produto'
 
 	column 'Over Frete'
 		dataType: decimal
-		lineageTag: d0253948-9c02-443e-a01f-a1009ddf63d7
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 3e2ed4cc-7d7a-45f8-8bb4-236dbd58c138
 		summarizeBy: sum
 		sourceColumn: Over Frete
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
 	partition 'NSI Left Join NS  - Id nota e id Produto' = m
 		mode: import
@@ -75,10 +76,10 @@ table 'NSI Left Join NS  - Id nota e id Produto'
 		source =
 				let
 				    Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT#(lf)    nsi.id_nota_saida,#(lf)    nsi.id_produto,#(lf)    ns.data_pedido,#(lf)#(lf)    DATE_TRUNC('month', ns.data_pedido)::date AS ""Período"",#(lf)#(lf)    nsi.id_nota_saida || '_' || nsi.id_produto#(lf)        AS ""id Nota e Produto""#(lf)#(lf)FROM sysemp.nota_saida_itens nsi#(lf)#(lf)INNER JOIN sysemp.nota_saida ns#(lf)    ON nsi.id_nota_saida = ns.id_nota_saida#(lf)#(lf)WHERE#(lf)    ns.data_pedido >= '2026-05-19'#(lf)#(lf)    AND nsi.id_nat_operacao_item IN (#(lf)        1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)    )#(lf)#(lf)    AND nsi.id_nota_saida NOT IN (#(lf)        1604288,1609721,1520316#(lf)    )#(lf)#(lf)    AND ns.tipo_documento = 'NF'#(lf)#(lf)    AND (#(lf)        (ns.id_empresa IN (1,5,7,12,13,14,15) AND ns.nfe_cstat = '100')#(lf)        OR#(lf)        (ns.id_empresa IN (7,5,13,14,15)#(lf)         AND (ns.nfe_cstat IS NULL OR ns.nfe_cstat = ''))#(lf)    )#(lf)#(lf)    AND ns.id_nat_operacao IN (#(lf)        1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121#(lf)    )"),
-				    #"Consultas Mescladas" = Table.NestedJoin(Fonte, {"Período", "id_produto"}, #"Over por Período", {"Período", "id_produto"}, "Over por Período", JoinKind.LeftOuter),
-				    #"Over por Período Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Over por Período", {"Over Frete"}, {"Over por Período.Over Frete"}),
-				    #"Valor Substituído" = Table.ReplaceValue(#"Over por Período Expandido",null,0,Replacer.ReplaceValue,{"Over por Período.Over Frete"}),
-				    #"Colunas Renomeadas" = Table.RenameColumns(#"Valor Substituído",{{"Over por Período.Over Frete", "Over Frete"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(Fonte, {"id_produto", "data_pedido"}, #"Over por Período", {"id_produto", "data"}, "Over por Período", JoinKind.LeftOuter),
+				    #"Over por Período Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Over por Período", {"over_frete"}, {"over_frete"}),
+				    #"Valor Substituído1" = Table.ReplaceValue(#"Over por Período Expandido",null,0,Replacer.ReplaceValue,{"over_frete"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Valor Substituído1",{{"over_frete", "Over Frete"}}),
 				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{{"Over Frete", Currency.Type}})
 				in
 				    #"Tipo Alterado"

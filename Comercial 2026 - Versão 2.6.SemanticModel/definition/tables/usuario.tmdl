@@ -10709,6 +10709,14 @@ table usuario
 
 		annotation SummarizationSetBy = Automatic
 
+	column agd_obrigacoes_dashboard
+		dataType: string
+		lineageTag: a8413062-7723-4f92-8f45-5d13bd117e86
+		summarizeBy: none
+		sourceColumn: agd_obrigacoes_dashboard
+
+		annotation SummarizationSetBy = Automatic
+
 	partition usuario = m
 		mode: import
 		queryGroup: Sysemp
