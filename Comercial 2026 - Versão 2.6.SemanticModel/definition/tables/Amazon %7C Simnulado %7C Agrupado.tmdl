@@ -36,8 +36,9 @@ table 'Amazon | Simnulado | Agrupado'
 				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",null,50,Replacer.ReplaceValue,{"produto_comissaoamazon_final"}),
 				    #"Primeiros caracteres extraídos" = Table.TransformColumns(#"Valor Substituído1", {{"marketplace_pedido", each Text.Start(_, 19), type text}}),
 				    #"Linhas Agrupadas" = Table.Group(#"Primeiros caracteres extraídos", {"marketplace_pedido"}, {{"Qtde Peds MKT", each Table.RowCount(_), Int64.Type}})
-				in
-				    #"Linhas Agrupadas"
+				
+				    in
+				    Table.Buffer(#"Linhas Agrupadas")
 
 	changedProperty = IsHidden
 
