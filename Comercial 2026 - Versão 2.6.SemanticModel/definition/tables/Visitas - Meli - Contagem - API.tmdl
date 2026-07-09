@@ -1,0 +1,39 @@
+table 'Visitas - Meli - Contagem - API'
+	lineageTag: afd2d046-d2c8-4136-95b9-0594ff6746ce
+
+	column Anuncio
+		dataType: string
+		lineageTag: 7e14b31c-79b6-4a15-9f27-9fbf7cb35e29
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e147627-a075-40f5-b5a1-96d583de06f1
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Visitas - Meli - Contagem - API' = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    FiltroMeli  = Table.SelectRows(#"Anuncio por produto", each [marketplace] = "Meli"),
+				    Selecionado = Table.SelectColumns(FiltroMeli, {"codigo_produto", "codigo_auxiliar"}),
+				    SemDup      = Table.Distinct(Selecionado),
+				    Agrupado    = Table.Group(SemDup, {"codigo_produto"}, {
+				                      {"Contagem", each Table.RowCount(_), Int64.Type}
+				                  }),
+				    Renomeado   = Table.RenameColumns(Agrupado, {{"codigo_produto", "Anuncio"}})
+				in
+				    Renomeado
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -323,3 +323,23 @@ relationship bc38d4e2-a299-4c72-98de-64d279d758d4
 	fromColumn: 'Over por Período'.data
 	toColumn: LocalDateTable_9fe98b23-3630-4941-9a0c-89896458f4eb.Date
 
+relationship 1f7255eb-c103-455f-8ade-6b611331434b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'meta_ads por Período'.data
+	toColumn: LocalDateTable_3a984b39-b318-4f38-a21a-09729502d1e1.Date
+
+relationship 63fe833c-3d55-4eed-82ba-c5676974338d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'vw_mlb_daily - ADS-Api-ML'.date
+	toColumn: LocalDateTable_cbdb70b5-fef7-496d-9098-4df345dccc01.Date
+
+relationship 64f18bfd-38fe-4b27-aaf0-44443842f038
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Visitas-Meli-API.Data
+	toColumn: LocalDateTable_eef018bd-59f2-4ff1-9a59-f98dc777c3f1.Date
+
+relationship 34011585-7968-438d-95bb-780e75dd7b0b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Ads Meli - Sem Match - APi'.'Ultima data com gasto'
+	toColumn: LocalDateTable_b29dd7b6-119e-428c-b7ab-01b6d36d1a05.Date
+

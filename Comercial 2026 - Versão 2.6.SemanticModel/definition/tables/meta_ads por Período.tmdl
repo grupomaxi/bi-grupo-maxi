@@ -1,0 +1,82 @@
+table 'meta_ads por Período'
+	lineageTag: df68a16d-5a95-4d4c-9aee-526ca245de00
+
+	column data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ef32ea46-065f-4714-8d78-6fa1274a3b7f
+		summarizeBy: none
+		sourceColumn: data
+
+		variation Variation
+			isDefault
+			relationship: 1f7255eb-c103-455f-8ade-6b611331434b
+			defaultHierarchy: LocalDateTable_3a984b39-b318-4f38-a21a-09729502d1e1.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: f9e00375-d33e-4794-86d9-91b360d71816
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_ads
+		dataType: double
+		lineageTag: f9fb0c57-1a7f-45df-84dd-79faf1118212
+		summarizeBy: sum
+		sourceColumn: meta_ads
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'meta_ads por Período' = m
+		mode: import
+		queryGroup: SupaBase
+		source =
+				let
+				    BaseUrl  = "https://mxsdrojeuyuuokfxhjyb.supabase.co",
+				    ApiKey   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14c2Ryb2pldXl1dW9rZnhoanliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MTEwNzEsImV4cCI6MjA4MjM4NzA3MX0.loxFGXbJVk3xwSHb8U5STG6QxoISFtlB6qcQLxowRs8",
+				    PageSize = 1000,
+				
+				    BuscarPagina = (Offset as number) as list =>
+				        Json.Document(Web.Contents(BaseUrl, [
+				            RelativePath = "rest/v1/vw_historico_meta_ads",
+				            Headers      = [apikey = ApiKey, Authorization = "Bearer " & ApiKey],
+				            Query        = [select="*", limit=Text.From(PageSize), offset=Text.From(Offset)]
+				        ])),
+				
+				    TodasPaginas = List.Generate(
+				        () => [Pagina = BuscarPagina(0), Offset = 0],
+				        each List.Count([Pagina]) > 0,
+				        each [Pagina = BuscarPagina([Offset] + PageSize), Offset = [Offset] + PageSize],
+				        each [Pagina]
+				    ),
+				
+				    TodosRegistros = List.Combine(TodasPaginas),
+				    Tabela         = Table.FromList(TodosRegistros, Splitter.SplitByNothing(), {"Row"}),
+				
+				    Expandido = Table.ExpandRecordColumn(Tabela, "Row",
+				        {"data", "id_produto", "meta_ads"},
+				        {"data", "id_produto", "meta_ads"}),
+				
+				    TiposAjustados = Table.TransformColumnTypes(Expandido, {
+				        {"data", type date},
+				        {"id_produto", Int64.Type},
+				        {"meta_ads", type number}
+				    }),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(TiposAjustados,{{"meta_ads", Percentage.Type}}),
+				    #"Linhas Classificadas" = Table.Sort(#"Tipo Alterado",{{"id_produto", Order.Descending}})
+				in
+				    #"Linhas Classificadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,124 @@
+table meta_ads_atual
+	lineageTag: ce12db23-4e3b-46ec-9f13-8cfc16c9a8ca
+
+	column id_produto
+		dataType: string
+		lineageTag: ee88d4c2-1d7b-41a1-8d1d-eed00d684de1
+		summarizeBy: none
+		sourceColumn: id_produto
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_ads
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9d2ba9ec-6607-459e-ac03-b91cd3e12393
+		summarizeBy: sum
+		sourceColumn: meta_ads
+
+		annotation SummarizationSetBy = Automatic
+
+	column nome_produto
+		dataType: string
+		lineageTag: d462ed95-70c0-4cf0-86eb-cb83b389c4d2
+		summarizeBy: none
+		sourceColumn: nome_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		dataType: string
+		lineageTag: 39683ae3-7fcd-40c3-b917-fffb8562587e
+		summarizeBy: none
+		sourceColumn: Marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Produto + Marca + Meta'
+		dataType: string
+		lineageTag: a0f89429-24eb-4527-8763-18a54cb63738
+		summarizeBy: none
+		sourceColumn: Produto + Marca + Meta
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Faixa Meta'
+		dataType: string
+		lineageTag: 16f07ef1-eea3-41d1-88e3-8b2d8a20ca94
+		summarizeBy: none
+		sourceColumn: Faixa Meta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition meta_ads_atual = m
+		mode: import
+		queryGroup: SupaBase
+		source =
+				let
+				    Fonte = #"meta_ads por Período",
+				
+				    Agrupado = Table.Group(
+				        Fonte,
+				        {"id_produto"},
+				        {{"meta_ads", each (Table.Sort(_, {{"data", Order.Descending}})){0}[meta_ads], type number}}
+				    ),
+				
+				    Formatado = Table.TransformColumnTypes(
+				        Agrupado,
+				        {{"id_produto", Int64.Type}, {"meta_ads", Percentage.Type}}
+				    ),
+				
+				    TodosProdutos = Table.Distinct(Table.SelectColumns(Base, {"id_produto"})),
+				    TodosTyped    = Table.TransformColumnTypes(TodosProdutos, {{"id_produto", Int64.Type}}),
+				    SemMetaJoin   = Table.NestedJoin(TodosTyped, {"id_produto"}, Formatado, {"id_produto"}, "check", JoinKind.LeftAnti),
+				    SemMeta       = Table.RemoveColumns(SemMetaJoin, {"check"}),
+				    ComDefault    = Table.AddColumn(SemMeta, "meta_ads", each 0.02, Percentage.Type),
+				    Todos         = Table.Combine({Formatado, ComDefault}),
+				
+				    ComProduto = Table.NestedJoin(
+				        Todos,
+				        {"id_produto"},
+				        produto,
+				        {"id_produto"},
+				        "prod",
+				        JoinKind.LeftOuter
+				    ),
+				
+				    Expandido = Table.ExpandTableColumn(
+				        ComProduto,
+				        "prod",
+				        {"nome_produto", "Marca"},
+				        {"nome_produto", "Marca"}
+				    ),
+				
+				    Concatenado = Table.AddColumn(
+				        Expandido,
+				        "Produto + Marca + Meta",
+				        each
+				            Text.From([id_produto]) & " | " &
+				            (if [nome_produto] = null then "" else [nome_produto]) & " | " &
+				            (if [Marca] = null then "" else [Marca]) & " | Meta: " &
+				            Text.From(Number.Round([meta_ads] * 100, 0)) & "%",
+				        type text
+				    ),
+				
+				    ComFaixa = Table.AddColumn(
+				        Concatenado,
+				        "Faixa Meta",
+				        each
+				            if [meta_ads] <= 0.02 then "Até 2% (padrão)"
+				            else if [meta_ads] <= 0.03 then "2% a 3%"
+				            else if [meta_ads] <= 0.05 then "3% a 5%"
+				            else "Acima de 5%",
+				        type text
+				    )
+				
+				in
+				    ComFaixa
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

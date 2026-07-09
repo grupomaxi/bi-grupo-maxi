@@ -1,0 +1,40 @@
+table mlb_para_id_produto
+	lineageTag: 74aeb603-01f4-4e4a-a732-c58fda3e7337
+
+	column mlb
+		dataType: string
+		lineageTag: 82c34282-303d-436e-8708-13ea5ad0389d
+		summarizeBy: none
+		sourceColumn: mlb
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: b7337b80-b7be-4a16-a634-5b1862fac4d6
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mlb_para_id_produto = m
+		mode: import
+		queryGroup: SupaBase
+		source =
+				let
+				    Anuncios = Table.SelectRows(
+				        #"Anuncio por produto",
+				        each [marketplace] = "Meli" and [codigo_produto] <> null and [codigo_produto] <> ""
+				    ),
+				    Selecionado = Table.SelectColumns(Anuncios, {"codigo_produto", "id_produto"}),
+				    Renomeado = Table.RenameColumns(Selecionado, {{"codigo_produto", "mlb"}}),
+				    Tipado = Table.TransformColumnTypes(Renomeado, {{"mlb", type text}, {"id_produto", Int64.Type}}),
+				    SemDuplicatas = Table.Distinct(Tipado)
+				in
+				    SemDuplicatas
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

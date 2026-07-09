@@ -235,7 +235,6 @@ table 'Visitas - Meli'
 				            {"codigo_auxiliar", "Anuncio"}
 				        }
 				    )
-				
 				in
 				    RenomeioFinal
 				```

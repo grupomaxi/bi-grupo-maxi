@@ -83,6 +83,14 @@ table 'Metas por Período'
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
+	column produto_produto_meta_ads
+		dataType: string
+		lineageTag: 4794cbdb-5659-4930-85ba-b1fb5dc9ca8e
+		summarizeBy: none
+		sourceColumn: produto_produto_meta_ads
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'Metas por Período' = m
 		mode: import
 		queryGroup: Base

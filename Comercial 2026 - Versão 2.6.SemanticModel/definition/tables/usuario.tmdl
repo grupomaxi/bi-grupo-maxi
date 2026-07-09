@@ -10717,6 +10717,24 @@ table usuario
 
 		annotation SummarizationSetBy = Automatic
 
+	column desconto_maximo_limite
+		dataType: double
+		lineageTag: b0e19b9c-636c-40c5-9bd8-f5721950bdf0
+		summarizeBy: sum
+		sourceColumn: desconto_maximo_limite
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column permite_inclusao_nota_compra_massa
+		dataType: string
+		lineageTag: 7cc9af12-1999-48b8-a676-5dabe8997d1d
+		summarizeBy: none
+		sourceColumn: permite_inclusao_nota_compra_massa
+
+		annotation SummarizationSetBy = Automatic
+
 	partition usuario = m
 		mode: import
 		queryGroup: Sysemp

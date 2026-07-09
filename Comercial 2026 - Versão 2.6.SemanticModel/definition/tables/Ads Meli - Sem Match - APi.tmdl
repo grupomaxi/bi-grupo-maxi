@@ -1,0 +1,83 @@
+table 'Ads Meli - Sem Match - APi'
+	lineageTag: 5ff6afae-61c6-4523-8bd1-e2ae3c624bdc
+
+	column item_id
+		dataType: string
+		lineageTag: 4a924c72-65df-4b82-901b-4156dd76fcc9
+		summarizeBy: none
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: f6dd85cf-768f-431f-8abc-3f20a24f5ca3
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column seller_sku
+		dataType: string
+		lineageTag: 31d46505-607e-471f-8d28-9284d597eade
+		summarizeBy: none
+		sourceColumn: seller_sku
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gasto Ads Total'
+		dataType: double
+		lineageTag: f193f20d-ff12-4b9c-8558-cced015ba07b
+		summarizeBy: sum
+		sourceColumn: Gasto Ads Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Dias com gasto'
+		dataType: int64
+		formatString: 0
+		lineageTag: 93618fbc-f04b-4646-a7b7-b687b441c473
+		summarizeBy: sum
+		sourceColumn: Dias com gasto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ultima data com gasto'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 59958539-c3d3-490f-8b0d-8ec85ebffe50
+		summarizeBy: none
+		sourceColumn: Ultima data com gasto
+
+		variation Variation
+			isDefault
+			relationship: 34011585-7968-438d-95bb-780e75dd7b0b
+			defaultHierarchy: LocalDateTable_b29dd7b6-119e-428c-b7ab-01b6d36d1a05.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'Ads Meli - Sem Match - APi' = m
+		mode: import
+		queryGroup: SupaBase
+		source =
+				let
+				    Fonte = #"vw_mlb_daily - ADS-Api-ML",
+				    AntiJoin = Table.NestedJoin(Fonte, {"item_id"}, mlb_para_id_produto, {"mlb"}, "match", JoinKind.LeftAnti),
+				    Removido = Table.RemoveColumns(AntiJoin, {"match"}),
+				    Agrupado = Table.Group(Removido, {"item_id", "title", "seller_sku"}, {
+				        {"Gasto Ads Total", each List.Sum([ad_cost]), type number},
+				        {"Dias com gasto", each Table.RowCount(_), Int64.Type},
+				        {"Ultima data com gasto", each List.Max([date]), type date}
+				    }),
+				    Ordenado = Table.Sort(Agrupado, {{"Gasto Ads Total", Order.Descending}})
+				in
+				    Ordenado
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

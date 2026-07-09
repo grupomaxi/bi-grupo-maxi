@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "6e163fb72683a601081c",
+  "position": {
+    "x": 36.708860759493668,
+    "y": 252,
+    "z": 4000,
+    "height": 735.34177215189879,
+    "width": 489.873417721519,
+    "tabOrder": 22000
+  },
+  "visualGroup": {
+    "displayName": "Lucas",
+    "groupMode": "ScaleMode"
+  },
+  "isHidden": true
+}

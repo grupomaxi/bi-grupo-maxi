@@ -1,0 +1,166 @@
+table Visitas-Meli-API
+	lineageTag: e50e90f7-23a2-469e-834d-e74e163efb0e
+
+	column Anuncio1
+		dataType: string
+		lineageTag: 3fcd7712-bf57-407b-8cf6-e8822c050c51
+		summarizeBy: none
+		sourceColumn: Anuncio1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f5431aa9-cb9f-40d7-8cd9-747ec7735b65
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 64f18bfd-38fe-4b27-aaf0-44443842f038
+			defaultHierarchy: LocalDateTable_eef018bd-59f2-4ff1-9a59-f98dc777c3f1.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Visitas
+		dataType: double
+		lineageTag: 25894752-a1b9-42e6-a045-8c481b6e0786
+		summarizeBy: sum
+		sourceColumn: Visitas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Canal
+		dataType: string
+		lineageTag: db8412db-a610-4d73-ba22-4999b91165cb
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anuncio
+		dataType: string
+		lineageTag: 6c5c4287-fdb5-46b4-a021-bf254f123ebf
+		summarizeBy: none
+		sourceColumn: Anuncio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contagem
+		dataType: double
+		lineageTag: fac3a0e7-f3c7-435a-861b-66d48707ce98
+		summarizeBy: sum
+		sourceColumn: Contagem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Visitas Rateadas'
+		dataType: double
+		lineageTag: 41fba7a0-198b-47c1-942a-d2e96b48d91f
+		summarizeBy: sum
+		sourceColumn: Visitas Rateadas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Visitas-Meli-API = m
+		mode: import
+		queryGroup: Marketplaces\Visitas
+		source =
+				let
+				    BaseUrl  = "https://ssqnthxkzrnhpehugcnj.supabase.co",
+				    ApiKey   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzcW50aHhrenJuaHBlaHVnY25qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODQ4MTAsImV4cCI6MjA5NDk2MDgxMH0.U2y7kG5882b4ffQ9--jh29Y0YDi5E-N9fQeZdkaGYyc",
+				     PageSize = 1000,
+				
+				    BuscarPagina = (Offset as number) as list =>
+				        Json.Document(Web.Contents(BaseUrl, [
+				            RelativePath = "rest/v1/vw_mlb_daily",
+				            Headers      = [apikey = ApiKey, Authorization = "Bearer " & ApiKey],
+				            Query        = [select="item_id,date,visits", order="item_id.asc,date.asc", limit=Text.From(PageSize), offset=Text.From(Offset)]
+				        ])),
+				
+				    TodasPaginas = List.Generate(
+				        () => [Pagina = BuscarPagina(0), Offset = 0],
+				        each List.Count([Pagina]) > 0,
+				        each [Pagina = BuscarPagina([Offset] + PageSize), Offset = [Offset] + PageSize],
+				        each [Pagina]
+				    ),
+				
+				    TodosRegistros = List.Combine(TodasPaginas),
+				    Tabela         = Table.FromList(TodosRegistros, Splitter.SplitByNothing(), {"Row"}),
+				    Expandido      = Table.ExpandRecordColumn(Tabela, "Row",
+				                         {"item_id","date","visits"}, {"item_id","date","visits"}),
+				
+				    Tipado = Table.TransformColumnTypes(Expandido, {
+				        {"item_id", type text}, {"date", type date}, {"visits", type number}
+				    }),
+				
+				    SemZeros = Table.SelectRows(Tipado, each [visits] <> null and [visits] > 0),
+				
+				    Renomeado = Table.RenameColumns(SemZeros, {
+				        {"item_id", "Anuncio1"}, {"date", "Data"}, {"visits", "Visitas"}
+				    }),
+				
+				    ComCanal = Table.AddColumn(Renomeado, "Canal", each "Meli", type text),
+				
+				    // remove duplicata exata de MLB+SKU antes do join (mantém casos legítimos de 1 MLB → N SKUs diferentes)
+				    AnuncioPorProdutoSemDup = Table.Distinct(#"Anuncio por produto", {"codigo_produto", "codigo_auxiliar", "marketplace"}),
+				
+				    // Join com Anuncio por produto (sem duplicata) → expande: 1 MLB → N linhas (1 por SKU distinto)
+				    MergeProduto = Table.NestedJoin(
+				        ComCanal,
+				        {"Anuncio1", "Canal"},
+				        AnuncioPorProdutoSemDup,
+				        {"codigo_produto", "marketplace"},
+				        "Produto",
+				        JoinKind.LeftOuter
+				    ),
+				    ExpandProduto = Table.ExpandTableColumn(
+				        MergeProduto, "Produto", {"codigo_auxiliar"}, {"codigo_auxiliar"}
+				    ),
+				
+				    // Join com Contagem (quantos SKUs por MLB)
+				    MergeContagem = Table.NestedJoin(
+				        ExpandProduto,
+				        {"Anuncio1"},
+				        #"Visitas - Meli - Contagem - API",
+				        {"Anuncio"},
+				        "ContagemTbl",
+				        JoinKind.LeftOuter
+				    ),
+				    ExpandContagem = Table.ExpandTableColumn(
+				        MergeContagem, "ContagemTbl", {"Contagem"}, {"Contagem"}
+				    ),
+				
+				    LimpezaFinal = Table.TransformColumns(ExpandContagem, {
+				        {"Contagem", each try Number.From(_) otherwise 1, type number}
+				    }),
+				
+				    // Visitas Rateadas = Visitas / Contagem (mesma lógica do original, sem o ×2.10)
+				    ComRateadas = Table.AddColumn(
+				        LimpezaFinal,
+				        "Visitas Rateadas",
+				        each if [Contagem] = null or [Contagem] = 0
+				             then [Visitas]
+				             else [Visitas] / [Contagem],
+				        type number
+				    ),
+				
+				    // Anuncio final = codigo_auxiliar (padrão do modelo)
+				    AnuncioFinal = Table.RenameColumns(ComRateadas, {{"codigo_auxiliar", "Anuncio"}})
+				
+				in
+				    AnuncioFinal
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

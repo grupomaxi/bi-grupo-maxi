@@ -69,7 +69,7 @@ queryGroup SupaBase
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["NSI Left Join NS + Left Anti NS Devol","NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)","NSI Left Join NS + Left Anti NS Devol (Outros Canais)","NSI Left Join NS  - Id nota e id Produto","Over por Período","Atendimento","produto","produto (somente kits)","produto - somente metas","Formula","Ads - Planilha","Ads Meli","Ads Meli - Sem Match","Ads Amazon","Ads Amazon - Sem Match","Ads shopee","Ads Magalu","Ads Magalu - Sem Match","Base - Ads","Report de produtos","Meli | Legado","Shopee | Legado","Magalu | Legado","Amazon | Legado","Leroy | Legado","Carrefour | Legado","Americanas | Legado","Madeira | Legado","Via Boleto | Legado","Meli | Last 2 M","Shopee | Last 2 M","Magalu |  Last 2 M","Amazon |  Last 2 M","Leroy | Last 2 M","Carrefour | Last 2 M","Americanas | Last 2 M","Madeira | Last 2 M","Via Boleto | Last 2M","Shopee | Afiliados","Meli | Mescla","Meli |  Acrescentar","Meli | Acresc - para verificação","Shopee | Mescla","Magalu | Mescla","Amazon | Mescla","Leroy | Mescla","Carrefour | Mescla","Americanas | Mescla","Madeira | Mescla","Via Boleto | Mescla","Via Cartão | 2M","Amazon | Simnulado | Agrupado","Amazon | Simnulado","Metas por Período","Base","MKT's | 1 - Acrescentar","De Para Status","Medidas","Transportadoras","Estoque","Anuncio por produto","Formula Agrupado - Item","Acrescentar - ID Transação Shopify","pag-brasil","Histórico Metas","Meli | FDS","Shopee | FDS","Rede + Cielo","Rede","Cielo","sysemp_televenas_formpag","sysemp_televenas_somente_cartao","Meli |  Televendas","Filtro Margem - Tab Aux","Produtos_com_estoque_custo_formacao","Visitas - Shopee","Visitas - Shopee - Contagem","Visitas - Amazon - Contagem","Visitas - Amazon","Visitas - Magalu","Visitas - Meli - Contagem","Visitas - Meli","Vistas por Dia","Base - Visitas","Entrada","log_custo","usuario","Shopify - Legado","Shopify - Last 2 M"]
+annotation PBI_QueryOrder = ["NSI Left Join NS + Left Anti NS Devol","NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)","NSI Left Join NS + Left Anti NS Devol (Outros Canais)","NSI Left Join NS  - Id nota e id Produto","Over por Período","Atendimento","produto","produto (somente kits)","produto - somente metas","Formula","Ads - Planilha","Ads Meli","Ads Meli - Sem Match","Ads Amazon","Ads Amazon - Sem Match","Ads shopee","Ads Magalu","Ads Magalu - Sem Match","Base - Ads","Report de produtos","Meli | Legado","Shopee | Legado","Magalu | Legado","Amazon | Legado","Leroy | Legado","Carrefour | Legado","Americanas | Legado","Madeira | Legado","Via Boleto | Legado","Meli | Last 2 M","Shopee | Last 2 M","Magalu |  Last 2 M","Amazon |  Last 2 M","Leroy | Last 2 M","Carrefour | Last 2 M","Americanas | Last 2 M","Madeira | Last 2 M","Via Boleto | Last 2M","Shopee | Afiliados","Meli | Mescla","Meli |  Acrescentar","Meli | Acresc - para verificação","Shopee | Mescla","Magalu | Mescla","Amazon | Mescla","Leroy | Mescla","Carrefour | Mescla","Americanas | Mescla","Madeira | Mescla","Via Boleto | Mescla","Via Cartão | 2M","Amazon | Simnulado | Agrupado","Amazon | Simnulado","Metas por Período","Base","MKT's | 1 - Acrescentar","De Para Status","Medidas","Transportadoras","Estoque","Anuncio por produto","Formula Agrupado - Item","Acrescentar - ID Transação Shopify","pag-brasil","Histórico Metas","Meli | FDS","Shopee | FDS","Rede + Cielo","Rede","Cielo","sysemp_televenas_formpag","sysemp_televenas_somente_cartao","Meli |  Televendas","Filtro Margem - Tab Aux","Produtos_com_estoque_custo_formacao","Visitas - Shopee","Visitas - Shopee - Contagem","Visitas - Amazon - Contagem","Visitas - Amazon","Visitas - Magalu","Visitas - Meli - Contagem","Visitas - Meli","Vistas por Dia","Base - Visitas","Entrada","log_custo","usuario","Shopify - Legado","Shopify - Last 2 M","meta_ads por Período","vw_mlb_daily - ADS-Api-ML","Visitas-Meli-API","Visitas - Meli - Contagem - API","meta_ads_atual","mlb_para_id_produto","Ads Meli - Sem Match - APi"]
 
 annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
 
@@ -206,6 +206,17 @@ ref table sysemp_televenas_somente_cartao
 ref table 'Rede + Cielo'
 ref table Cielo
 ref table LocalDateTable_9fe98b23-3630-4941-9a0c-89896458f4eb
+ref table 'meta_ads por Período'
+ref table LocalDateTable_3a984b39-b318-4f38-a21a-09729502d1e1
+ref table 'vw_mlb_daily - ADS-Api-ML'
+ref table LocalDateTable_cbdb70b5-fef7-496d-9098-4df345dccc01
+ref table Visitas-Meli-API
+ref table LocalDateTable_eef018bd-59f2-4ff1-9a59-f98dc777c3f1
+ref table 'Visitas - Meli - Contagem - API'
+ref table meta_ads_atual
+ref table mlb_para_id_produto
+ref table 'Ads Meli - Sem Match - APi'
+ref table LocalDateTable_b29dd7b6-119e-428c-b7ab-01b6d36d1a05
 
 ref cultureInfo pt-BR
 

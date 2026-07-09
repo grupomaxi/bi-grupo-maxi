@@ -13,8 +13,6 @@ table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
 			relationship: 85e92de8-f2b0-4ca3-ac3c-e7a212ba1a8f
 			defaultHierarchy: LocalDateTable_1657fd49-8b49-4e23-afab-3de57fb9cb73.'Hierarquia de datas'
 
-		changedProperty = IsHidden
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -25,8 +23,6 @@ table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
 		summarizeBy: none
 		sourceColumn: canal_agrupado
 
-		changedProperty = IsHidden
-
 		annotation SummarizationSetBy = Automatic
 
 	column Receita
@@ -34,8 +30,6 @@ table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
 		lineageTag: 7dcbb93b-24cb-46af-8982-79d9996de082
 		summarizeBy: sum
 		sourceColumn: Receita
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -46,8 +40,6 @@ table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
 		lineageTag: 4f6356fa-70d1-4776-ac81-a7dea25c575b
 		summarizeBy: sum
 		sourceColumn: Receita s/ Frete
-
-		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -73,9 +65,7 @@ table 'NSI Left Join NS + Left Anti NS Devol (Faturamento Dia)'
 				in
 				    #"Linhas Filtradas"
 
-	changedProperty = IsHidden
-
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 

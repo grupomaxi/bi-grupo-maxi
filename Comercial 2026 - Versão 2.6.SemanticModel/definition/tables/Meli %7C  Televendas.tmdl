@@ -67,5 +67,5 @@ table 'Meli |  Televendas'
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 

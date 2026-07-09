@@ -34,7 +34,7 @@ table sysemp_televenas_formpag
 		source =
 				let
 				    Fonte =
-				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "select#(lf)    cc.id_nota_saida,#(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado,#(lf)    max(ns.total_nota_fiscal) as total_nota_fiscal,#(lf)    string_agg(distinct tc.descricao, ', ') as descricao,#(lf)    max(cc.aut_cartao_credito) as aut_cartao_credito#(lf)from sysemp.conta_corrente cc#(lf)inner join sysemp.nota_saida ns #(lf)    on ns.id_nota_saida = cc.id_nota_saida#(lf)left join sysemp.tipo_cobranca tc #(lf)    on tc.id_tipo_cobranca = cc.id_tipo_cobranca#(lf)where ns.id_atendimento IN (24,26,41) OR  (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)  and ns.data_pedido >= '2024-01-01'#(lf)  and ns.tipo_documento = 'NF'#(lf)  and ns.id_nat_operacao IN (1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121)#(lf)#(lf)group by #(lf)    cc.id_nota_saida, #(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado"),
+				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "select#(lf)    nsf.id_nota_saida,#(lf)    nsf.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado,#(lf)    max(ns.total_nota_fiscal) as total_nota_fiscal,#(lf)    string_agg(distinct tc.descricao, ', ') as descricao,#(lf)    max(nsf.aut_cartao_credito) as aut_cartao_credito#(lf)FROM nota_saida_formapgto nsf#(lf)inner join sysemp.nota_saida ns #(lf)    on ns.id_nota_saida = nsf.id_nota_saida#(lf)left join sysemp.tipo_cobranca tc #(lf)    on tc.id_tipo_cobranca = nsf.id_tipo_cobranca#(lf)where ns.id_atendimento IN (24,26,41) OR  (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)  and ns.data_pedido >= '2024-01-01'#(lf)  and ns.tipo_documento = 'NF'#(lf)  and ns.id_nat_operacao IN (1,2,3,4,19,48,83,84,90,96,103,105,106,114,115,116,119,121)#(lf)#(lf)group by #(lf)    nsf.id_nota_saida, #(lf)    nsf.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado"),
 				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(Fonte,{{"descricao", Text.Proper, type text}}),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Colocar Cada Palavra Em Maiúscula", {"id_pedido_vda_importado"}, #"Meli |  Televendas", {"Pedido MKT"}, "Meli |  Televendas", JoinKind.LeftOuter),
 				    #"Meli |  Televendas Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Meli |  Televendas", {"Repasse MKT"}, {"Meli.Repasse MKT"}),
@@ -67,5 +67,5 @@ table sysemp_televenas_formpag
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 

@@ -100,7 +100,7 @@ table sysemp_televenas_somente_cartao
 		source =
 				let
 				    Fonte =
-				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT#(lf)    ns.data_pedido,#(lf)    cc.id_nota_saida,#(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado,#(lf)    MAX(ns.total_nota_fiscal) AS total_nota_fiscal,#(lf)    STRING_AGG(DISTINCT tc.descricao, ', ') AS descricao,#(lf)    LTRIM(MAX(cc.aut_cartao_credito), '0') AS aut_cartao_credito#(lf)FROM sysemp.conta_corrente cc#(lf)INNER JOIN sysemp.nota_saida ns#(lf)    ON ns.id_nota_saida = cc.id_nota_saida#(lf)LEFT JOIN sysemp.tipo_cobranca tc#(lf)    ON tc.id_tipo_cobranca = cc.id_tipo_cobranca#(lf)WHERE (#(lf)        ns.id_atendimento IN (24,26,41)#(lf)        OR (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)      )#(lf)  AND ns.data_pedido >= '2026-01-01'#(lf)  AND ns.tipo_documento = 'NF'#(lf)  AND ns.id_nat_operacao IN (#(lf)        1,2,3,4,19,48,83,84,90,96,#(lf)        103,105,106,114,115,116,119,121#(lf)      )#(lf)  AND cc.id_tipo_cobranca NOT IN (100, 1)#(lf)GROUP BY#(lf)    ns.data_pedido,#(lf)    cc.id_nota_saida,#(lf)    cc.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado;"),
+				        Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT#(lf)    ns.data_pedido,#(lf)    nsf.id_nota_saida,#(lf)    nsf.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado,#(lf)    MAX(ns.total_nota_fiscal) AS total_nota_fiscal,#(lf)    STRING_AGG(DISTINCT tc.descricao, ', ') AS descricao,#(lf)    LTRIM(MAX(nsf.aut_cartao_credito), '0') AS aut_cartao_credito#(lf)FROM nota_saida_formapgto nsf#(lf)FULL JOIN sysemp.nota_saida ns#(lf)    ON ns.id_nota_saida = nsf.id_nota_saida#(lf)LEFT JOIN sysemp.tipo_cobranca tc#(lf)    ON tc.id_tipo_cobranca = nsf.id_tipo_cobranca#(lf)WHERE (#(lf)        ns.id_atendimento IN (24,26,41)#(lf)        OR (ns.id_atendimento = 14 AND ns.id_vendedor = 520854)#(lf)      )#(lf)  AND ns.data_pedido >= '2026-01-01'#(lf)  AND ns.tipo_documento = 'NF'#(lf)  AND ns.id_nat_operacao IN (#(lf)        1,2,3,4,19,48,83,84,90,96,#(lf)        103,105,106,114,115,116,119,121#(lf)      )#(lf)  AND nsf.id_tipo_cobranca NOT IN (100, 1)#(lf)GROUP BY#(lf)    ns.data_pedido,#(lf)    nsf.id_nota_saida,#(lf)    nsf.id_tipo_cobranca,#(lf)    ns.id_pedido_vda_importado;"),
 				    #"Colocar Cada Palavra Em Maiúscula" = Table.TransformColumns(Fonte,{{"descricao", Text.Proper, type text}}),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Colocar Cada Palavra Em Maiúscula", {"id_pedido_vda_importado"}, #"Meli |  Televendas", {"Pedido MKT"}, "Meli |  Televendas", JoinKind.LeftOuter),
 				    #"Meli |  Televendas Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Meli |  Televendas", {"Repasse MKT"}, {"Meli.Repasse MKT"}),
@@ -117,5 +117,5 @@ table sysemp_televenas_somente_cartao
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 

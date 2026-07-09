@@ -12,7 +12,7 @@ table 'Over por Período'
 
 	column data
 		dataType: dateTime
-		formatString: Short Date
+		formatString: Long Date
 		lineageTag: 35eaae90-83d6-4fd3-8c89-b057348c027f
 		summarizeBy: none
 		sourceColumn: data

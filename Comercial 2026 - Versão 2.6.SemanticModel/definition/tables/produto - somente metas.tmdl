@@ -82,11 +82,19 @@ table 'produto - somente metas'
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
+	column produto_produto_meta_ads
+		dataType: string
+		lineageTag: 49abad71-6888-44f1-ab62-b899e0e075b4
+		summarizeBy: none
+		sourceColumn: produto_produto_meta_ads
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'produto - somente metas' = m
 		mode: import
 		queryGroup: Sysemp
 		source =
-				let Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT #(lf)  p.id_produto,#(lf)  p.produto_produto_meta_faturamento AS ""Meta Faturamento"",#(lf)  p.produto_produto_meta_margem AS ""Meta Margem"",#(lf)  p.produto_carteira_marca,#(lf)  p.produto_carteira_por_produto,#(lf)  date_trunc('month', CURRENT_DATE) AS ""Período"",#(lf)  p.produto_overfrete#(lf)  FROM sysemp.produto p#(lf)  WHERE p.produto_produto_meta_faturamento IS NOT NULL AND TRIM(p.produto_produto_meta_faturamento) <> ''#(lf)  AND p.produto_produto_meta_margem IS NOT NULL#(lf)  AND TRIM(p.produto_produto_meta_margem) <> ''"),
+				let Fonte = Odbc.Query("driver={PostgreSQL ANSI(x64)};server=maxiferramentas.fabricadecodigos.com.br;port=5433;database=maxiferramentas", "SELECT #(lf)  p.id_produto,#(lf)  p.produto_produto_meta_faturamento AS ""Meta Faturamento"",#(lf)  p.produto_produto_meta_margem AS ""Meta Margem"",#(lf)  p.produto_carteira_marca,#(lf)  p.produto_carteira_por_produto,#(lf)  date_trunc('month', CURRENT_DATE) AS ""Período"",#(lf)  p.produto_overfrete,#(lf)  p.produto_produto_meta_ads#(lf)  FROM sysemp.produto p#(lf)  WHERE p.produto_produto_meta_faturamento IS NOT NULL AND TRIM(p.produto_produto_meta_faturamento) <> ''#(lf)  AND p.produto_produto_meta_margem IS NOT NULL#(lf)  AND TRIM(p.produto_produto_meta_margem) <> ''"),
 				    #"Tipo Alterado1" = Table.TransformColumnTypes(Fonte,{{"produto_overfrete", Currency.Type}}), #"Tipo Alterado" = Table.TransformColumnTypes( #"Tipo Alterado1", { {"Meta Faturamento", Currency.Type}, {"Meta Margem", Percentage.Type}, {"Período", type date}, {"produto_carteira_marca", type text}, {"produto_carteira_por_produto", type text} } ), #"Carteira Ajustada" = Table.AddColumn( #"Tipo Alterado", "Carteira", each if [produto_carteira_marca] <> null and Text.Trim([produto_carteira_marca]) <> "" then [produto_carteira_marca] else [produto_carteira_por_produto], type text )
 				in
 				    #"Carteira Ajustada"

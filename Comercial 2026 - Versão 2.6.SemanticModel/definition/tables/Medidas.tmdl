@@ -221,12 +221,13 @@ table Medidas
 			
 			        // Handicap Amazon - NOVA REGRA 2%
 			        VAR Bonus2Porcento =
-			            IF(
-			                idSequencia IN {1, 15, 45}
-			                    && DataVenda >= DATE(2026, 3, 1),
-			                FaturamentoAtual * 0.02,
-			                0
-			            )
+			           IF(
+			        idSequencia IN {1, 15, 45}
+			            && DataVenda >= DATE(2026, 3, 1)
+			            && DataVenda <= DATE(2026, 6, 30),
+			        FaturamentoAtual * 0.02,
+			        0
+			    )
 			
 			        VAR Resultado =
 			            SWITCH(
@@ -307,7 +308,16 @@ table Medidas
 		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: 0fe28583-e43c-477b-be0f-519e956c51ca
 
-	measure 'Total Visitas' = SUM('Base - Visitas'[Visitas Rateadas 2])
+	measure 'Total Visitas' =
+			
+			VAR _canais = VALUES ( Atendimento[canal_agrupado] )
+			VAR _datas = VALUES ( dCalendario[Date] )
+			RETURN
+			    CALCULATE (
+			        SUM ( 'Base - Visitas'[Visitas Rateadas 2] ),
+			        TREATAS ( _canais, 'Base - Visitas'[Canal] ),
+			        TREATAS ( _datas, 'Base - Visitas'[Data] )
+			    )
 		formatString: 0
 		lineageTag: 22c0623a-074e-4926-af65-24b6a6a18aef
 
@@ -1328,6 +1338,31 @@ table Medidas
 		formatString: 0%;-0%;0%
 		lineageTag: 241cb30a-ff1d-41fe-af41-03604d71a79e
 
+	measure '% Ads Produto API + Rateio Atual' = DIVIDE([Gasto Ads Produto R$ API + Rateio Atual], [Faturamento], BLANK())
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2230648e-3cde-455e-bed5-6f0ec5b4a233
+
+	measure 'Faturamento Ads API' =
+			
+			VAR _filtradoPorMeta =
+			    ISFILTERED ( meta_ads_atual[Faixa Meta] )
+			        || ISFILTERED ( meta_ads_atual[Produto + Marca + Meta] )
+			        || ISFILTERED ( meta_ads_atual[id_produto] )
+			VAR _id_produto =
+			    UNION (
+			        FILTER ( SELECTCOLUMNS ( VALUES ( meta_ads_atual[id_produto] ), "id", INT ( meta_ads_atual[id_produto] ) ), _filtradoPorMeta ),
+			        FILTER ( SELECTCOLUMNS ( VALUES ( produto[id_produto] ), "id", INT ( produto[id_produto] ) ), NOT _filtradoPorMeta )
+			    )
+			RETURN
+			    CALCULATE (
+			        [Faturamento],
+			        TREATAS ( _id_produto, Base[id_produto] )
+			    )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 9c45ce41-7c1c-4fef-8b99-190878e1669e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
 	measure 'Over Frete Ajustado' =
 			
 			SUMX(
@@ -1350,9 +1385,156 @@ table Medidas
 			    )
 			)
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
-		lineageTag: 5a557a20-9721-4d24-ae65-b1e064bcaa77
+		lineageTag: 6e8ef3c9-5acd-4f8f-8a23-6ecd2407e0b3
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Gasto Ads Produto R$ API + Rateio Atual' =
+			
+			
+			// ── MELI: dado real da API ──────────────────────────────────
+			VAR _id_produto = SELECTCOLUMNS(
+			                      VALUES(meta_ads_atual[id_produto]),
+			                      "id", VALUE(meta_ads_atual[id_produto])
+			                  )
+			VAR _datas = VALUES(dCalendario[Date])
+			VAR _mlbs  = CALCULATETABLE(
+			                 VALUES(Base[mlb]),
+			                 Base[id_produto] IN _id_produto,
+			                 NOT ISBLANK(Base[mlb])
+			             )
+			VAR _meli  = CALCULATE(
+			    SUM('vw_mlb_daily - ADS-Api-ML'[ad_cost]),
+			    TREATAS(_mlbs,  'vw_mlb_daily - ADS-Api-ML'[item_id]),
+			    TREATAS(_datas, 'vw_mlb_daily - ADS-Api-ML'[date])
+			)
+			
+			// ── OUTROS CANAIS: rateio via planilha ─────────────────────
+			// Quando Meli é selecionado no slicer, VALUES retorna só "Meli"
+			// e o FILTER exclui Meli → _rateio = 0 automaticamente
+			VAR _rateio = SUMX(
+			    CROSSJOIN(
+			        VALUES('dCalendario'[Date]),
+			        FILTER(
+			            VALUES('Atendimento'[canal_agrupado]),
+			            NOT 'Atendimento'[canal_agrupado]
+			                IN {"Meli", "Loja - Maxi Ferramentas", "Loja - Cozilux"}
+			        )
+			    ),
+			    VAR vPerc = CALCULATE(MAX('Ads - Planilha'[% Ads apenas Prod]))
+			    VAR vFat  = CALCULATE(
+			        [Faturamento],
+			        NOT 'Atendimento'[id_sequencia] IN {7, 8, 27, 32, 43, 44, 47}
+			    )
+			    RETURN vPerc * vFat
+			)
+			
+			RETURN _meli + _rateio
+		lineageTag: 3162848b-cfcb-4451-aa23-38f22215120f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gasto Ads Produto R$ API' =
+			
+			VAR _filtradoPorMeta =
+			    ISFILTERED ( meta_ads_atual[Faixa Meta] )
+			        || ISFILTERED ( meta_ads_atual[Produto + Marca + Meta] )
+			        || ISFILTERED ( meta_ads_atual[id_produto] )
+			VAR _id_produto =
+			    UNION (
+			        FILTER ( SELECTCOLUMNS ( VALUES ( meta_ads_atual[id_produto] ), "id", INT ( meta_ads_atual[id_produto] ) ), _filtradoPorMeta ),
+			        FILTER ( SELECTCOLUMNS ( VALUES ( produto[id_produto] ), "id", INT ( produto[id_produto] ) ), NOT _filtradoPorMeta )
+			    )
+			VAR _datas = VALUES ( dCalendario[Date] )
+			VAR _meliNoFiltro = "Meli" IN VALUES ( Atendimento[canal_agrupado] )
+			VAR _mlbs =
+			    CALCULATETABLE (
+			        VALUES ( mlb_para_id_produto[mlb] ),
+			        mlb_para_id_produto[id_produto] IN _id_produto
+			    )
+			VAR _meli =
+			    IF (
+			        _meliNoFiltro,
+			        CALCULATE (
+			            SUM ( 'vw_mlb_daily - ADS-Api-ML'[ad_cost] ),
+			            TREATAS ( _mlbs, 'vw_mlb_daily - ADS-Api-ML'[item_id] ),
+			            TREATAS ( _datas, 'vw_mlb_daily - ADS-Api-ML'[date] )
+			        ),
+			        0
+			    )
+			VAR _outrosCanais =
+			    SUMX (
+			        CROSSJOIN (
+			            VALUES ( 'dCalendario'[Date] ),
+			            FILTER ( VALUES ( Atendimento[canal_agrupado] ), Atendimento[canal_agrupado] <> "Meli" )
+			        ),
+			        VAR vPercentual = CALCULATE ( MAX ( 'Ads - Planilha'[% Ads apenas Prod] ) )
+			        VAR vFaturamentoFiltrado =
+			            CALCULATE (
+			                [Faturamento],
+			                NOT Atendimento[id_sequencia] IN { 43, 44, 47 }
+			            )
+			        RETURN
+			            vPercentual * vFaturamentoFiltrado
+			    )
+			RETURN
+			    _meli + _outrosCanais
+		lineageTag: 6dfefde1-fd4a-44ca-9376-9073c2955468
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Ads Produto API' = DIVIDE ( [Gasto Ads Produto R$ API], [Faturamento Ads API] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 23037c25-8d06-45ae-ac3e-eb299c57e824
+
+	measure 'Gasto Ads Meli Sem Match R$' =
+			
+			VAR _datas = VALUES ( dCalendario[Date] )
+			VAR _meliNoFiltro = "Meli" IN VALUES ( Atendimento[canal_agrupado] )
+			VAR _mlbsMapeados = VALUES ( mlb_para_id_produto[mlb] )
+			VAR _resultado =
+			    CALCULATE (
+			        SUMX (
+			            FILTER (
+			                'vw_mlb_daily - ADS-Api-ML',
+			                NOT ( 'vw_mlb_daily - ADS-Api-ML'[item_id] IN _mlbsMapeados )
+			            ),
+			            'vw_mlb_daily - ADS-Api-ML'[ad_cost]
+			        ),
+			        TREATAS ( _datas, 'vw_mlb_daily - ADS-Api-ML'[date] )
+			    )
+			RETURN
+			    IF ( _meliNoFiltro, _resultado, 0 )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: ceb46996-5f02-49b0-b641-03bb27e6bd93
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Visitas Anuncio' = ```
+			
+			VAR _canais = VALUES ( Atendimento[canal_agrupado] )
+			VAR _datas = VALUES ( dCalendario[Date] )
+			VAR _codigosAuxiliares = VALUES ( produto[codigo_auxiliar] )
+			RETURN
+			    CALCULATE (
+			        SUM ( 'Base - Visitas'[Visitas Rateadas 2] ),
+			        TREATAS ( _canais, 'Base - Visitas'[Canal] ),
+			        TREATAS ( _datas, 'Base - Visitas'[Data] ),
+			        TREATAS ( _codigosAuxiliares, 'Base - Visitas'[Anuncio] )
+			    )
+			
+			
+			```
+		formatString: 0
+		lineageTag: 23cd3407-bcc1-462f-ae62-b59c0d13be1d
+
+	measure '% Conversão Anuncio' = DIVIDE ( [qtd], [Visitas Anuncio] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b975b921-900f-438a-99d7-5235c8e9be2c
+
+	measure qtd = sum (Base[qtde])
+		formatString: 0
+		lineageTag: a885b8a3-4756-4ffe-b943-63df7354de2f
 
 	column Medidas
 		dataType: string
