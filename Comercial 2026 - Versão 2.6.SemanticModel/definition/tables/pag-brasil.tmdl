@@ -25,6 +25,14 @@ table pag-brasil
 
 		annotation SummarizationSetBy = Automatic
 
+	column Tags
+		dataType: string
+		lineageTag: ddc8dfb0-76d6-4bbd-826b-3203332683f7
+		summarizeBy: none
+		sourceColumn: Tags
+
+		annotation SummarizationSetBy = Automatic
+
 	partition pag-brasil = m
 		mode: import
 		queryGroup: Marketplaces\Repasses\Shopify
@@ -40,9 +48,9 @@ table pag-brasil
 				    #"Dividir Coluna por Delimitador" = Table.SplitColumn(#"Personalização Adicionada", "Extra parameters", Splitter.SplitTextByDelimiter("&gid=", QuoteStyle.Csv), {"Extra parameters.1", "Extra parameters.2"}),
 				    #"Dividir Coluna por Delimitador1" = Table.SplitColumn(#"Dividir Coluna por Delimitador", "Extra parameters.2", Splitter.SplitTextByDelimiter("&group_id", QuoteStyle.Csv), {"Extra parameters.2.1", "Extra parameters.2.2"}),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Dividir Coluna por Delimitador1", {"Extra parameters.2.1"}, Matrixfy, {"transaction_authorization"}, "Acrescentar - ID Transação Shopify", JoinKind.LeftOuter),
-				    #"Acrescentar - ID Transação Shopify Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Acrescentar - ID Transação Shopify", {"order_number"}, {"Acrescentar - ID Transação Shopify.order_number"}),
+				    #"Acrescentar - ID Transação Shopify Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Acrescentar - ID Transação Shopify", {"order_number", "tags"}, {"Acrescentar - ID Transação Shopify.order_number", "Tags"}),
 				    #"Valor Substituído1" = Table.ReplaceValue(#"Acrescentar - ID Transação Shopify Expandido","#","",Replacer.ReplaceText,{"Acrescentar - ID Transação Shopify.order_number"}),
-				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Valor Substituído1",{"Order status", "Repasse MKT", "Acrescentar - ID Transação Shopify.order_number"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Valor Substituído1",{"Order status", "Repasse MKT", "Acrescentar - ID Transação Shopify.order_number", "Tags"}),
 				    #"Colunas Renomeadas" = Table.RenameColumns(#"Outras Colunas Removidas",{{"Acrescentar - ID Transação Shopify.order_number", "Pedido MKT"}, {"Order status", "Status MKT"}}),
 				    #"Linhas Filtradas1" = Table.SelectRows(#"Colunas Renomeadas", each ([Pedido MKT] <> null))
 				in

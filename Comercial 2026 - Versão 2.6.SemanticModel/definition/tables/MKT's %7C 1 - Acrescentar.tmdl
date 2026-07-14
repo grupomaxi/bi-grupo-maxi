@@ -88,13 +88,21 @@ table 'MKT''s | 1 - Acrescentar'
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
+	column Tags
+		dataType: string
+		lineageTag: f50cb025-936a-48ac-85dd-237ef746c20c
+		summarizeBy: none
+		sourceColumn: Tags
+
+		annotation SummarizationSetBy = Automatic
+
 	partition 'MKT''s | 1 - Acrescentar' = m
 		mode: import
 		queryGroup: Base
 		source =
 				let
-				    Fonte = Table.Combine({#"Meli |  Acrescentar", #"Meli | Acrescentar - API", #"Shopee | Mescla", #"Magalu | Mescla", #"Amazon | Mescla", #"Leroy | Mescla", #"Carrefour | Mescla", #"Americanas | Mescla", #"Madeira | Mescla", #"Via Boleto | Mescla", #"Amazon | Simnulado", sysemp_televenas_formpag, #"pag-brasil", #"Cielo + Braspag"}),
-				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Pedido MKT", "Status MKT", "Repasse MKT", "Tarifa Venda Total", "Comissão Real Cobrada", "Estorno Desconto Bônus", "Envios"}),
+				    Fonte = Table.Combine({#"Meli |  Acrescentar", #"Meli | Acrescentar - API", #"Shopee | Mescla", #"Magalu | Mescla", #"Amazon | Mescla", #"Leroy | Mescla", #"Carrefour | Mescla", #"Americanas | Mescla", #"Madeira | Mescla", #"Via Boleto | Mescla", #"Amazon | Simnulado", sysemp_televenas_formpag,  #"pag-brasil", #"Cielo + Braspag"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Pedido MKT", "Status MKT", "Repasse MKT", "Tarifa Venda Total", "Comissão Real Cobrada", "Estorno Desconto Bônus", "Envios", "Tags"}),
 				    #"Valor Substituído" = Table.ReplaceValue(#"Outras Colunas Removidas",null,"Sem Inf de Pedido",Replacer.ReplaceValue,{"Pedido MKT"}),
 				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Valor Substituído", "Pedido MKT Final", each if Text.Trim([Pedido MKT] & "") = "" then "Pedido Não Declarado" else [Pedido MKT]),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Coluna Condicional Adicionada", {"Status MKT"}, #"De Para Status", {"Status Parceiro"}, "De Para Status", JoinKind.LeftOuter),
@@ -107,5 +115,5 @@ table 'MKT''s | 1 - Acrescentar'
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 

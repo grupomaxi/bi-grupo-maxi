@@ -103,23 +103,6 @@
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Measure": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Medidas"
-                  }
-                },
-                "Property": "Visitas Anuncio"
-              }
-            },
-            "direction": "Descending"
-          }
-        ]
       }
     },
     "objects": {

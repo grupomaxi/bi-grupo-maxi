@@ -1,10 +1,10 @@
 table Matrixfy
-	lineageTag: 9cb5e33d-b83e-492a-a052-71b3bc096fb4
+	lineageTag: 8a89081f-57eb-4128-84e8-f103f84a023d
 
 	column id
 		dataType: int64
 		formatString: 0
-		lineageTag: 5ae44038-0784-47af-b0d2-93c8c2567476
+		lineageTag: 1f986b44-b74a-4fe7-928b-0892608dc9e2
 		summarizeBy: sum
 		sourceColumn: id
 
@@ -12,7 +12,7 @@ table Matrixfy
 
 	column shopify_order_id
 		dataType: string
-		lineageTag: f1c6a7c9-e014-4579-a202-a28a6bc95bbb
+		lineageTag: 583a2db8-d887-412e-9a4d-518cd8e78c82
 		summarizeBy: none
 		sourceColumn: shopify_order_id
 
@@ -20,7 +20,7 @@ table Matrixfy
 
 	column order_number
 		dataType: string
-		lineageTag: 76af9e8b-894b-400e-8121-544461cfc33a
+		lineageTag: 4d941cb9-26cc-4446-bbcf-5ca8f5bb37b2
 		summarizeBy: none
 		sourceColumn: order_number
 
@@ -29,34 +29,34 @@ table Matrixfy
 	column created_at_shopify
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: c698dc72-a193-4293-8662-974192b721f5
+		lineageTag: 3d2d014c-89c2-4675-8571-05d91169564f
 		summarizeBy: none
 		sourceColumn: created_at_shopify
 
 		variation Variation
 			isDefault
-			relationship: 5294f2f6-4466-4659-a80f-e88371732c3e
-			defaultHierarchy: LocalDateTable_97bfe54d-aae8-4c98-a915-7d7e565e8b3d.'Hierarquia de datas'
+			relationship: d07e14a4-8ee6-4ffc-85f9-31861d67f4dd
+			defaultHierarchy: LocalDateTable_f28b5168-bd92-4033-886f-22ec988f3dfb.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column imported_at
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 465a4e5d-d5dd-4058-bad2-925dfeb8217b
+		lineageTag: 9dafdd9a-eb4d-4a0c-8269-923856ec8958
 		summarizeBy: none
 		sourceColumn: imported_at
 
 		variation Variation
 			isDefault
-			relationship: abbeca68-bda1-432f-96f5-2e3a2cf44e43
-			defaultHierarchy: LocalDateTable_44984a46-fbd8-4df1-ba54-ff178de1a603.'Hierarquia de datas'
+			relationship: 33a946cb-3b4f-44ec-b46b-a9e4a3e46a19
+			defaultHierarchy: LocalDateTable_e61a7ba8-72bd-43bf-bded-f2c7312c495d.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column transaction_authorization
 		dataType: string
-		lineageTag: 5b89c679-d5b9-4bc0-8769-45464e1e32ec
+		lineageTag: 38505163-d8ba-4193-9dc9-125f794f519a
 		summarizeBy: none
 		sourceColumn: transaction_authorization
 
@@ -64,9 +64,17 @@ table Matrixfy
 
 	column transaction_payment_id
 		dataType: string
-		lineageTag: 656c1564-f4c2-45ee-b3dc-e6b944f9fef8
+		lineageTag: 51ecdd6b-5d46-45f6-b1fc-d383e4bf5a2b
 		summarizeBy: none
 		sourceColumn: transaction_payment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column tags
+		dataType: string
+		lineageTag: df0b88dd-858c-49c4-b0e0-185da4307fbe
+		summarizeBy: none
+		sourceColumn: tags
 
 		annotation SummarizationSetBy = Automatic
 
@@ -92,9 +100,7 @@ table Matrixfy
 				    ),
 				    TodosRegistros = List.Combine(TodasPaginas),
 				    Tabela         = Table.FromList(TodosRegistros, Splitter.SplitByNothing(), {"Row"}),
-				    Expandido = Table.ExpandRecordColumn(Tabela, "Row",
-				        {"id", "shopify_order_id", "order_number", "created_at_shopify", "imported_at", "transaction_authorization", "transaction_payment_id"},
-				        {"id", "shopify_order_id", "order_number", "created_at_shopify", "imported_at", "transaction_authorization", "transaction_payment_id"}),
+				    Expandido = Table.ExpandRecordColumn(Tabela, "Row", {"id", "shopify_order_id", "order_number", "created_at_shopify", "imported_at", "transaction_authorization", "transaction_payment_id", "tags"}, {"id", "shopify_order_id", "order_number", "created_at_shopify", "imported_at", "transaction_authorization", "transaction_payment_id", "tags"}),
 				    TiposAjustados = Table.TransformColumnTypes(Expandido, {
 				        {"id", Int64.Type},
 				        {"shopify_order_id", type text},

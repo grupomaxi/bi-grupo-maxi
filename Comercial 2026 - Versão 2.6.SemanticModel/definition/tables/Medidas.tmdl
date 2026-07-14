@@ -1536,6 +1536,28 @@ table Medidas
 		formatString: 0
 		lineageTag: a885b8a3-4756-4ffe-b943-63df7354de2f
 
+	measure 'Promoções Disponíveis' =
+			
+			CALCULATE (
+			    SUM ( 'Promocoes-Produto-API'[qtd_disponiveis_agora] ),
+			    TREATAS ( VALUES ( produto[codigo_auxiliar] ), 'Promocoes-Produto-API'[SKU] )
+			)
+		formatString: 0
+		lineageTag: 7f707445-5191-40c7-b9e3-99350ad5c56a
+
+	measure 'Promoções Participando' =
+			
+			CALCULATE (
+			    SUM ( 'Promocoes-Produto-API'[qtd_ativas] ),
+			    TREATAS ( VALUES ( produto[codigo_auxiliar] ), 'Promocoes-Produto-API'[SKU] )
+			)
+		formatString: 0
+		lineageTag: bacdfb05-8813-4b32-9687-8994915c9761
+
+	measure 'Promoções - Diferença' = [Promoções Disponíveis] - [Promoções Participando]
+		formatString: 0
+		lineageTag: 5d1e7e9d-c95e-4740-bce9-f0378982bd2a
+
 	column Medidas
 		dataType: string
 		lineageTag: 6a6d6c19-44ea-4af1-bdf0-fdbee10f772a

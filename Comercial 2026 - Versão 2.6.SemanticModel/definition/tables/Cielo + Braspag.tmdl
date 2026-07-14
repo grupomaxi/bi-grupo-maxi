@@ -1,10 +1,10 @@
 table 'Cielo + Braspag'
-	lineageTag: 8dd2b583-d9ed-435a-824d-e340846dc1cc
+	lineageTag: 1211bfd0-3db0-46a8-9015-776e94be98c9
 
 	column 'Repasse MKT'
 		dataType: decimal
 		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
-		lineageTag: 63c82c5c-0da3-4950-8d88-f0965860ec7e
+		lineageTag: 79c49f14-8d14-4855-bee0-ee9fe4c41c17
 		summarizeBy: sum
 		sourceColumn: Repasse MKT
 
@@ -14,7 +14,7 @@ table 'Cielo + Braspag'
 
 	column 'Status MKT'
 		dataType: string
-		lineageTag: baae3cc9-d32a-48f7-abb7-f23d8aa95f2c
+		lineageTag: 2a906b51-7ea2-4b1d-b5e3-1b6b07f3fcdf
 		summarizeBy: none
 		sourceColumn: Status MKT
 
@@ -22,9 +22,17 @@ table 'Cielo + Braspag'
 
 	column 'Pedido MKT'
 		dataType: string
-		lineageTag: 3d740191-d9d6-476c-a5cf-90ddf32a098f
+		lineageTag: 986f30ea-3a93-4d5d-b85a-c2e00ddcaf69
 		summarizeBy: none
 		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tags
+		dataType: string
+		lineageTag: f987a62e-f2cc-4d3a-a3c6-2d68e4ce83c6
+		summarizeBy: none
+		sourceColumn: Tags
 
 		annotation SummarizationSetBy = Automatic
 
@@ -39,7 +47,7 @@ table 'Cielo + Braspag'
 				    #"Colunas Removidas" = Table.RemoveColumns(#"Linhas Filtradas",{"NSU/DOC"}),
 				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas",{{"Status", "Status MKT"}}),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas", {"Numero do Pedido"}, Matrixfy, {"transaction_authorization"}, "Matrixfy", JoinKind.LeftOuter),
-				    #"Matrixfy Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Matrixfy", {"order_number"}, {"order_number"}),
+				    #"Matrixfy Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Matrixfy", {"order_number", "tags"}, {"order_number", "Tags"}),
 				    #"Colunas Removidas1" = Table.RemoveColumns(#"Matrixfy Expandido",{"Numero do Pedido"}),
 				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas1","#","",Replacer.ReplaceText,{"order_number"}),
 				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Valor Substituído",{{"order_number", "Pedido MKT"}})

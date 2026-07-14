@@ -348,18 +348,18 @@ relationship e7bd3264-954f-4265-8b26-3cce863ea694
 	fromColumn: Pedido-Meli-last2-API.data_pagamento
 	toColumn: LocalDateTable_601e7591-8cab-4b47-be48-2dd70c8e11f4.Date
 
-relationship 5294f2f6-4466-4659-a80f-e88371732c3e
+relationship d07e14a4-8ee6-4ffc-85f9-31861d67f4dd
 	joinOnDateBehavior: datePartOnly
 	fromColumn: Matrixfy.created_at_shopify
-	toColumn: LocalDateTable_97bfe54d-aae8-4c98-a915-7d7e565e8b3d.Date
+	toColumn: LocalDateTable_f28b5168-bd92-4033-886f-22ec988f3dfb.Date
 
-relationship abbeca68-bda1-432f-96f5-2e3a2cf44e43
+relationship 33a946cb-3b4f-44ec-b46b-a9e4a3e46a19
 	joinOnDateBehavior: datePartOnly
 	fromColumn: Matrixfy.imported_at
-	toColumn: LocalDateTable_44984a46-fbd8-4df1-ba54-ff178de1a603.Date
+	toColumn: LocalDateTable_e61a7ba8-72bd-43bf-bded-f2c7312c495d.Date
 
-relationship d462488a-4b54-4474-8be4-7fb940ba461e
+relationship ba931847-cb9d-4bcc-be3f-fec8385e79bc
 	joinOnDateBehavior: datePartOnly
 	fromColumn: Braspag.'Data do Pedido'
-	toColumn: LocalDateTable_34919668-ad01-4a0d-890b-ed94311233f3.Date
+	toColumn: LocalDateTable_c8314fb6-5201-4553-b9d1-6b606122e563.Date
 

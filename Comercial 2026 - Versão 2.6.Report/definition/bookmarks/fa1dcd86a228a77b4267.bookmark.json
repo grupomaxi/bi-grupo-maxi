@@ -12,7 +12,8 @@
       "495994e0a74e6ec433c1",
       "5b893a9aeacbe20b0e10",
       "9c757f7daa6bc0957603"
-    ]
+    ],
+    "suppressData": true
   },
   "explorationState": {
     "version": "1.3",

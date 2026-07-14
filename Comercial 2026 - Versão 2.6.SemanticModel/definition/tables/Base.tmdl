@@ -708,6 +708,22 @@ table Base
 
 		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
 
+	column Tags
+		dataType: string
+		lineageTag: cb68c943-90a6-47be-8844-af8087dbcd31
+		summarizeBy: none
+		sourceColumn: Tags
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal-Final-api
+		dataType: string
+		lineageTag: e1cd357a-4dbf-4440-9458-69ef8e53a718
+		summarizeBy: none
+		sourceColumn: Canal-Final-api
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Base = m
 		mode: import
 		queryGroup: Base
@@ -716,9 +732,11 @@ table Base
 				    Fonte = Table.NestedJoin(#"MKT's | 1 - Acrescentar", {"Pedido MKT Final"}, #"NSI Left Join NS + Left Anti NS Devol", {"marketplace_pedido"}, "NSI Left Join NS + Left Anti NS Devol", JoinKind.Inner),
 				    #"NSI Left Join NS + Left Anti NS Devol Expandido" = Table.ExpandTableColumn(Fonte, "NSI Left Join NS + Left Anti NS Devol", {"id_nr_nf", "id_empresa", "id_cliente", "data_emissao", "id_produto", "id Nota e Produto", "item", "ipi_valor", "qtde", "custo_produto", "id_nat_operacao_item", "vr_frete", "id_nota_saida", "valor_total_liquido", "id_vendedor", "id_item_kit", "item_original", "custo_frete", "sku", "mlb", "custo_formacao", "custo_formacao_linha", "codigos_kit", "id_material", "vr_acrescimo", "vr_desconto_total", "id_nat_operacao", "entrega_cidade", "entrega_uf", "total_nota_fiscal_liq", "id_transportadora", "data_pedido", "id_atendimento", "parceiro", "marketplace_pedido", "fulfillment", "tipo_logistica", "Canal"}, {"id_nr_nf", "id_empresa", "id_cliente", "data_emissao", "id_produto", "id Nota e Produto", "item", "ipi_valor", "qtde", "custo_produto", "id_nat_operacao_item", "vr_frete", "id_nota_saida", "valor_total_liquido", "id_vendedor", "id_item_kit", "item_original", "custo_frete", "sku", "mlb", "custo_formacao", "custo_formacao_linha", "codigos_kit", "id_material", "vr_acrescimo", "vr_desconto_total", "id_nat_operacao", "entrega_cidade", "entrega_uf", "total_nota_fiscal_liq", "id_transportadora", "data_pedido", "id_atendimento", "parceiro", "marketplace_pedido", "fulfillment", "tipo_logistica", "Canal"}),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"NSI Left Join NS + Left Anti NS Devol Expandido", {"id_produto"}, produto, {"id_produto"}, "produto", JoinKind.LeftOuter),
-				    #"produto Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "produto", {"nome_produto", "Marca"}, {"produto.nome_produto", "produto.Marca"})
+				    #"produto Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "produto", {"nome_produto", "Marca"}, {"produto.nome_produto", "produto.Marca"}),
+				    #"Personalização Adicionada" = Table.AddColumn(#"produto Expandido", "Personalizar", each if [Tags] <> null and Text.Contains([Tags], "Televendas") then "Televendas" else [Canal]),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Personalização Adicionada",{{"Personalizar", "Canal-Final-api"}})
 				in
-				    #"produto Expandido"
+				    #"Colunas Renomeadas"
 
 	annotation PBI_NavigationStepName = Navegação
 

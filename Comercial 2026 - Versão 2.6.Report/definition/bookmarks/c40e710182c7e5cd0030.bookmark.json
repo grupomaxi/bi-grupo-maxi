@@ -3,7 +3,9 @@
   "displayName": "MENU FECHADO VENDAS QTDE ",
   "name": "c40e710182c7e5cd0030",
   "options": {
-    "targetVisualNames": []
+    "targetVisualNames": [],
+    "suppressActiveSection": true,
+    "suppressData": true
   },
   "explorationState": {
     "version": "1.3",

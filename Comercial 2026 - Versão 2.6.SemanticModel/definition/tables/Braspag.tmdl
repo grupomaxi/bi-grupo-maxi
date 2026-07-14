@@ -1,9 +1,9 @@
 table Braspag
-	lineageTag: 66c05811-258f-40b1-9810-8226860e145f
+	lineageTag: 4d707343-d218-48c4-9778-9a488b4ecdca
 
 	column BraspagTransactionId
 		dataType: string
-		lineageTag: f8e95ff2-e715-4612-9e47-fff4cf538b61
+		lineageTag: 88696014-5dec-42a0-ad0b-133768152a2b
 		summarizeBy: none
 		sourceColumn: BraspagTransactionId
 
@@ -12,20 +12,20 @@ table Braspag
 	column 'Data do Pedido'
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: a2fb407b-dd46-4fc1-abda-189dffd75698
+		lineageTag: 18324b69-74db-4bb9-8c29-39689bc1b686
 		summarizeBy: none
 		sourceColumn: Data do Pedido
 
 		variation Variation
 			isDefault
-			relationship: d462488a-4b54-4474-8be4-7fb940ba461e
-			defaultHierarchy: LocalDateTable_34919668-ad01-4a0d-890b-ed94311233f3.'Hierarquia de datas'
+			relationship: ba931847-cb9d-4bcc-be3f-fec8385e79bc
+			defaultHierarchy: LocalDateTable_c8314fb6-5201-4553-b9d1-6b606122e563.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column Loja
 		dataType: string
-		lineageTag: 87fbef81-476d-4964-a4fd-e34fe1d35c1e
+		lineageTag: 5aeb87e9-a30e-4c80-acca-4a61d193310b
 		summarizeBy: none
 		sourceColumn: Loja
 
@@ -33,7 +33,7 @@ table Braspag
 
 	column 'Numero do Pedido'
 		dataType: string
-		lineageTag: 723f2f97-bdfc-4656-8d16-689109ada949
+		lineageTag: 0602c620-5a6e-4fd3-a7b9-fe38a34b10c3
 		summarizeBy: none
 		sourceColumn: Numero do Pedido
 
@@ -41,7 +41,7 @@ table Braspag
 
 	column Cliente
 		dataType: string
-		lineageTag: 4efd67cc-2871-4161-8240-7c4ccc73c111
+		lineageTag: 58427773-94ea-4161-938f-f50bc390dc55
 		summarizeBy: none
 		sourceColumn: Cliente
 
@@ -49,7 +49,7 @@ table Braspag
 
 	column CPF/CNPJ
 		dataType: string
-		lineageTag: 15749e18-22b6-46e0-b91c-cf8175d3997e
+		lineageTag: 1dbb0c8c-8e25-4565-9bb2-a2e787165b4e
 		summarizeBy: none
 		sourceColumn: CPF/CNPJ
 
@@ -57,7 +57,7 @@ table Braspag
 
 	column 'Tipo de Meio de Pagamento'
 		dataType: string
-		lineageTag: 4e652f03-055a-4704-8fb1-20830037d76c
+		lineageTag: 79731d9d-1f23-480d-bb06-17deb35495ff
 		summarizeBy: none
 		sourceColumn: Tipo de Meio de Pagamento
 
@@ -65,7 +65,7 @@ table Braspag
 
 	column 'Meio de Pagamento'
 		dataType: string
-		lineageTag: 7463424c-068d-44f7-9701-7a3cfdaad314
+		lineageTag: a19f351f-b195-419a-9b4e-21d4a72a9c64
 		summarizeBy: none
 		sourceColumn: Meio de Pagamento
 
@@ -73,7 +73,7 @@ table Braspag
 
 	column Parcelas
 		dataType: string
-		lineageTag: 64674868-4220-47f7-bffc-ac17b82e30e2
+		lineageTag: 53759b29-cc01-4565-b556-eaee97ee11a3
 		summarizeBy: none
 		sourceColumn: Parcelas
 
@@ -81,7 +81,7 @@ table Braspag
 
 	column Valor
 		dataType: string
-		lineageTag: 5b64cf39-4be5-4279-b47b-2db0887d914e
+		lineageTag: ad9dba4b-b4a5-4c70-b028-c18c58ee5144
 		summarizeBy: none
 		sourceColumn: Valor
 
@@ -89,7 +89,7 @@ table Braspag
 
 	column Status
 		dataType: string
-		lineageTag: 84b9fe17-3010-48ac-80a3-2840409ce71b
+		lineageTag: 48ee21d2-708b-47f3-8604-d52babb20c8d
 		summarizeBy: none
 		sourceColumn: Status
 
@@ -98,7 +98,7 @@ table Braspag
 	column NSU
 		dataType: int64
 		formatString: 0
-		lineageTag: 3e7255af-0e7c-4b34-8d2b-b6cd004ecf54
+		lineageTag: 6743505f-e720-4588-b526-642d7b437ddf
 		summarizeBy: sum
 		sourceColumn: NSU
 
@@ -106,7 +106,7 @@ table Braspag
 
 	column Moeda
 		dataType: string
-		lineageTag: bb3cf0a4-b4ca-48cd-9eda-9060d81ed733
+		lineageTag: e715a0ef-f2fc-4e96-885a-ee65a0948c90
 		summarizeBy: none
 		sourceColumn: Moeda
 
@@ -114,7 +114,7 @@ table Braspag
 
 	column País
 		dataType: string
-		lineageTag: 108525e2-9f0a-4503-a24d-bee1a3f917dd
+		lineageTag: 531f1bc3-56fe-4b36-aa9d-a97dcb321044
 		summarizeBy: none
 		sourceColumn: País
 
@@ -122,7 +122,7 @@ table Braspag
 
 	column 'Numero do Cartão'
 		dataType: string
-		lineageTag: c80e4cd1-0e5b-4884-a3f8-cb6b39e35d19
+		lineageTag: 96373eb1-c768-4d81-a864-e0b796b1b27b
 		summarizeBy: none
 		sourceColumn: Numero do Cartão
 
@@ -130,7 +130,7 @@ table Braspag
 
 	column Produto
 		dataType: string
-		lineageTag: bce61a2a-142d-4d06-8dea-b4c9413c5b1d
+		lineageTag: b06c83ba-4c93-413d-a5ad-796edb5f2411
 		summarizeBy: none
 		sourceColumn: Produto
 
@@ -138,7 +138,7 @@ table Braspag
 
 	column Tags
 		dataType: string
-		lineageTag: 72cbeceb-704c-471e-9fd1-a01c62740ca0
+		lineageTag: 4f965eb8-c218-49e8-8838-ecd36fb644e8
 		summarizeBy: none
 		sourceColumn: Tags
 
@@ -146,7 +146,7 @@ table Braspag
 
 	column BraspagOrderId
 		dataType: string
-		lineageTag: a7269acb-9102-4310-a58e-06fb03c50ffe
+		lineageTag: 69a6d9fb-4d86-4910-93e1-2ccf7f4f64d1
 		summarizeBy: none
 		sourceColumn: BraspagOrderId
 
@@ -154,7 +154,7 @@ table Braspag
 
 	column 'Código de Autorização'
 		dataType: string
-		lineageTag: 934ccd47-0d8e-4d24-aec6-f2b03f261621
+		lineageTag: 501be8ec-284b-4924-b87a-992f6e7ed242
 		summarizeBy: none
 		sourceColumn: Código de Autorização
 
@@ -162,7 +162,7 @@ table Braspag
 
 	column Bandeira
 		dataType: string
-		lineageTag: 740beb58-0e32-4d31-9a0e-724e2188c7f9
+		lineageTag: c03e6e33-d328-4591-a562-89d48ec40f12
 		summarizeBy: none
 		sourceColumn: Bandeira
 
@@ -170,7 +170,7 @@ table Braspag
 
 	column 'Tipo de Integração'
 		dataType: string
-		lineageTag: e69e4e85-d69d-4a2d-8841-adecea182ac2
+		lineageTag: bdcd0174-b2cc-46e0-a1e6-b42c69f05884
 		summarizeBy: none
 		sourceColumn: Tipo de Integração
 
@@ -178,7 +178,7 @@ table Braspag
 
 	column 'Data do Pagamento'
 		dataType: string
-		lineageTag: d3edd419-1a01-43d4-862d-fee23d3c737f
+		lineageTag: c517057a-f12b-4018-a188-319557b55ec7
 		summarizeBy: none
 		sourceColumn: Data do Pagamento
 
@@ -186,7 +186,7 @@ table Braspag
 
 	column 'Valor Capturado'
 		dataType: string
-		lineageTag: c0bdeea4-7fc8-4596-8dc8-07e1ee8f8485
+		lineageTag: af3cba44-0c1e-4f44-836c-7d35daee2d4d
 		summarizeBy: none
 		sourceColumn: Valor Capturado
 
@@ -194,7 +194,7 @@ table Braspag
 
 	column 'Data do Cancelamento'
 		dataType: string
-		lineageTag: b41d21a0-f4b2-4383-a2cb-c439a27f0426
+		lineageTag: 1bf811e2-9a2c-4e89-bd1a-cc37b593c077
 		summarizeBy: none
 		sourceColumn: Data do Cancelamento
 
@@ -202,7 +202,7 @@ table Braspag
 
 	column 'Valor Cancelado'
 		dataType: string
-		lineageTag: 52e7d79c-97cb-4405-85ca-9355621b4f99
+		lineageTag: 57af6bb4-2f7b-45c0-9ff0-86a76d0944e2
 		summarizeBy: none
 		sourceColumn: Valor Cancelado
 
@@ -210,7 +210,7 @@ table Braspag
 
 	column 'Código de Erro'
 		dataType: string
-		lineageTag: d9cebb1b-d0ca-4ff9-b153-4d8afe9a94a6
+		lineageTag: 59acbcfe-e111-4393-89ca-d6662805de4e
 		summarizeBy: none
 		sourceColumn: Código de Erro
 
@@ -218,7 +218,7 @@ table Braspag
 
 	column 'Mensagem de Erro'
 		dataType: string
-		lineageTag: d0eb7387-04ad-478e-b89b-b18caccfe0ac
+		lineageTag: 7dc58eb4-ccad-496a-b021-13832a144d02
 		summarizeBy: none
 		sourceColumn: Mensagem de Erro
 
@@ -226,7 +226,7 @@ table Braspag
 
 	column SentOrderId
 		dataType: string
-		lineageTag: 72f68f97-c20d-4d28-ace5-9bfe63236b2e
+		lineageTag: c7c717cb-3e20-4c78-abe6-e7e1724ead2b
 		summarizeBy: none
 		sourceColumn: SentOrderId
 
@@ -234,7 +234,7 @@ table Braspag
 
 	column CardHolder
 		dataType: string
-		lineageTag: 887943e3-da32-4765-bb14-57dfa552e286
+		lineageTag: 396a5b15-c419-40c9-8193-bab687531e27
 		summarizeBy: none
 		sourceColumn: CardHolder
 
@@ -242,7 +242,7 @@ table Braspag
 
 	column Txid
 		dataType: string
-		lineageTag: 1a0ad1be-0ff1-4fca-89de-3b9508cde983
+		lineageTag: 4d38b03f-d7d1-4f9d-ace6-963701b87aa4
 		summarizeBy: none
 		sourceColumn: Txid
 
@@ -250,7 +250,7 @@ table Braspag
 
 	column MerchantId
 		dataType: string
-		lineageTag: 67b8ad14-6507-4302-8fac-19a0ea610e2f
+		lineageTag: 3a1964ce-7710-4c0d-a2a4-ea9167e101e3
 		summarizeBy: none
 		sourceColumn: MerchantId
 
@@ -258,7 +258,7 @@ table Braspag
 
 	column 'ID da adquirente'
 		dataType: string
-		lineageTag: be63f313-994b-4385-9922-efc27c0ce8b0
+		lineageTag: 6e186b31-f3f0-4dbe-992f-77e5a64e6f75
 		summarizeBy: none
 		sourceColumn: ID da adquirente
 

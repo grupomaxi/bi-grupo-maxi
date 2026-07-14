@@ -1,0 +1,147 @@
+table Promocoes-Produto-API
+	lineageTag: 6f22b3ca-cf8b-4f29-94c0-cef106717417
+
+	column item_id
+		dataType: string
+		lineageTag: 7975b82c-0861-4bdd-b78c-cf50970eeecf
+		summarizeBy: none
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: dae6b9a2-cbb8-4ae9-9fad-f2aab4a8bd31
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_promocoes_total
+		dataType: int64
+		formatString: 0
+		lineageTag: da19c930-b32e-42da-a2aa-84e2e68ef02d
+		summarizeBy: sum
+		sourceColumn: qtd_promocoes_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_ativas
+		dataType: int64
+		formatString: 0
+		lineageTag: c53cf367-3a26-4602-8573-dd2eb2114681
+		summarizeBy: sum
+		sourceColumn: qtd_ativas
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_produto
+		dataType: int64
+		formatString: 0
+		lineageTag: 6bfe9b34-f9af-4c95-84a1-37fc7cf9e615
+		summarizeBy: sum
+		sourceColumn: id_produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: c1f0b540-be78-4466-927b-4f3713d7a712
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome Produto'
+		dataType: string
+		lineageTag: f6ce3a37-7bde-4200-8d71-2e7e199ea7e7
+		summarizeBy: none
+		sourceColumn: Nome Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		dataType: string
+		lineageTag: eb26c8cd-8481-4835-96db-3d3cc01008e2
+		summarizeBy: none
+		sourceColumn: Marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column Grupo
+		dataType: string
+		lineageTag: f8fad597-8cf5-4a25-941f-926bc8f5c821
+		summarizeBy: none
+		sourceColumn: Grupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Subgrupo
+		dataType: string
+		lineageTag: 67bb55c5-2d95-4471-aadc-7a85b21787d3
+		summarizeBy: none
+		sourceColumn: Subgrupo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: 927c47b0-9301-465a-9ee9-654fa538cdef
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_candidatas_total
+		dataType: int64
+		formatString: 0
+		lineageTag: a3cf0fd7-eaa1-45bd-9e19-b1c651ecf3b3
+		summarizeBy: sum
+		sourceColumn: qtd_candidatas_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_disponiveis_agora
+		dataType: int64
+		formatString: 0
+		lineageTag: 62e653d9-b394-4c6b-b6ec-b227e2db3b0e
+		summarizeBy: sum
+		sourceColumn: qtd_disponiveis_agora
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Promocoes-Produto-API = m
+		mode: import
+		queryGroup: SupaBase
+		source =
+				let
+				    Fonte = #"vw_ml_promocoes_por_item",
+				
+				    // 1) Merge com mlb_para_id_produto (MLB -> id_produto)
+				    MergeMlb = Table.NestedJoin(
+				        Fonte, {"item_id"},
+				        mlb_para_id_produto, {"mlb"},
+				        "mlb_para_id_produto", JoinKind.LeftOuter
+				    ),
+				    ExpandMlb = Table.ExpandTableColumn(
+				        MergeMlb, "mlb_para_id_produto", {"id_produto"}, {"id_produto"}
+				    ),
+				
+				    // 2) Merge com produto (id_produto -> nome/marca/sku/etc.)
+				    MergeProduto = Table.NestedJoin(
+				        ExpandMlb, {"id_produto"},
+				        produto, {"id_produto"},
+				        "produto", JoinKind.LeftOuter
+				    ),
+				    ExpandProduto = Table.ExpandTableColumn(
+				        MergeProduto, "produto",
+				        {"codigo_auxiliar", "nome_produto", "Marca", "Grupo", "Subgrupo", "Categoria_Original"},
+				        {"SKU", "Nome Produto", "Marca", "Grupo", "Subgrupo", "Categoria"}
+				    )
+				in
+				    ExpandProduto
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

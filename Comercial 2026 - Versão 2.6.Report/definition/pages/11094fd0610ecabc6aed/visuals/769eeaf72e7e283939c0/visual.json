@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
   "name": "769eeaf72e7e283939c0",
   "position": {
-    "x": 36.956521739130437,
-    "y": 340.86956521739131,
+    "x": 40,
+    "y": 373.75,
     "z": 5000,
     "height": 90,
-    "width": 137.39130434782609,
+    "width": 136.25,
     "tabOrder": 5000
   },
   "visual": {
@@ -23,11 +23,11 @@
                       "Entity": "produto"
                     }
                   },
-                  "Property": "id_produto"
+                  "Property": "codigo_auxiliar"
                 }
               },
-              "queryRef": "produto.id_produto",
-              "nativeQueryRef": "id_produto",
+              "queryRef": "produto.codigo_auxiliar",
+              "nativeQueryRef": "codigo_auxiliar",
               "active": true
             }
           ],

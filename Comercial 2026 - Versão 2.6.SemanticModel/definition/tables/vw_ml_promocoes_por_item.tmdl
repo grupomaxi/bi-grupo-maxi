@@ -1,0 +1,96 @@
+table vw_ml_promocoes_por_item
+	lineageTag: 664a2f95-5e8e-4306-bb1e-a94b7ae0f514
+
+	column item_id
+		dataType: string
+		lineageTag: c9739f0c-f0f2-42d8-998d-f10025c4a646
+		summarizeBy: none
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 831b7cdf-c2b7-4e30-83e1-20a16a7db188
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_promocoes_total
+		dataType: int64
+		formatString: 0
+		lineageTag: a4f61821-0b13-4e91-92aa-26b53bc02de5
+		summarizeBy: sum
+		sourceColumn: qtd_promocoes_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_ativas
+		dataType: int64
+		formatString: 0
+		lineageTag: f392a18e-b1a4-4ea1-83af-b474596facc8
+		summarizeBy: sum
+		sourceColumn: qtd_ativas
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_candidatas_total
+		dataType: int64
+		formatString: 0
+		lineageTag: 3900afbb-607b-46be-b605-c5a7d80cce02
+		summarizeBy: sum
+		sourceColumn: qtd_candidatas_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column qtd_disponiveis_agora
+		dataType: int64
+		formatString: 0
+		lineageTag: a4facb6c-e264-4b5b-b882-3061517c1d00
+		summarizeBy: sum
+		sourceColumn: qtd_disponiveis_agora
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_ml_promocoes_por_item = m
+		mode: import
+		queryGroup: SupaBase
+		source =
+				let
+				    KEY      = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzcW50aHhrenJuaHBlaHVnY25qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODQ4MTAsImV4cCI6MjA5NDk2MDgxMH0.U2y7kG5882b4ffQ9--jh29Y0YDi5E-N9fQeZdkaGYyc",
+				    BASE     = "https://ssqnthxkzrnhpehugcnj.supabase.co",
+				    pageSize = 1000,
+				    GetPage  = (offset as number) =>
+				        Json.Document(Web.Contents(BASE, [
+				            RelativePath = "rest/v1/vw_ml_promocoes_por_item",
+				            Headers = [apikey = KEY, Authorization = "Bearer " & KEY, Prefer = "count=none"],
+				            Query   = [
+				                select = "item_id,title,qtd_promocoes_total,qtd_ativas,qtd_candidatas_total,qtd_disponiveis_agora",
+				                order  = "item_id.asc",
+				                limit  = Number.ToText(pageSize),
+				                offset = Number.ToText(offset)
+				            ]
+				        ])),
+				    AllPages = List.Generate(
+				        () => [p = GetPage(0), o = 0],
+				        each List.Count([p]) > 0,
+				        each [p = GetPage([o] + pageSize), o = [o] + pageSize],
+				        each [p]
+				    ),
+				    Combinado = List.Combine(AllPages),
+				    #"Convertido para Tabela" = Table.FromList(Combinado, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1",
+				        {"item_id", "title", "qtd_promocoes_total", "qtd_ativas", "qtd_candidatas_total", "qtd_disponiveis_agora"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Expandido", {
+				        {"item_id", type text}, {"title", type text},
+				        {"qtd_promocoes_total", Int64.Type}, {"qtd_ativas", Int64.Type},
+				        {"qtd_candidatas_total", Int64.Type}, {"qtd_disponiveis_agora", Int64.Type}
+				    })
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

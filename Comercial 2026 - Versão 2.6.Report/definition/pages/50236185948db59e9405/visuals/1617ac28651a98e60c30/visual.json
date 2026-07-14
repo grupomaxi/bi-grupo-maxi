@@ -23,11 +23,11 @@
                       "Entity": "produto"
                     }
                   },
-                  "Property": "id_produto"
+                  "Property": "codigo_auxiliar"
                 }
               },
-              "queryRef": "produto.id_produto",
-              "nativeQueryRef": "id_produto",
+              "queryRef": "produto.codigo_auxiliar",
+              "nativeQueryRef": "codigo_auxiliar",
               "active": true
             }
           ],

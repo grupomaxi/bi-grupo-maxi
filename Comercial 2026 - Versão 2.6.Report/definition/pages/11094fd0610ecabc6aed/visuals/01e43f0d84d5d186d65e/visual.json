@@ -231,6 +231,34 @@
                       "Entity": "Medidas"
                     }
                   },
+                  "Property": "Promoções Disponíveis"
+                }
+              },
+              "queryRef": "Medidas.Promoções Disponíveis Meli API",
+              "nativeQueryRef": "Promoções Disponíveis Meli API"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Promoções Participando"
+                }
+              },
+              "queryRef": "Medidas.Promoções Participando Meli API",
+              "nativeQueryRef": "Promoções Participando Meli API"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
                   "Property": "Margem R$"
                 }
               },
@@ -1136,6 +1164,20 @@
           },
           "selector": {
             "metadata": "Medidas.Repasse Rateado $"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "85D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas.Promoções Disponíveis Meli API"
           }
         }
       ],
