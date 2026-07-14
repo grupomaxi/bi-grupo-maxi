@@ -1,0 +1,52 @@
+table 'Cielo + Braspag'
+	lineageTag: 8dd2b583-d9ed-435a-824d-e340846dc1cc
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 63c82c5c-0da3-4950-8d88-f0965860ec7e
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: baae3cc9-d32a-48f7-abb7-f23d8aa95f2c
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 3d740191-d9d6-476c-a5cf-90ddf32a098f
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cielo + Braspag' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Shopify
+		source =
+				let
+				    Fonte = Table.NestedJoin(#"Cielo shopify", {"NSU/DOC"}, Braspag, {"NSU"}, "Braspag", JoinKind.LeftOuter),
+				    #"Braspag Expandido" = Table.ExpandTableColumn(Fonte, "Braspag", {"Numero do Pedido", "Status"}, {"Numero do Pedido", "Status"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Braspag Expandido", each ([Numero do Pedido] <> null)),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Linhas Filtradas",{"NSU/DOC"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Removidas",{{"Status", "Status MKT"}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Colunas Renomeadas", {"Numero do Pedido"}, Matrixfy, {"transaction_authorization"}, "Matrixfy", JoinKind.LeftOuter),
+				    #"Matrixfy Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "Matrixfy", {"order_number"}, {"order_number"}),
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"Matrixfy Expandido",{"Numero do Pedido"}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Removidas1","#","",Replacer.ReplaceText,{"order_number"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Valor Substituído",{{"order_number", "Pedido MKT"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

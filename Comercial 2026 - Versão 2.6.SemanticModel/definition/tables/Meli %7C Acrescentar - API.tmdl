@@ -1,0 +1,100 @@
+table 'Meli | Acrescentar - API'
+	lineageTag: f8b22eeb-18d4-4a36-b57a-67367b5395bb
+
+	column 'Pedido MKT'
+		dataType: string
+		lineageTag: 273c9b3d-392c-4d46-8b72-750bcbb88301
+		summarizeBy: none
+		sourceColumn: Pedido MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status MKT'
+		dataType: string
+		lineageTag: ff8b38bb-4b64-489f-a5e5-eb5246473099
+		summarizeBy: none
+		sourceColumn: Status MKT
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Repasse MKT'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: a10d45e5-fc6c-416d-931b-07094f4f43f9
+		summarizeBy: sum
+		sourceColumn: Repasse MKT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Tarifa Venda Total'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 1ac51f04-a646-4bd2-893a-1cba5708245d
+		summarizeBy: sum
+		sourceColumn: Tarifa Venda Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Comissão Real Cobrada'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: b06979d8-ef6d-464c-918a-ca82cc60301f
+		summarizeBy: sum
+		sourceColumn: Comissão Real Cobrada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Estorno Desconto Bônus'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 1ca08df7-37c6-4000-9b11-876b92ddd9d6
+		summarizeBy: sum
+		sourceColumn: Estorno Desconto Bônus
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Envios
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 96b14836-35cd-4a45-9b59-7660a0df08d9
+		summarizeBy: sum
+		sourceColumn: Envios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition 'Meli | Acrescentar - API' = m
+		mode: import
+		queryGroup: Marketplaces\Repasses\Mesclas
+		source =
+				let
+				    Fonte = #"Pedido-Meli-last2-API",
+				    #"Linhas Agrupadas" = Table.Group(Fonte, {"pedido_mkt", "status_mkt"}, {
+				        {"Repasse MKT", each List.Sum([total_repasse]), type nullable number},
+				        {"Tarifa Venda Total", each List.Sum([tarifa_venda_total]), type nullable number},
+				        {"Comissão Real Cobrada", each List.Sum([comissao_real_cobrada]), type nullable number},
+				        {"Estorno Desconto Bônus", each List.Sum([estorno_desconto_bonus]), type nullable number},
+				        {"Envios", each List.Sum([envios]), type nullable number}
+				    }),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Linhas Agrupadas", {{"pedido_mkt", "Pedido MKT"}, {"status_mkt", "Status MKT"}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Colunas Renomeadas",{
+				        {"Repasse MKT", Currency.Type}, {"Tarifa Venda Total", Currency.Type},
+				        {"Comissão Real Cobrada", Currency.Type}, {"Estorno Desconto Bônus", Currency.Type},
+				        {"Envios", Currency.Type}
+				    })
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

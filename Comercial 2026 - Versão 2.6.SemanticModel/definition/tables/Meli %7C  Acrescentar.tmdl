@@ -33,7 +33,7 @@ table 'Meli |  Acrescentar'
 		queryGroup: Marketplaces\Repasses\Mesclas
 		source =
 				let
-				    Fonte = Table.Combine({#"Meli | Legado", #"Meli | Last 2 M", #"Meli | FDS"}),
+				    Fonte = #"Meli | Legado",   // era Table.Combine({Meli | Legado, Meli | Last 2 M, Meli | FDS})
 				    #"Linhas Filtradas" = Table.SelectRows(Fonte, each ([#"Data da compra (date_created)"] <> true)),
 				    #"Valor Substituído" = Table.ReplaceValue(#"Linhas Filtradas",",","",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),
 				    #"Valor Substituído1" = Table.ReplaceValue(#"Valor Substituído",".",",",Replacer.ReplaceText,{"Valor do produto (transaction_amount)", "Tarifa do Mercado Pago (mercadopago_fee)", "Tarifa pelo uso da plataforma de terceiros (marketplace_fee)", "Frete (shipping_cost)", "Desconto para a sua contraparte (coupon_fee)", "Valor total recebido (net_received_amount)", "Valor devolvido (amount_refunded)", "Custos de parcelamento (financing_fee)"}),

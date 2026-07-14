@@ -44,13 +44,57 @@ table 'MKT''s | 1 - Acrescentar'
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Tarifa Venda Total'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: ef8667d1-82cb-477e-b779-bac2d3966f6c
+		summarizeBy: sum
+		sourceColumn: Tarifa Venda Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Comissão Real Cobrada'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 36e077ec-7b8e-4a54-8d39-9cb77f72c276
+		summarizeBy: sum
+		sourceColumn: Comissão Real Cobrada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Estorno Desconto Bônus'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: fa95ab41-fdea-47b1-8d8a-e99005252386
+		summarizeBy: sum
+		sourceColumn: Estorno Desconto Bônus
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Envios
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: a19e7ef9-a72d-4fae-9479-31369998eeea
+		summarizeBy: sum
+		sourceColumn: Envios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
 	partition 'MKT''s | 1 - Acrescentar' = m
 		mode: import
 		queryGroup: Base
 		source =
 				let
-				    Fonte = Table.Combine({#"Meli |  Acrescentar", #"Shopee | Mescla", #"Magalu | Mescla", #"Amazon | Mescla", #"Leroy | Mescla", #"Carrefour | Mescla", #"Americanas | Mescla", #"Madeira | Mescla", #"Via Boleto | Mescla", #"Amazon | Simnulado", #"pag-brasil", sysemp_televenas_formpag}),
-				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Pedido MKT", "Status MKT", "Repasse MKT"}),
+				    Fonte = Table.Combine({#"Meli |  Acrescentar", #"Meli | Acrescentar - API", #"Shopee | Mescla", #"Magalu | Mescla", #"Amazon | Mescla", #"Leroy | Mescla", #"Carrefour | Mescla", #"Americanas | Mescla", #"Madeira | Mescla", #"Via Boleto | Mescla", #"Amazon | Simnulado", sysemp_televenas_formpag, #"pag-brasil", #"Cielo + Braspag"}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(Fonte,{"Pedido MKT", "Status MKT", "Repasse MKT", "Tarifa Venda Total", "Comissão Real Cobrada", "Estorno Desconto Bônus", "Envios"}),
 				    #"Valor Substituído" = Table.ReplaceValue(#"Outras Colunas Removidas",null,"Sem Inf de Pedido",Replacer.ReplaceValue,{"Pedido MKT"}),
 				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Valor Substituído", "Pedido MKT Final", each if Text.Trim([Pedido MKT] & "") = "" then "Pedido Não Declarado" else [Pedido MKT]),
 				    #"Consultas Mescladas" = Table.NestedJoin(#"Coluna Condicional Adicionada", {"Status MKT"}, #"De Para Status", {"Status Parceiro"}, "De Para Status", JoinKind.LeftOuter),
@@ -63,5 +107,5 @@ table 'MKT''s | 1 - Acrescentar'
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
 

@@ -664,6 +664,50 @@ table Base
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Tarifa Venda Total'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 497ec75e-4d56-4f01-a74b-79e8096575bb
+		summarizeBy: sum
+		sourceColumn: Tarifa Venda Total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Comissão Real Cobrada'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 13320cbc-a064-450c-8b3e-93da40ead70d
+		summarizeBy: sum
+		sourceColumn: Comissão Real Cobrada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Estorno Desconto Bônus'
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 5244208d-c573-45e8-923c-ac50a5035204
+		summarizeBy: sum
+		sourceColumn: Estorno Desconto Bônus
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column Envios
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 84191a2a-4ba0-4b45-8e83-74d3e0c6fdbd
+		summarizeBy: sum
+		sourceColumn: Envios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
 	partition Base = m
 		mode: import
 		queryGroup: Base

@@ -1,0 +1,160 @@
+table Pedido-Meli-last2-API
+	lineageTag: 9f393c73-5edc-45b8-aa1b-3a1c582184e6
+
+	column payment_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3bc2f485-ed66-4231-b547-e20aa5626543
+		summarizeBy: sum
+		sourceColumn: payment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pedido_mkt
+		dataType: string
+		lineageTag: bae83293-3025-4b1a-9a0f-e54388db2c04
+		summarizeBy: none
+		sourceColumn: pedido_mkt
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_mkt
+		dataType: string
+		lineageTag: 6efe4f3b-e231-4b4f-80ad-f23b11b6c17b
+		summarizeBy: none
+		sourceColumn: status_mkt
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_pagamento
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4bc69a00-64f4-496b-9ed2-f8f673a770bc
+		summarizeBy: none
+		sourceColumn: data_pagamento
+
+		variation Variation
+			isDefault
+			relationship: e7bd3264-954f-4265-8b26-3cce863ea694
+			defaultHierarchy: LocalDateTable_601e7591-8cab-4b47-be48-2dd70c8e11f4.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_id
+		dataType: string
+		lineageTag: cf260622-2361-4e02-bbdb-887bd89e039d
+		summarizeBy: none
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column preco_produto
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: e075c665-91f1-4ce2-acb6-7f3cdb96d23b
+		summarizeBy: sum
+		sourceColumn: preco_produto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column tarifa_venda_total
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: df4366d2-6be7-4083-ac0d-0f7e1bd29abd
+		summarizeBy: sum
+		sourceColumn: tarifa_venda_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column comissao_real_cobrada
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 50b3366e-4414-4514-b5bf-18e0656fe459
+		summarizeBy: sum
+		sourceColumn: comissao_real_cobrada
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column estorno_desconto_bonus
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 47adb46a-5f24-4784-94fc-2bfa9a9066d2
+		summarizeBy: sum
+		sourceColumn: estorno_desconto_bonus
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column envios
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: a1950d12-b192-42d0-a637-d42437cc039f
+		summarizeBy: sum
+		sourceColumn: envios
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column total_repasse
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: fb597c7e-c623-42d3-8a86-47371caa2bc1
+		summarizeBy: sum
+		sourceColumn: total_repasse
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition Pedido-Meli-last2-API = m
+		mode: import
+		queryGroup: 'Marketplaces\Repasses\Repase - 2M'
+		source =
+				let
+				    KEY      = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzcW50aHhrenJuaHBlaHVnY25qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzODQ4MTAsImV4cCI6MjA5NDk2MDgxMH0.U2y7kG5882b4ffQ9--jh29Y0YDi5E-N9fQeZdkaGYyc",
+				    BASE     = "https://ssqnthxkzrnhpehugcnj.supabase.co",
+				    pageSize = 1000,
+				    GetPage  = (offset as number) =>
+				        Json.Document(Web.Contents(BASE, [
+				            RelativePath = "rest/v1/vw_ml_repasse_detalhado",
+				            Headers = [apikey = KEY, Authorization = "Bearer " & KEY, Prefer = "count=none"],
+				            Query   = [
+				                select = "payment_id,pedido_mkt,status_mkt,data_pagamento,item_id,preco_produto,tarifa_venda_total,comissao_real_cobrada,estorno_desconto_bonus,envios,total_repasse",
+				                order  = "payment_id.asc",
+				                limit  = Number.ToText(pageSize),
+				                offset = Number.ToText(offset)
+				            ]
+				        ])),
+				    AllPages = List.Generate(
+				        () => [p = GetPage(0), o = 0],
+				        each List.Count([p]) > 0,
+				        each [p = GetPage([o] + pageSize), o = [o] + pageSize],
+				        each [p]
+				    ),
+				    Combinado = List.Combine(AllPages),
+				    #"Convertido para Tabela" = Table.FromList(Combinado, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1",
+				        {"payment_id", "pedido_mkt", "status_mkt", "data_pagamento", "item_id", "preco_produto",
+				         "tarifa_venda_total", "comissao_real_cobrada", "estorno_desconto_bonus", "envios", "total_repasse"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Expandido", {
+				        {"payment_id", Int64.Type}, {"pedido_mkt", type text}, {"status_mkt", type text},
+				        {"data_pagamento", type datetimezone}, {"item_id", type text},
+				        {"preco_produto", Currency.Type}, {"tarifa_venda_total", Currency.Type},
+				        {"comissao_real_cobrada", Currency.Type}, {"estorno_desconto_bonus", Currency.Type},
+				        {"envios", Currency.Type}, {"total_repasse", Currency.Type}
+				    })
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
