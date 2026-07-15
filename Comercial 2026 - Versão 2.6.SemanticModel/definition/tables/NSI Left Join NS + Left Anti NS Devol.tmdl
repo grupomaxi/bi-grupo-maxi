@@ -368,5 +368,5 @@ table 'NSI Left Join NS + Left Anti NS Devol'
 
 	annotation PBI_NavigationStepName = Navegação
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 

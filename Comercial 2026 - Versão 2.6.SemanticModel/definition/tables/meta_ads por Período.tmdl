@@ -47,7 +47,7 @@ table 'meta_ads por Período'
 				
 				    BuscarPagina = (Offset as number) as list =>
 				        Json.Document(Web.Contents(BaseUrl, [
-				            RelativePath = "rest/v1/vw_historico_meta_ads",
+				            RelativePath = "rest/v1/historico_meta_ads",
 				            Headers      = [apikey = ApiKey, Authorization = "Bearer " & ApiKey],
 				            Query        = [select="*", limit=Text.From(PageSize), offset=Text.From(Offset)]
 				        ])),
