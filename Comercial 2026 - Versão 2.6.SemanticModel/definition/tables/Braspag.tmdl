@@ -264,6 +264,14 @@ table Braspag
 
 		annotation SummarizationSetBy = Automatic
 
+	column Column33
+		dataType: string
+		lineageTag: a04eaee3-ef25-4cdc-bfb4-48b2ef4e714c
+		summarizeBy: none
+		sourceColumn: Column33
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Braspag = m
 		mode: import
 		queryGroup: Marketplaces\Repasses\Shopify
