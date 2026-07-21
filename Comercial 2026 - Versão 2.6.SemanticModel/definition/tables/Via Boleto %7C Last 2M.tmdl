@@ -552,22 +552,6 @@ table 'Via Boleto | Last 2M'
 
 		annotation SummarizationSetBy = Automatic
 
-	column Column51
-		dataType: string
-		lineageTag: e2e27790-bc3f-4fb1-8711-bd9922a89d09
-		summarizeBy: none
-		sourceColumn: Column51
-
-		annotation SummarizationSetBy = Automatic
-
-	column Column52
-		dataType: string
-		lineageTag: bf159d60-5337-4b09-8eaf-0bb6b077939e
-		summarizeBy: none
-		sourceColumn: Column52
-
-		annotation SummarizationSetBy = Automatic
-
 	partition 'Via Boleto | Last 2M' = m
 		mode: import
 		queryGroup: 'Marketplaces\Repasses\Repase - 2M'
